@@ -1,0 +1,826 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Architecture," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.0" />
+
+
+
+
+
+
+<meta name="description" content="gem5简介GEM5是一款模块化的离散事件驱动全系统模拟器，它结合了M5和GEMS中最优秀的部分，是一款高度可配置、集成多种ISA和多种CPU模型的体系结构模拟器。M5是由Michigan大学开发的一款开源的多处理机模拟器，受到了业内的广泛关注，很多高水平论文都采用M5作为研究工具。另一方面，Wisconsin推出的GEMS能够对储存层次进行详细而灵活的模拟，包括对多种不同的cache一致性协议和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gem5">
+<meta property="og:url" content="http://yoursite.com/2016/01/06/gem5/index.html">
+<meta property="og:site_name" content="Kiss">
+<meta property="og:description" content="gem5简介GEM5是一款模块化的离散事件驱动全系统模拟器，它结合了M5和GEMS中最优秀的部分，是一款高度可配置、集成多种ISA和多种CPU模型的体系结构模拟器。M5是由Michigan大学开发的一款开源的多处理机模拟器，受到了业内的广泛关注，很多高水平论文都采用M5作为研究工具。另一方面，Wisconsin推出的GEMS能够对储存层次进行详细而灵活的模拟，包括对多种不同的cache一致性协议和">
+<meta property="og:image" content="http://yoursite.com/about/gem5/1.png">
+<meta property="og:image" content="http://yoursite.com/about/gem5/2.png">
+<meta property="og:image" content="http://yoursite.com/about/gem5/3.png">
+<meta property="og:image" content="http://yoursite.com/about/gem5/4.png">
+<meta property="og:image" content="http://yoursite.com/about/gem5/5.png">
+<meta property="og:image" content="http://yoursite.com/about/gem5/6.png">
+<meta property="og:image" content="http://yoursite.com/about/gem5/7.png">
+<meta property="og:image" content="http://yoursite.com/about/gem5/8.png">
+<meta property="og:updated_time" content="2016-01-06T14:13:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="gem5">
+<meta name="twitter:description" content="gem5简介GEM5是一款模块化的离散事件驱动全系统模拟器，它结合了M5和GEMS中最优秀的部分，是一款高度可配置、集成多种ISA和多种CPU模型的体系结构模拟器。M5是由Michigan大学开发的一款开源的多处理机模拟器，受到了业内的广泛关注，很多高水平论文都采用M5作为研究工具。另一方面，Wisconsin推出的GEMS能够对储存层次进行详细而灵活的模拟，包括对多种不同的cache一致性协议和">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: '[object Object]',
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> gem5 | Kiss </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?311dcbbd7db0f09ff9d24c30a8508151";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Kiss</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">simple&stupid</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'jUN6hxQ46oLCmLXrF2m1','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                gem5
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-06T20:50:17+08:00" content="2016-01-06">
+              2016-01-06
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/06/gem5/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/06/gem5/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="gem5_u7B80_u4ECB"><a href="#gem5_u7B80_u4ECB" class="headerlink" title="gem5简介"></a>gem5简介</h4><p>GEM5是一款模块化的离散事件驱动全系统模拟器，它结合了M5和GEMS中最优秀的部分，是一款高度可配置、集成多种ISA和多种CPU模型的体系结构模拟器。M5是由Michigan大学开发的一款开源的多处理机模拟器，受到了业内的广泛关注，很多高水平论文都采用M5作为研究工具。另一方面，Wisconsin推出的GEMS能够对储存层次进行详细而灵活的模拟，包括对多种不同的cache一致性协议和互联模型的支持。目前的GEM5是M5和GEMS的一个紧耦合版本。<br>GEM5已经能够支持多种商用ISA，包括X86、ARM、ALPHA、MIPS、Power、SPARC等，并且能够在X86、ARM、ALPHA上加载操作系统。</p>
+<h4 id="gem5_u7CFB_u7EDF_u6A21_u578B"><a href="#gem5_u7CFB_u7EDF_u6A21_u578B" class="headerlink" title="gem5系统模型"></a>gem5系统模型</h4><p>gem5支持两种不同的系统模型:SE(syscall emulation)和FS(full system)。</p>
+<blockquote>
+<p>SE模型<br>SE模型能够仿真大部分操作系统级服务，能够取得很好功能模拟加速比。<br>FS模型<br>FS模型模拟完整的全系统，包括OS，运行在用户态和核心态的线程调度以及各种设备。能够精确模拟系统时间等开销。</p>
+</blockquote>
+<h4 id="gem5_u7684_u5B89_u88C5_u4F7F_u7528"><a href="#gem5_u7684_u5B89_u88C5_u4F7F_u7528" class="headerlink" title="gem5的安装使用"></a>gem5的安装使用</h4><p>首先需要介绍一下我的运行环境,我的环境是在虚拟机上安装的ubuntu14.04, 分配了2个CPU, 当然CPU越多越好,后面会讲为什么。其次是内存尽量足够, 4G应该是够的, 不然编译的过程中可能会出错。安装时将ubuntu提升到root权限。<br><strong>1)安装相关的工具</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install mercurial scons swig gcc m4 python python-dev libprotobuf-dev libgoogle-perftools-dev g++</span><br></pre></td></tr></table></figure></p>
+<p>简要介绍一下上述工具:<br>mercurial是一个类似于git的软件版本控制工具,主要是负责下载和更新gem5的。<br>scons是类似于make的自动编译链接工具。区别就是make是寻找当前目录的Makefile文件, scons是寻找当前目录的SConstruct配置文件。<br>swig是将C++程序封装以后供给python调用。<br>gcc与g++是C/C++的编译和链接工具,因为gem5对其版本有要求,所以我们这里相当于更新一下。<br>python和python-dev是支持python的工具<br>libprotobuf-dev和libgoogle-perftools-dev是google的一套序列化工具。类似于XML的功能, 将结构化的数据进行序列化存储或传输, 在另一端进行反序列化。protobuf支持C++、Java、Python 三种语言的 API, 它的主要优点就是快, 简单易学。</p>
+<p><strong>2)下载gem5</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hg clone http://repo.gem5.org/gem5</span><br></pre></td></tr></table></figure></p>
+<p><strong>3)构建gem5</strong>(-j<n>中,n=2*cpu的个数,为编译过程分配n个人物,多线程编译,速度会提升)我选择的是ALPHA指令集架构,当然也可以用其他的架构ARM/X86等。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scons build/ALPHA/gem5.opt -j4</span><br></pre></td></tr></table></figure></n></p>
+<p>上述过程可能会失败：<br><strong>问题1)</strong>如果zlib.h文件没找到就需要安装<a href="http://www.zlib.net" target="_blank" rel="external">zlib-1.2.8</a>下载以后将zlib-1.2.8加入gem5<br>进入zlib-1.2.8目录执行下面命令：<br>./configure<br>make &amp;&amp; make install</p>
+<p><strong>问题2)</strong>如果出现有关protobuf相关的问题就去下载<a href="https://developers.google.com/protocol-buffers/docs/downloads?hl=zh-cn" target="_blank" rel="external">protobuf-2.6.1</a>, 完成以后将protobuf-2.6.1加入gem5<br>同样进入protobuf-2.6.1目录执行下面命令：<br>./configure<br>make &amp;&amp; make install<br>同时需要将下面的代码加入~/.bashrc文件里面(下面第三行的/home/yankang/MyItem/gem5/protobuf-2.6.1替换成你的protobuf-2.6.1所在目录)<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/lib</span><br><span class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib</span><br><span class="line">export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/yankang/MyItem/gem5/protobuf-<span class="number">2.6</span><span class="number">.1</span></span><br></pre></td></tr></table></figure></p>
+<p>如果不加上述三行，会找不到protobuf-2.6.1的。</p>
+<p><strong>4)测试hello world</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./build/ALPHA/gem5.opt configs/example/se.py -c tests/test-progs/hello/bin/alpha/linux/hello</span><br></pre></td></tr></table></figure></p>
+<p>可以清楚的看见hello world被打印出来。<br><img src="/about/gem5/1.png" alt="logo"><br>可以看出几点:<br>Gem5是精确级模拟, 因为它内部的最小计时单位是tick, 而1秒=1万亿ticks。<br>可以通过gdb访问7000端口从而进行调试工作。</p>
+<h4 id="gem5_u5168_u7CFB_u7EDF_u6A21_u62DF"><a href="#gem5_u5168_u7CFB_u7EDF_u6A21_u62DF" class="headerlink" title="gem5全系统模拟"></a>gem5全系统模拟</h4><p>*)首先下载系统<a href="http://www.m5sim.org/dist/current/m5_system_2.0b3.tar.bz2" target="_blank" rel="external">镜像</a></p>
+<p>*)新建一个目录full_system_images, 将上述压缩包解压到full_system_images目录中, 并用pwd得到镜像所在目录, 我的目录在<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/yankang/MyItem/full_system_images/</span><br></pre></td></tr></table></figure></p>
+<p>*)将镜像目录重定向到~/.bashrc中:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"export M5_PATH=/home/yankang/MyItem/full_system_images/"</span> &gt;&gt; ~/.bashrc</span><br></pre></td></tr></table></figure></p>
+<p>*)开启全系统仿真:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./build/ALPHA/gem5.opt configs/example/fs.py</span><br></pre></td></tr></table></figure></p>
+<p>如图:<br><img src="/about/gem5/2.png" alt="logo"><br>从该结果可以看出:<br>通过3456端口可以访问全系统。<br>于是开启另一个终端, 在gem5目录中输入<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd util/term/</span><br></pre></td></tr></table></figure></p>
+<p>进入上述目录以后输入make, 即可编译出m5term。<br>接着输入:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m5term localhost <span class="number">3456</span></span><br></pre></td></tr></table></figure></p>
+<p>就可以进入系统结果如图:<br><img src="/about/gem5/3.png" alt="logo"><br>输入clear即可清屏:<br>再输入ls就可以看到如下图:<br><img src="/about/gem5/4.png" alt="logo"><br>benchmarks中有一些测试程序:<br>进入以后可以看到下图:<br><img src="/about/gem5/5.png" alt="logo"><br>我们可以测试一下pthread_mutex_test:<br><img src="/about/gem5/6.png" alt="logo"><br>同时我们也可以尝试将hello world程序加入到这个系统里面<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp ./tests/test-progs/hello/bin/alpha/linux/hello ./hello</span><br></pre></td></tr></table></figure></p>
+<p>然后将镜像系统挂载在/mnt上:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -o,loop,offset=<span class="number">32256</span> ../full_system_images/disks/linux-latest.img /mnt/</span><br></pre></td></tr></table></figure></p>
+<p>将hello拷贝到/mnt<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp hello /mnt</span><br></pre></td></tr></table></figure></p>
+<p>ls的结果如下图:<br><img src="/about/gem5/7.png" alt="logo"><br>可以看到hello进入了镜像系统然后解挂载:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">umount /mnt</span><br></pre></td></tr></table></figure></p>
+<p>重新进入全系统模拟结果如图:<br><img src="/about/gem5/8.png" alt="logo"></p>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Architecture/" rel="tag">#Architecture</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/06/Vim/" rel="next" title="Vim">
+                <i class="fa fa-chevron-left"></i> Vim
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/11/docker-入门/" rel="prev" title="docker 入门">
+                docker 入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/01/06/gem5/"
+           data-title="gem5" data-url="http://yoursite.com/2016/01/06/gem5/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/yk.jpg"
+               alt="yankang" />
+          <p class="site-author-name" itemprop="name">yankang</p>
+          <p class="site-description motion-element" itemprop="description">a geek</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/mainboy" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/wowyk1" target="_blank">
+                  
+                    <i class="fa fa-twitter"></i> Twitter
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2971508677/profile?topnav=1&wvr=6&is_all=1" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> 微博
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.douban.com/people/139871255/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> 豆瓣
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#gem5_u7B80_u4ECB"><span class="nav-number">1.</span> <span class="nav-text">gem5简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gem5_u7CFB_u7EDF_u6A21_u578B"><span class="nav-number">2.</span> <span class="nav-text">gem5系统模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gem5_u7684_u5B89_u88C5_u4F7F_u7528"><span class="nav-number">3.</span> <span class="nav-text">gem5的安装使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gem5_u5168_u7CFB_u7EDF_u6A21_u62DF"><span class="nav-number">4.</span> <span class="nav-text">gem5全系统模拟</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yankang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"mainboy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+
+</body>
+</html>

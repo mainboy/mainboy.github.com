@@ -1,0 +1,818 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Vim," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.0" />
+
+
+
+
+
+
+<meta name="description" content="在Linux下编写程序时，拥有一套类似于VS的集成开发环境可以大大提高程序的阅读和编写效率。本文介绍如何安装vim, ctags, cscope, Taglist, SuperTab, OmniCppComplete, Winmanager, NERDTree和MiniBufExplorer等组件。最后的界面类似于如下:
+在安装之前将权限提升到root, 以后尽量使用root权限ubuntu下：s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vim">
+<meta property="og:url" content="http://yoursite.com/2016/01/06/Vim/index.html">
+<meta property="og:site_name" content="Kiss">
+<meta property="og:description" content="在Linux下编写程序时，拥有一套类似于VS的集成开发环境可以大大提高程序的阅读和编写效率。本文介绍如何安装vim, ctags, cscope, Taglist, SuperTab, OmniCppComplete, Winmanager, NERDTree和MiniBufExplorer等组件。最后的界面类似于如下:
+在安装之前将权限提升到root, 以后尽量使用root权限ubuntu下：s">
+<meta property="og:image" content="http://yoursite.com/about/Vim/1.png">
+<meta property="og:updated_time" content="2016-01-06T08:49:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vim">
+<meta name="twitter:description" content="在Linux下编写程序时，拥有一套类似于VS的集成开发环境可以大大提高程序的阅读和编写效率。本文介绍如何安装vim, ctags, cscope, Taglist, SuperTab, OmniCppComplete, Winmanager, NERDTree和MiniBufExplorer等组件。最后的界面类似于如下:
+在安装之前将权限提升到root, 以后尽量使用root权限ubuntu下：s">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: '[object Object]',
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Vim | Kiss </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?311dcbbd7db0f09ff9d24c30a8508151";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Kiss</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">simple&stupid</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'jUN6hxQ46oLCmLXrF2m1','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Vim
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-06T16:20:55+08:00" content="2016-01-06">
+              2016-01-06
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/06/Vim/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/06/Vim/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在Linux下编写程序时，拥有一套类似于VS的集成开发环境可以大大提高程序的阅读和编写效率。本文介绍如何安装vim, ctags, cscope, Taglist, SuperTab, OmniCppComplete, Winmanager, NERDTree和MiniBufExplorer等组件。最后的界面类似于如下:<br><img src="/about/Vim/1.png" alt="logo"></p>
+<p>在安装之前将权限提升到root, 以后尽量使用root权限<br>ubuntu下：sudo su然后输入密码</p>
+<h4 id="u5B89_u88C5vim"><a href="#u5B89_u88C5vim" class="headerlink" title="安装vim"></a>安装vim</h4><pre><code>apt-get install vim
+</code></pre><h4 id="u5B89_u88C5_u4F7F_u7528ctags"><a href="#u5B89_u88C5_u4F7F_u7528ctags" class="headerlink" title="安装使用ctags"></a>安装使用ctags</h4><p>ctags是利用堆栈实现的能快速定位符号的工具。<br>安装方法：<br>1)从<a href="http://ctags.sourceforge.net/" target="_blank" rel="external">http://ctags.sourceforge.net/</a>下载源代码包后，解压缩生成源代码目录<br>2)然后进入源代码根目录执行./configure<br>3)然后执行make<br>4)编译成功后执行make install<br>5)最后将ctrl-F12组合键映射到生成ctags的命令，需要在~/.vimrc(没有就新建)里面添加<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map &lt;C-F12&gt; :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .&lt;CR&gt;</span><br></pre></td></tr></table></figure></p>
+<p>使用ctags的方法:<br>使用vim打开源代码目录里面的文件，然后同时按下ctrl和F12键生成tags。<br>简单的使用就是<br>Ctrl-]    跳转到光标所在符号的定义。<br>Ctrl-t    回到上次跳转前的位置</p>
+<p>更多的功能通过命令man ctags或在vim的命令行模式下(命令行模式就是在正常打开vim后输入:就进入命令行模式)执行help ctags查询。</p>
+<h4 id="u5B89_u88C5_u4F7F_u7528cscope"><a href="#u5B89_u88C5_u4F7F_u7528cscope" class="headerlink" title="安装使用cscope"></a>安装使用cscope</h4><p>安装cscope的方法:<br>1)从<a href="http://cscope.sourceforge.net/" target="_blank" rel="external">http://cscope.sourceforge.net/</a>下载源代码包后，解压缩生成源代码目录<br>2)然后进入源代码根目录执行./configure<br>3)然后执行make<br>4)编译成功后执行make install<br>5)将文件<a href="http://cscope.sourceforge.net/cscope_maps.vim" target="_blank" rel="external">http://cscope.sourceforge.net/cscope_maps.vim</a>下载到~/.vim/plugin目录，如果没有该目录就新建。</p>
+<p>使用cscope的方法:<br>1) 生成cscope数据库文件，进入项目代码根目录运行命令<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cscope -Rbq -f ./a.out</span><br></pre></td></tr></table></figure></p>
+<p>2)打开源代码的根目录下的文件在vim的命令下输入<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cs add ./a.out</span><br></pre></td></tr></table></figure></p>
+<p>将数据库加载进来</p>
+<p>Cscope常用快捷键<br>Ctrl-\ s 查找所有当前光标所在符号出现过位置。<br>Ctrl-\ c 查找所有调用当前光标所在函数的函数。</p>
+<p>在命令行下输入cw还可以重选。<br>为了使cscope展现的更好看，在~/.vimrc里面添加如下行<br>set cscopequickfix=s-,c-,d-,i-,t-,e-</p>
+<h4 id="u5B89_u88C5_u4F7F_u7528Taglist"><a href="#u5B89_u88C5_u4F7F_u7528Taglist" class="headerlink" title="安装使用Taglist"></a>安装使用Taglist</h4><p>1）从<a href="http://www.vim.org/scripts/script.php?script_id=273" target="_blank" rel="external">http://www.vim.org/scripts/script.php?script_id=273</a>下载安装包，也可以从<a href="http://vim-taglist.sourceforge.net/index.html" target="_blank" rel="external">http://vim-taglist.sourceforge.net/index.html</a>下载。<br>2）进入~/.vim目录，将Taglist安装包解压，解压后会在~/.vim目录中生成几个新子目录，如plugin和doc（安装其它插件时，可能还会新建autoload等其它目录）。<br>3）进入~/.vim/doc目录，在Vim下运行”helptags .”命令。此步骤是将doc下的帮助文档加入到Vim的帮助主题中，这样我们就可以通过在Vim中运行“help taglist.txt”查看taglist帮助。<br>4）打开配置文件~/.vimrc，加入以下两行：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let Tlist_Show_One_File=<span class="number">1</span></span><br><span class="line">let Tlist_Exit_OnlyWindow=<span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<p>在命令行下输入TlistToggle命令就可以打开Taglist窗口。</p>
+<h4 id="u5B89_u88C5_u4F7F_u7528OmniCppComplete"><a href="#u5B89_u88C5_u4F7F_u7528OmniCppComplete" class="headerlink" title="安装使用OmniCppComplete"></a>安装使用OmniCppComplete</h4><p>OmniCppComplete主要提供输入时实时提供类或结构体的属性或方法的提示和补全。跟Talist一样，OmniCppComplete也是一个Vim插件，同样依赖与Ctags工具生成的tags文件。安装步骤跟Taglist类似。<br>从<a href="http://www.vim.org/scripts/script.php?script_id=1520" target="_blank" rel="external">http://www.vim.org/scripts/script.php?script_id=1520</a>下载安装包后。<br>1）进入~/.vim目录，将安装版解压缩<br>2）进入~/.vim/doc目录，在Vim命令行下运行”helptags .”<br>3）在~/.vimrc中加入以下几行：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set nocp</span><br><span class="line">filetype plugin on</span><br></pre></td></tr></table></figure></p>
+<h4 id="u5B89_u88C5_u4F7F_u7528SuperTab"><a href="#u5B89_u88C5_u4F7F_u7528SuperTab" class="headerlink" title="安装使用SuperTab"></a>安装使用SuperTab</h4><p>SuperTab使Tab快捷键具有更快捷的上下文提示功能。跟OmniCppComplete一样，SuperTab也是一个Vim插件。<br>从<a href="http://www.vim.org/scripts/script.php?script_id=1643" target="_blank" rel="external">http://www.vim.org/scripts/script.php?script_id=1643</a>下载安装版。这个安装包跟先前的几个Vim插件不同，它是一个vba文件，即Vimball格式的安装包，这种格式安装包提供傻瓜式的安装插件的方法。<br>1）用Vim打开.vba安装包文件。<br>2）在Vim命令行下运行命令“UseVimball ~/.vim”。此命令将安装包解压缩到~/.vim目录。VImball安装方式的便利之处在于你可以在任何目录打开.vba包安装，而不用切换到安装目的地目录。而且不用运行helptags命令安装帮助文档。<br>3）在~/.vimrc文件中加入以下这行：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let g:SuperTabDefaultCompletionType=<span class="string">"context"</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="u5B89_u88C5_u4F7F_u7528Winmanager_2C_NERDTree_u548CMiniBufExplorer"><a href="#u5B89_u88C5_u4F7F_u7528Winmanager_2C_NERDTree_u548CMiniBufExplorer" class="headerlink" title="安装使用Winmanager, NERDTree和MiniBufExplorer"></a>安装使用Winmanager, NERDTree和MiniBufExplorer</h4><p>前面介绍的几个工具和插件，主要提供快捷的编辑功能，如定义跳转，符号查询，符号提示与补全等。这里的三个插件，主要优化布置VIm的界面。具体来说，NERDTree提供树形浏览文件系统的界面，MiniBufExplorer提供多文件同时编辑功能，而Winmanager将这NERDTree界面和Taglist界面整合起来，使Vim更像VS！<br>分别从<a href="http://www.vim.org/scripts/script.php?script_id=1658" target="_blank" rel="external">http://www.vim.org/scripts/script.php?script_id=1658</a><br><a href="http://www.vim.org/scripts/script.php?script_id=159" target="_blank" rel="external">http://www.vim.org/scripts/script.php?script_id=159</a><br><a href="http://www.vim.org/scripts/script.php?script_id=95" target="_blank" rel="external">http://www.vim.org/scripts/script.php?script_id=95</a><br>下载NERDTree，MiniBufExplorer和Winmanager安装包（Winmanager还有个更新的vba版本<a href="http://www.vim.org/scripts/script.php?script_id=1440" target="_blank" rel="external">http://www.vim.org/scripts/script.php?script_id=1440</a>，这里选用旧版本的Winmanger）。<br>1）像其它插件一样，将NERDTree安装包解压到~/.vim目录。并进入doc目录，在Vim命令行下运行”helptags .”命令。<br>2）MiniBufExplorer只有一个.vim文件，将其拷贝到~/.vim/plugin目录。<br>3）在~/.vimrc文件中加入以下几行：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let g:miniBufExplMapWindowNavVim = <span class="number">1</span> </span><br><span class="line">let g:miniBufExplMapWindowNavArrows = <span class="number">1</span> </span><br><span class="line">let g:miniBufExplMapCTabSwitchBufs = <span class="number">1</span> </span><br><span class="line">let g:miniBufExplModSelTarget = <span class="number">1</span></span><br><span class="line">let g:miniBufExplMoreThanOne=<span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>4）将Winmanager安装包解压到~/.vim目录。<br>5）在~/.vimrc文件中加入以下几行：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">let g:NERDTree_title=<span class="string">"[NERDTree]"</span></span><br><span class="line">let g:winManagerWindowLayout=<span class="string">"NERDTree|TagList"</span></span><br><span class="line"></span><br><span class="line">function! NERDTree_Start()</span><br><span class="line">	<span class="keyword">exec</span> <span class="string">'NERDTree'</span></span><br><span class="line">endfunction</span><br><span class="line"></span><br><span class="line">function! NERDTree_IsValid()</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">endfunction</span><br><span class="line"></span><br><span class="line">nmap wm :WMToggle&lt;CR&gt;</span><br></pre></td></tr></table></figure></p>
+<p>6）这个版本的Winmanager好像有个小bug，你在打开Winmanager界面时，会同时打开一个空的文件。这会影响后续使用，所以我们要在打开Winmanager时关掉这个空文件。在~/.vim/plugin目录下的winmanager.vim文件中找到以下函数定义并在第5行下添加第6行的内容：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function! &lt;SID&gt;ToggleWindowsManager()</span><br><span class="line">	<span class="keyword">if</span> IsWinManagerVisible()</span><br><span class="line">		call s:CloseWindowsManager()</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		call s:StartWindowsManager()</span><br><span class="line">	exe <span class="string">'q'</span></span><br><span class="line">	end</span><br><span class="line">endfunction</span><br></pre></td></tr></table></figure></p>
+<p>这样同时按下w-m就可以打开集成环境。</p>
+<h4 id="u5176_u4ED6_u6709_u7528_u7684_7E/-vimrc_u914D_u7F6E"><a href="#u5176_u4ED6_u6709_u7528_u7684_7E/-vimrc_u914D_u7F6E" class="headerlink" title="其他有用的~/.vimrc配置"></a>其他有用的~/.vimrc配置</h4><p>在~/.vimrc里面加入：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">colo evening</span><br><span class="line">set nu</span><br><span class="line">set autoindent</span><br><span class="line">set tabstop=4</span><br><span class="line">set shiftwidth=4</span><br><span class="line">set mouse=a</span><br><span class="line">set hlsearch</span><br><span class="line"></span><br><span class="line">" 执行特定命令并保留光标位置及搜索历史</span><br><span class="line">function! Preserve(command)</span><br><span class="line">	let _s=@/</span><br><span class="line">	let l = line(".")</span><br><span class="line">	let c = col(".")</span><br><span class="line">	execute a:command</span><br><span class="line"></span><br><span class="line">	let @/=_s</span><br><span class="line">		call cursor(l, c)</span><br><span class="line">	endfunction</span><br><span class="line">" 格式化全文</span><br><span class="line">function! FullFormat()</span><br><span class="line">	call Preserve("normal gg=G")</span><br><span class="line">endfunction</span><br><span class="line">nmap &lt;M-F9&gt; :call FullFormat()&lt;CR&gt;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Vim/" rel="tag">#Vim</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/03/图着色问题/" rel="next" title="图着色问题">
+                <i class="fa fa-chevron-left"></i> 图着色问题
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/06/gem5/" rel="prev" title="gem5">
+                gem5 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/01/06/Vim/"
+           data-title="Vim" data-url="http://yoursite.com/2016/01/06/Vim/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/yk.jpg"
+               alt="yankang" />
+          <p class="site-author-name" itemprop="name">yankang</p>
+          <p class="site-description motion-element" itemprop="description">a geek</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/mainboy" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/wowyk1" target="_blank">
+                  
+                    <i class="fa fa-twitter"></i> Twitter
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2971508677/profile?topnav=1&wvr=6&is_all=1" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> 微博
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.douban.com/people/139871255/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> 豆瓣
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#u5B89_u88C5vim"><span class="nav-number">1.</span> <span class="nav-text">安装vim</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5B89_u88C5_u4F7F_u7528ctags"><span class="nav-number">2.</span> <span class="nav-text">安装使用ctags</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5B89_u88C5_u4F7F_u7528cscope"><span class="nav-number">3.</span> <span class="nav-text">安装使用cscope</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5B89_u88C5_u4F7F_u7528Taglist"><span class="nav-number">4.</span> <span class="nav-text">安装使用Taglist</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5B89_u88C5_u4F7F_u7528OmniCppComplete"><span class="nav-number">5.</span> <span class="nav-text">安装使用OmniCppComplete</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5B89_u88C5_u4F7F_u7528SuperTab"><span class="nav-number">6.</span> <span class="nav-text">安装使用SuperTab</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5B89_u88C5_u4F7F_u7528Winmanager_2C_NERDTree_u548CMiniBufExplorer"><span class="nav-number">7.</span> <span class="nav-text">安装使用Winmanager, NERDTree和MiniBufExplorer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5176_u4ED6_u6709_u7528_u7684_7E/-vimrc_u914D_u7F6E"><span class="nav-number">8.</span> <span class="nav-text">其他有用的~/.vimrc配置</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yankang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"mainboy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+
+</body>
+</html>
