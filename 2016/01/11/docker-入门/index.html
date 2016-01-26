@@ -57,21 +57,21 @@
 
 
 
-<meta name="description" content="简介docker是基于LXC的容器技术，它利用Linux内核中Cgroups限制进程使用物理设备资源，同时创新性的将只读镜像增量分层，当需要在容器中运行镜像时，只需要在镜像的最外面添加一层可写层。你可以简单的将docker容器理解为进程以及运行进程所需要的轻量级环境。
-如上图所示，左边是VM，右边是docker的工作层次，可以看出容器是在操作系统层面上实现的虚拟化，直接复用本地主机的操作系统，而传">
+<meta name="description" content="简介docker是基于LXC的容器技术，它利用Linux内核中namespace隔离进程环境，cgroup限制进程使用物理设备资源，同时创新性的将只读镜像分层，当需要在容器中运行镜像时，只需要在镜像的最外面添加一层可写层。你可以简单的将docker容器理解为进程以及运行进程所需要的轻量级环境。
+如上图所示，左边是VM，右边是docker的工作层次，可以看出容器是在操作系统层面上实现的虚拟化，直接复">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker 入门">
 <meta property="og:url" content="http://yoursite.com/2016/01/11/docker-入门/index.html">
 <meta property="og:site_name" content="Kiss">
-<meta property="og:description" content="简介docker是基于LXC的容器技术，它利用Linux内核中Cgroups限制进程使用物理设备资源，同时创新性的将只读镜像增量分层，当需要在容器中运行镜像时，只需要在镜像的最外面添加一层可写层。你可以简单的将docker容器理解为进程以及运行进程所需要的轻量级环境。
-如上图所示，左边是VM，右边是docker的工作层次，可以看出容器是在操作系统层面上实现的虚拟化，直接复用本地主机的操作系统，而传">
+<meta property="og:description" content="简介docker是基于LXC的容器技术，它利用Linux内核中namespace隔离进程环境，cgroup限制进程使用物理设备资源，同时创新性的将只读镜像分层，当需要在容器中运行镜像时，只需要在镜像的最外面添加一层可写层。你可以简单的将docker容器理解为进程以及运行进程所需要的轻量级环境。
+如上图所示，左边是VM，右边是docker的工作层次，可以看出容器是在操作系统层面上实现的虚拟化，直接复">
 <meta property="og:image" content="http://yoursite.com/about/docker/1.png">
 <meta property="og:image" content="http://yoursite.com/about/docker/2.png">
-<meta property="og:updated_time" content="2016-01-12T14:27:53.000Z">
+<meta property="og:updated_time" content="2016-01-25T14:19:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker 入门">
-<meta name="twitter:description" content="简介docker是基于LXC的容器技术，它利用Linux内核中Cgroups限制进程使用物理设备资源，同时创新性的将只读镜像增量分层，当需要在容器中运行镜像时，只需要在镜像的最外面添加一层可写层。你可以简单的将docker容器理解为进程以及运行进程所需要的轻量级环境。
-如上图所示，左边是VM，右边是docker的工作层次，可以看出容器是在操作系统层面上实现的虚拟化，直接复用本地主机的操作系统，而传">
+<meta name="twitter:description" content="简介docker是基于LXC的容器技术，它利用Linux内核中namespace隔离进程环境，cgroup限制进程使用物理设备资源，同时创新性的将只读镜像分层，当需要在容器中运行镜像时，只需要在镜像的最外面添加一层可写层。你可以简单的将docker容器理解为进程以及运行进程所需要的轻量级环境。
+如上图所示，左边是VM，右边是docker的工作层次，可以看出容器是在操作系统层面上实现的虚拟化，直接复">
 
 
 
@@ -300,9 +300,9 @@
       
 
       
-        <p><img src="/about/docker/1.png" alt="logo"></p>
-<h3 id="u7B80_u4ECB"><a href="#u7B80_u4ECB" class="headerlink" title="简介"></a>简介</h3><p>docker是基于LXC的容器技术，它利用Linux内核中Cgroups限制进程使用物理设备资源，同时创新性的将只读镜像增量分层，当需要在容器中运行镜像时，只需要在镜像的最外面添加一层可写层。你可以简单的将docker容器理解为进程以及运行进程所需要的轻量级环境。</p>
-<p><img src="/about/docker/2.png" alt="logo"><br>如上图所示，左边是VM，右边是docker的工作层次，可以看出容器是在操作系统层面上实现的虚拟化，直接复用本地主机的操作系统，而传统方式则是在硬件层面实现的管理器。docker的优势在于比VM更轻，无需整个系统的资源环境，直接在容器中运行应用，而且支持Build once, run anywhere。缺点就是所有的容器都是运行在Linux内核上的进程，安全性值得考量，尤其是docker用在大量租户的云计算环境中。</p>
+        <p><img src="/about/docker/1.png" width="500" height="200" alt="logo" align="center">        </p>
+<h3 id="u7B80_u4ECB"><a href="#u7B80_u4ECB" class="headerlink" title="简介"></a>简介</h3><p>docker是基于LXC的容器技术，它利用Linux内核中namespace隔离进程环境，cgroup限制进程使用物理设备资源，同时创新性的将只读镜像分层，当需要在容器中运行镜像时，只需要在镜像的最外面添加一层可写层。你可以简单的将docker容器理解为进程以及运行进程所需要的轻量级环境。</p>
+<p><img src="/about/docker/2.png" width="500" height="200" alt="logo" align="center"><br>如上图所示，左边是VM，右边是docker的工作层次，可以看出容器是在操作系统层面上实现的虚拟化，直接复用本地主机的操作系统，而传统方式则是在硬件层面实现的管理器。docker的优势在于比VM更轻，无需整个系统的资源环境，直接在容器中运行应用，而且支持Build once, run anywhere。缺点就是所有的容器都是运行在Linux内核上的进程，安全性值得考量，尤其是docker用在大量租户的云计算环境中。</p>
 <h3 id="u955C_u50CF"><a href="#u955C_u50CF" class="headerlink" title="镜像"></a>镜像</h3><p>docker的镜像是一个只读的模版。对于镜像，你既可以从docker hub中pull下来，也可以自己利用本地文件系统创建上传到docker hub上，当然首先你需要到docker hub上注册一个账号。</p>
 <h4 id="u663E_u793A_u672C_u5730_u955C_u50CF"><a href="#u663E_u793A_u672C_u5730_u955C_u50CF" class="headerlink" title="显示本地镜像"></a>显示本地镜像</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
 <h4 id="pull_u955C_u50CF"><a href="#pull_u955C_u50CF" class="headerlink" title="pull镜像"></a>pull镜像</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull ubuntu:<span class="number">14.04</span></span><br></pre></td></tr></table></figure>
@@ -355,6 +355,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/23/docker背后的技术/" rel="prev" title="docker 背后的技术">
+                docker 背后的技术 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -418,7 +422,7 @@
       <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/yk.jpg"
+               src="/yk.jpeg"
                alt="yankang" />
           <p class="site-author-name" itemprop="name">yankang</p>
           <p class="site-description motion-element" itemprop="description">a geek</p>
@@ -426,7 +430,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

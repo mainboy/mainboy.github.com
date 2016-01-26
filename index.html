@@ -258,6 +258,103 @@
             
               
                 
+                <a class="post-title-link" href="/2016/01/23/docker背后的技术/" itemprop="url">
+                  docker 背后的技术
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-23T23:33:41+08:00" content="2016-01-23">
+              2016-01-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/23/docker背后的技术/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/23/docker背后的技术/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          最近一直都在学习使用docker，当你使用docker越久你就越发的想了解docker背后是如何实现的。其实docker的一些功能之前就已经在Linux内核中实现了，只是有些没有进入内核主线中，但是技术就是这样不会凭空产生，总是靠大量的积累，由量变到质变最后在某个时刻绽放。本文主要是介绍docker背后的内核技术namespace，cgroup，aufs。
+namespaceLinux namespace主要的功能就是提供内核级别的环境隔离，这有点类似于Unix中的chroot系统调用，通过修改
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/01/23/docker背后的技术/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/01/11/docker-入门/" itemprop="url">
                   docker 入门
                 </a>
@@ -307,9 +404,9 @@
       
         
           
-          
-简介docker是基于LXC的容器技术，它利用Linux内核中Cgroups限制进程使用物理设备资源，同时创新性的将只读镜像增量分层，当需要在容器中运行镜像时，只需要在镜像的最外面添加一层可写层。你可以简单的将docker容器理解为进程以及运行进程所需要的轻量级环境。
-如上图所示，左边是VM，右边是docker的工作层次，可以看出容器是在操作系统层面上实现的虚拟化，直接复用本地主机的操作系统，而传统方式则是在硬件层面实现的管理器。docker的优势在于比VM更轻，无需整个系统的资源环境，直接在
+                  
+简介docker是基于LXC的容器技术，它利用Linux内核中namespace隔离进程环境，cgroup限制进程使用物理设备资源，同时创新性的将只读镜像分层，当需要在容器中运行镜像时，只需要在镜像的最外面添加一层可写层。你可以简单的将docker容器理解为进程以及运行进程所需要的轻量级环境。
+如上图所示，左边是VM，右边是docker的工作层次，可以看出容器是在操作系统层面上实现的虚拟化，直接复用本地主机的操作系统，而传统方式则是在硬件层面实现的管理器。docker的优势在于
           ...
 
           <div class="post-more-link text-center">
@@ -627,103 +724,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/03/MicroBlaze-Simple-IO-Test/" itemprop="url">
-                  MicroBlaze Simple IO Test
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-03T10:03:31+08:00" content="2016-01-03">
-              2016-01-03
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/03/MicroBlaze-Simple-IO-Test/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/03/MicroBlaze-Simple-IO-Test/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          本实验使用Digilent Anvyl Spartan6 FPGA开发套件，只需要使用EDK中的Xilinx Platform Studio.(XPS) 务必注意后面的备注Could not detect MDM peripheral on hardware.这是我写博文的主要原因,竟然被这么一个愚蠢的问题给卡住了。。。
-第一步：在XPS操作(1)点击Create New Project Using Base System Builder(2)选择安装路径及命名(3)FPGA选择XC6SLX45
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/01/03/MicroBlaze-Simple-IO-Test/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -762,7 +762,7 @@
       <section class="site-overview sidebar-panel  sidebar-panel-active ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/yk.jpg"
+               src="/yk.jpeg"
                alt="yankang" />
           <p class="site-author-name" itemprop="name">yankang</p>
           <p class="site-description motion-element" itemprop="description">a geek</p>
@@ -770,7 +770,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
