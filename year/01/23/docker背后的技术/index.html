@@ -1,0 +1,888 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="cloud computing," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Kiss" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.0" />
+
+
+
+
+
+
+<meta name="description" content="最近一直都在学习使用docker，当你使用docker越久你就越发的想了解docker背后是如何实现的。其实docker的一些功能之前就已经在Linux内核中实现了，只是有些没有进入内核主线中，但是技术就是这样不会凭空产生，总是靠大量的积累，由量变到质变最后在某个时刻绽放。本文主要是介绍docker背后的内核技术namespace，cgroup，aufs。
+namespaceLinux names">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker 背后的技术">
+<meta property="og:url" content="http://yoursite.com/year/01/23/docker背后的技术/index.html">
+<meta property="og:site_name" content="Kiss">
+<meta property="og:description" content="最近一直都在学习使用docker，当你使用docker越久你就越发的想了解docker背后是如何实现的。其实docker的一些功能之前就已经在Linux内核中实现了，只是有些没有进入内核主线中，但是技术就是这样不会凭空产生，总是靠大量的积累，由量变到质变最后在某个时刻绽放。本文主要是介绍docker背后的内核技术namespace，cgroup，aufs。
+namespaceLinux names">
+<meta property="og:image" content="http://yoursite.com/about/docker/namespace/1.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/namespace/2.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/namespace/3.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/namespace/4.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/namespace/5.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/namespace/6.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/namespace/7.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/namespace/8.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/namespace/9.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/cgroup/1.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/cgroup/2.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/cgroup/3.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/cgroup/4.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/cgroup/6.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/cgroup/7.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/cgroup/8.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/aufs/1.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/aufs/2.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/aufs/3.png">
+<meta property="og:updated_time" content="2016-01-27T00:58:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="docker 背后的技术">
+<meta name="twitter:description" content="最近一直都在学习使用docker，当你使用docker越久你就越发的想了解docker背后是如何实现的。其实docker的一些功能之前就已经在Linux内核中实现了，只是有些没有进入内核主线中，但是技术就是这样不会凭空产生，总是靠大量的积累，由量变到质变最后在某个时刻绽放。本文主要是介绍docker背后的内核技术namespace，cgroup，aufs。
+namespaceLinux names">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: '[object Object]',
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> docker 背后的技术 | Kiss </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?311dcbbd7db0f09ff9d24c30a8508151";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Kiss</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">less is more</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'jUN6hxQ46oLCmLXrF2m1','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                docker 背后的技术
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-23T23:33:41+08:00" content="2016-01-23">
+              2016-01-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/year/01/23/docker背后的技术/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/23/docker背后的技术/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近一直都在学习使用docker，当你使用docker越久你就越发的想了解docker背后是如何实现的。其实docker的一些功能之前就已经在Linux内核中实现了，只是有些没有进入内核主线中，但是技术就是这样不会凭空产生，总是靠大量的积累，由量变到质变最后在某个时刻绽放。本文主要是介绍docker背后的内核技术namespace，cgroup，aufs。</p>
+<h2 id="namespace"><a href="#namespace" class="headerlink" title="namespace"></a><strong>namespace</strong></h2><p>Linux namespace主要的功能就是提供内核级别的环境隔离，这有点类似于Unix中的chroot系统调用，通过修改根目录将用户jail在一个特定的目录下，这样的jail就无法访问外部的内容，而且每一个jail的pid都是1，1意味着是当前环境下的所有进程的根节点，从而实现了环境隔离。<br>Linux namespace提供如下名字空间：(官方的文档<a href="http://lwn.net/Articles/531114/" target="_blank" rel="external">namespaces in operation</a>)<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">|       分类        |  系统调用参数   |     内核版本     </span><br><span class="line">| UTS namespace     |  CLONE_NEWUTS   |   Linux <span class="number">2.6</span><span class="number">.19</span></span><br><span class="line">| IPC namespace     |  CLONE_NEWIPC   |   Linux <span class="number">2.6</span><span class="number">.19</span></span><br><span class="line">| PID namespace     |  CLONE_NEWPID   |   Linux <span class="number">2.6</span><span class="number">.24</span></span><br><span class="line">| Mount namespace   |  CLONE_NEWNS    |   Linux <span class="number">2.4</span><span class="number">.19</span>    </span><br><span class="line">| USER namespace    |  CLONE_NEWUSER  |started <span class="keyword">in</span> Linux <span class="number">2.6</span><span class="number">.23</span> <span class="keyword">and</span> completed <span class="keyword">in</span> Linux <span class="number">3.8</span></span><br><span class="line">| Network namespace |  CLONE_NEWNET   |started <span class="keyword">in</span> Linux <span class="number">2.6</span><span class="number">.24</span> <span class="keyword">and</span> largely completed by about Linux <span class="number">2.6</span><span class="number">.29</span></span><br></pre></td></tr></table></figure></p>
+<p>接下来介绍上述namespace的用法，可以体会一下环境隔离。(我的运行环境是ubuntu14.04，内核版本是4.3.3)<br>与namespace相关的API主要是以下三个:<br>clone():创建一个新进程，具体里面的参数自己man一下<br>unshare():使某个进程脱离某个namespace<br>setns():把某个进程加入到某个namespace          </p>
+<h3 id="UTS_namespace"><a href="#UTS_namespace" class="headerlink" title="UTS namespace"></a><font size="2"> UTS namespace </font></h3><p>UTS namespace主要实现环境隔离中的hostname隔离(<a href="http://stackoverflow.com/questions/5582211/what-does-define-gnu-source-imply" target="_blank" rel="external">测试代码加_GNU_SOURCE理由</a>)<br>测试代码如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#define _GNU_SOURCE</span></span><br><span class="line"><span class="comment">#include &lt;sys/types.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sys/wait.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sched.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;signal.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;unistd.h&gt;</span></span><br><span class="line"> </span><br><span class="line">/* 定义一个给 clone 用的栈，栈大小<span class="number">1</span>M */</span><br><span class="line"><span class="comment">#define STACK_SIZE (1024 * 1024)</span></span><br><span class="line">static char container_stack[STACK_SIZE];</span><br><span class="line"> </span><br><span class="line">char* const container_args[] = &#123;</span><br><span class="line">    <span class="string">"/bin/bash"</span>,</span><br><span class="line">    NULL</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line">int container_main(void* arg)</span><br><span class="line">&#123;</span><br><span class="line">    printf(<span class="string">"Container - inside the container!\n"</span>);</span><br><span class="line">    /* 直接执行一个shell，以便我们观察这个进程空间里的资源是否被隔离了 */</span><br><span class="line">    sethostname(<span class="string">"container"</span>,<span class="number">10</span>);	 </span><br><span class="line">    execv(container_args[<span class="number">0</span>], container_args); </span><br><span class="line">    printf(<span class="string">"Something's wrong!\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    printf(<span class="string">"Parent - start a container!\n"</span>);</span><br><span class="line">    /* 调用clone函数，其中传出一个函数，还有一个栈空间的（为什么传尾指针，因为栈是反着的） */</span><br><span class="line">    int container_pid = clone(container_main, container_stack+STACK_SIZE, CLONE_NEWUTS | SIGCHLD, NULL);</span><br><span class="line">    /* 等待子进程结束 */</span><br><span class="line">    waitpid(container_pid, NULL, <span class="number">0</span>);</span><br><span class="line">    printf(<span class="string">"Parent - container stopped!\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试结果如下:<br><img src="/about/docker/namespace/1.png" alt="logo"><br>从上面的结果可以看出clone创建的进程hostname是container，和主机的ubuntu不同，从而实现了hostname的隔离。</p>
+<h3 id="IPC_namespace"><a href="#IPC_namespace" class="headerlink" title="IPC namespace"></a><font size="2"> IPC namespace </font></h3><p>IPC全称是Inter-Process Communication，也就是<a href="http://songlee24.github.io/2015/04/21/linux-IPC/" target="_blank" rel="external">进程间通信</a>。IPC包括<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">| 进程间通信方式 |                             主要用途                                 </span><br><span class="line">|  无名管道      |半双工，只能用于父子进程或兄弟进程之间通信                            </span><br><span class="line">|  命名管道(FIFO)|半双工，可以用于无关进程间通信                                        </span><br><span class="line">|  消息队列      |消息队列不一定要以先进先出的次序读取,也可以按消息的类型读取          </span><br><span class="line">|  共享内存      |多个进程访问同一块内存空间，信号量结合使用，来达到进程间的同步及互斥 </span><br><span class="line">|  信号量        |作为进程间以及同一进程不同线程之间的同步手段                         </span><br><span class="line">|  套接字        |可用于不同机器之间的进程间通信</span><br></pre></td></tr></table></figure></p>
+<p>IPC namespace实现的是限制进程间通信只能发生在同一个namespace。要启动IPC隔离，只需要在调用clone时加上CLONE_NEWIPC:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int container_pid = clone(container_main, container_stack+STACK_SIZE, CLONE_NEWUTS | CLONE_NEWIPC  | SIGCHLD, NULL);</span><br></pre></td></tr></table></figure></p>
+<p>完整代码:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#define _GNU_SOURCE</span></span><br><span class="line"><span class="comment">#include &lt;sys/types.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sys/wait.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sched.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;signal.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;unistd.h&gt;</span></span><br><span class="line"> </span><br><span class="line">/* 定义一个给 clone 用的栈，栈大小<span class="number">1</span>M */</span><br><span class="line"><span class="comment">#define STACK_SIZE (1024 * 1024)</span></span><br><span class="line">static char container_stack[STACK_SIZE];</span><br><span class="line"> </span><br><span class="line">char* const container_args[] = &#123;</span><br><span class="line">    <span class="string">"/bin/bash"</span>,</span><br><span class="line">    NULL</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line">int container_main(void* arg)</span><br><span class="line">&#123;</span><br><span class="line">    printf(<span class="string">"Container - inside the container!\n"</span>);</span><br><span class="line">    /* 直接执行一个shell，以便我们观察这个进程空间里的资源是否被隔离了 */</span><br><span class="line">    sethostname(<span class="string">"contain"</span>,<span class="number">10</span>);	 </span><br><span class="line">    execv(container_args[<span class="number">0</span>], container_args); </span><br><span class="line">    printf(<span class="string">"Something's wrong!\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    printf(<span class="string">"Parent - start a container!\n"</span>);</span><br><span class="line">    /* 调用clone函数，其中传出一个函数，还有一个栈空间的（为什么传尾指针，因为栈是反着的） */</span><br><span class="line">    int container_pid = clone(container_main, container_stack+STACK_SIZE, CLONE_NEWUTS | CLONE_NEWIPC  | SIGCHLD, NULL);</span><br><span class="line">    /* 等待子进程结束 */</span><br><span class="line">    waitpid(container_pid, NULL, <span class="number">0</span>);</span><br><span class="line">    printf(<span class="string">"Parent - container stopped!\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试如下：<br>无CLONE_NEWIPC时:<br><img src="/about/docker/namespace/2.png" alt="logo"><br>有CLONE_NEWIPC时:<br><img src="/about/docker/namespace/3.png" alt="logo"><br>从上面的结果可以看出，IPC被隔离了，在新创建的进程中无法看到消息队列。</p>
+<h3 id="PID_namespace"><a href="#PID_namespace" class="headerlink" title="PID namespace"></a><font size="2"> PID namespace </font></h3><p>PID namespace实现的是隔离进程空间，使得新建的进程的PID是1，在传统的UNIX系统中，PID为1的进程是init，地位非常特殊。他作为所有进程的父进程，有很多特权(比如:屏蔽信号等)，另外，其还会为检查所有进程的状态，我们知道，如果某个子进程脱离了父进程(父进程没有wait它)，那么init就会负责回收资源并结束这个子进程。所以，要做到进程空间的隔离，首先要创建出PID为1的进程，最好就像chroot那样，把子进程的PID在容器内变成1。<br>现在我们在clone子进程中添加PID隔离:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int container_pid = clone(container_main, container_stack+STACK_SIZE, CLONE_NEWPID | CLONE_NEWIPC | CLONE_NEWUTS | SIGCHLD, NULL);</span><br></pre></td></tr></table></figure></p>
+<p>完整代码:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#define _GNU_SOURCE</span></span><br><span class="line"><span class="comment">#include &lt;sys/types.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sys/wait.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sched.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;signal.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;unistd.h&gt;</span></span><br><span class="line"> </span><br><span class="line">/* 定义一个给 clone 用的栈，栈大小<span class="number">1</span>M */</span><br><span class="line"><span class="comment">#define STACK_SIZE (1024 * 1024)</span></span><br><span class="line">static char container_stack[STACK_SIZE];</span><br><span class="line"> </span><br><span class="line">char* const container_args[] = &#123;</span><br><span class="line">    <span class="string">"/bin/bash"</span>,</span><br><span class="line">    NULL</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line">int container_main(void* arg)</span><br><span class="line">&#123;</span><br><span class="line">    printf(<span class="string">"Container [%5d] - inside the container!\n"</span>,getpid());</span><br><span class="line">    /* 直接执行一个shell，以便我们观察这个进程空间里的资源是否被隔离了 */</span><br><span class="line">    sethostname(<span class="string">"container"</span>,<span class="number">10</span>);	 </span><br><span class="line">    execv(container_args[<span class="number">0</span>], container_args); </span><br><span class="line">    printf(<span class="string">"Something's wrong!\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    printf(<span class="string">"Parent [%5d] - start a container!\n"</span>,getpid());</span><br><span class="line">    /* 调用clone函数，其中传出一个函数，还有一个栈空间的（为什么传尾指针，因为栈是反着的） */</span><br><span class="line">    int container_pid = clone(container_main, container_stack+STACK_SIZE, CLONE_NEWPID | CLONE_NEWIPC | CLONE_NEWUTS | SIGCHLD, NULL);</span><br><span class="line">    /* 等待子进程结束 */</span><br><span class="line">    waitpid(container_pid, NULL, <span class="number">0</span>);</span><br><span class="line">    printf(<span class="string">"Parent - container stopped!\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试结果如下:<br><img src="/about/docker/namespace/4.png" alt="logo"><br>我们可以看到container的PID是1，但是有个问题，当你在子进程中输入top的时候还是会看到很多其他进程，而这些其他进程是只有父进程才看得到的，也就是说并没有完全隔离进程啊，这是因为ps, top这些命令会去读/proc文件系统，而文件系统对于父进程和子进程来说是一样的，所以还需要隔离文件系统。</p>
+<h3 id="Mount_namespace"><a href="#Mount_namespace" class="headerlink" title="Mount namespace"></a><font size="2"> Mount namespace </font></h3><p>Mount namespace实现的是隔离挂载点，顾名思义，也就是说启动Mount namespace后不同进程挂载的文件系统是相互看不到的。所以测试代码中添加了CLONE_NEWNS，并且在子进程中加入了”mount -t proc proc /proc”来挂载/proc文件系统。<br>完整代码:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#define _GNU_SOURCE</span></span><br><span class="line"><span class="comment">#include &lt;sys/types.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sys/wait.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sched.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;signal.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;unistd.h&gt;</span></span><br><span class="line"> </span><br><span class="line">/* 定义一个给 clone 用的栈，栈大小<span class="number">1</span>M */</span><br><span class="line"><span class="comment">#define STACK_SIZE (1024 * 1024)</span></span><br><span class="line">static char container_stack[STACK_SIZE];</span><br><span class="line"> </span><br><span class="line">char* const container_args[] = &#123;</span><br><span class="line">    <span class="string">"/bin/bash"</span>,</span><br><span class="line">    NULL</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line">int container_main(void* arg)</span><br><span class="line">&#123;</span><br><span class="line">    printf(<span class="string">"Container [%5d] - inside the container!\n"</span>,getpid());</span><br><span class="line">    /* 直接执行一个shell，以便我们观察这个进程空间里的资源是否被隔离了 */</span><br><span class="line">    sethostname(<span class="string">"container"</span>,<span class="number">10</span>);	 </span><br><span class="line">    system(<span class="string">"mount -t proc proc /proc"</span>);</span><br><span class="line">    execv(container_args[<span class="number">0</span>], container_args); </span><br><span class="line">    printf(<span class="string">"Something's wrong!\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    printf(<span class="string">"Parent [%5d] - start a container!\n"</span>,getpid());</span><br><span class="line">    /* 调用clone函数，其中传出一个函数，还有一个栈空间的（为什么传尾指针，因为栈是反着的） */</span><br><span class="line">    int container_pid = clone(container_main, container_stack+STACK_SIZE, CLONE_NEWNS | CLONE_NEWPID | CLONE_NEWIPC | CLONE_NEWUTS | SIGCHLD, NULL);</span><br><span class="line">    /* 等待子进程结束 */</span><br><span class="line">    waitpid(container_pid, NULL, <span class="number">0</span>);</span><br><span class="line">    printf(<span class="string">"Parent - container stopped!\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试结果如下:<br><img src="/about/docker/namespace/5.png" alt="logo"><br>从上图可以看出子进程的所有进程，PID为1的正好是新建的bash，另一个进程就是PS命令，这样mount的文件系统就看不到父进程空间中的进程，再比如输入top命令，也会发现进程很干净，结果如下:<br><img src="/about/docker/namespace/6.png" alt="logo"></p>
+<h3 id="USER_namespace"><a href="#USER_namespace" class="headerlink" title="USER namespace"></a><font size="2"> USER namespace </font></h3><p>User namespace主要是提供了用户与用户组的隔离。使用CLONE_NEWUSER这个参数，容器内部看到的UID和GID已经与外部不同了，默认显示为65534。因为容器中找不到其真正的UID，所以设置了最大的UID，可通过如下命令查看:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/sys/kernel/overflowuid</span><br></pre></td></tr></table></figure></p>
+<p>要把容器中的uid和真实系统的uid给映射在一起，需要修改/proc/pid/uid_map和/proc/pid/gid_map这两个文件。这两个文件的格式是:<br>ID-inside-ns    ID-outside-ns    length</p>
+<blockquote>
+<p>ID-inside-ns表示容器里面显示的UID或GID。<br>ID-outside-ns表示容器外映射的真实UID或GID。<br>length表示映射范围，为1表示一一对应。</p>
+</blockquote>
+<p>除了上述的格式要求，对于uid/gid的映射还有几点约束:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*)写入uid_map/gid_map的进程，必须对PID进程所属user namespace拥有[CAP_SETUID/CAP_SETGID](http://man7.org/linux/man-pages/man7/capabilities<span class="number">.7</span>.html)权限</span><br><span class="line">*)写入uid_map/gid_map的进程，必须位于PID进程的parent或者child USER namespace</span><br><span class="line">*)另外需要满足如下条件之一:</span><br><span class="line">	<span class="number">1</span>)父进程将有效uid/gid映射到子进程的user namespace中</span><br><span class="line">	<span class="number">2</span>)父进程如果有CAP_SETUID/CAP_SETGID权限，那么它将可以映射到父进程中的任一uid/gid</span><br></pre></td></tr></table></figure></p>
+<p>你可以通过如下命令查看(pid表示进程编号):<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/&lt;pid&gt;/uid_map</span><br></pre></td></tr></table></figure></p>
+<p>比如下面的例子表示把namespace内部从0开始的uid映射到外部从0开始的uid，其最大范围是无符号32位整形<br><img src="/about/docker/namespace/7.png" alt="logo"><br>现在我们来测试如下代码，如有不懂可以和我联系:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line">#define _GNU_SOURCE</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/wait.h&gt;</span><br><span class="line">#include &lt;sys/mount.h&gt;</span><br><span class="line">#include &lt;sys/capability.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;sched.h&gt;</span><br><span class="line">#include &lt;signal.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"> </span><br><span class="line">#define STACK_SIZE (1024 * 1024)</span><br><span class="line"> </span><br><span class="line">static char container_stack[STACK_SIZE];</span><br><span class="line">char* const container_args[] = &#123;</span><br><span class="line">    "/bin/bash",</span><br><span class="line">    NULL</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line">int pipefd[2];</span><br><span class="line"> </span><br><span class="line">void set_map(char* file, int inside_id, int outside_id, int len) &#123;</span><br><span class="line">    FILE* mapfd = fopen(file, "w");</span><br><span class="line">    if (NULL == mapfd) &#123;</span><br><span class="line">        perror("open file error");</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    fprintf(mapfd, "%d %d %d", inside_id, outside_id, len);</span><br><span class="line">    fclose(mapfd);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">void set_uid_map(pid_t pid, int inside_id, int outside_id, int len) &#123;</span><br><span class="line">    char file[256];</span><br><span class="line">    sprintf(file, "/proc/%d/uid_map", pid);</span><br><span class="line">    set_map(file, inside_id, outside_id, len);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">void set_gid_map(pid_t pid, int inside_id, int outside_id, int len) &#123;</span><br><span class="line">    char file[256];</span><br><span class="line">    sprintf(file, "/proc/%d/gid_map", pid);</span><br><span class="line">    set_map(file, inside_id, outside_id, len);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">int container_main(void* arg)</span><br><span class="line">&#123;</span><br><span class="line"> </span><br><span class="line">    printf("Container [%5d] - inside the container!\n", getpid());</span><br><span class="line"> </span><br><span class="line">    printf("Container: eUID = %ld;  eGID = %ld, UID=%ld, GID=%ld\n",</span><br><span class="line">            (long) geteuid(), (long) getegid(), (long) getuid(), (long) getgid());</span><br><span class="line"> </span><br><span class="line">    /* 等待父进程通知后再往下执行（进程间的同步） */</span><br><span class="line">    char ch;</span><br><span class="line">    close(pipefd[1]);</span><br><span class="line">    read(pipefd[0], &amp;ch, 1);</span><br><span class="line"> </span><br><span class="line">    printf("Container [%5d] - setup hostname!\n", getpid());</span><br><span class="line">    //set hostname</span><br><span class="line">    sethostname("container",10);</span><br><span class="line"> </span><br><span class="line">    //remount "/proc" to make sure the "top" and "ps" show container's information</span><br><span class="line">    mount("proc", "/proc", "proc", 0, NULL);</span><br><span class="line"> </span><br><span class="line">    execv(container_args[0], container_args);</span><br><span class="line">    printf("Something's wrong!\n");</span><br><span class="line">    return 1;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    const int gid=getgid(), uid=getuid();</span><br><span class="line"> </span><br><span class="line">    printf("Parent: eUID = %ld;  eGID = %ld, UID=%ld, GID=%ld\n",</span><br><span class="line">            (long) geteuid(), (long) getegid(), (long) getuid(), (long) getgid());</span><br><span class="line"> </span><br><span class="line">    pipe(pipefd);</span><br><span class="line">  </span><br><span class="line">    printf("Parent [%5d] - start a container!\n", getpid());</span><br><span class="line"> </span><br><span class="line">    int container_pid = clone(container_main, container_stack+STACK_SIZE, </span><br><span class="line">            CLONE_NEWUTS | CLONE_NEWPID | CLONE_NEWNS | CLONE_NEWUSER | SIGCHLD, NULL);</span><br><span class="line"> </span><br><span class="line">     </span><br><span class="line">    printf("Parent [%5d] - Container [%5d]!\n", getpid(), container_pid);</span><br><span class="line"> </span><br><span class="line">    //To map the uid/gid, </span><br><span class="line">    //   we need edit the /proc/PID/uid_map (or /proc/PID/gid_map) in parent</span><br><span class="line">    //The file format is</span><br><span class="line">    //   ID-inside-ns   ID-outside-ns   length</span><br><span class="line">    //if no mapping, </span><br><span class="line">    //   the uid will be taken from /proc/sys/kernel/overflowuid</span><br><span class="line">    //   the gid will be taken from /proc/sys/kernel/overflowgid</span><br><span class="line">    set_uid_map(container_pid, 0, uid, 1);</span><br><span class="line">    set_gid_map(container_pid, 0, gid, 1);</span><br><span class="line"> </span><br><span class="line">    printf("Parent [%5d] - user/group mapping done!\n", getpid());</span><br><span class="line"> </span><br><span class="line">    /* 通知子进程 */</span><br><span class="line">    close(pipefd[1]);</span><br><span class="line"> </span><br><span class="line">    waitpid(container_pid, NULL, 0);</span><br><span class="line">    printf("Parent - container stopped!\n");</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述程序运行结果如下:<br><img src="/about/docker/namespace/8.png" alt="logo"><br>我们使用一个pipe来对父子进程进行同步，因为子进程中使用execv的系统调用，这个系统调用会把当前子进程的进程空间给全部覆盖掉，我们希望在execv之前就做好user namespace的uid/gid的映射，基于上述uid/gid的映射规则，我们需要父进程映射uid/gid，然后通知子进程可以执行execv。从而我们可以看到uid=0，就是说在容器中已经是root用户了，但是gid还不是0，是因为进程同步还没有完成，当你进入container的root用户时输入id就会发现如下的结果:<br><img src="/about/docker/namespace/9.png" alt="logo"><br>如果你的gid还不是0的话，有可能是内核版本问题，因为user namespace是在3.8以后才实现绝大部分的功能也就是说还会存在问题，比如安全性问题等。你可以想到的是我们运行程序的权限是普通用户，但是运行出来的容器是root，这样的安全性就可以得到提高，因为本质上还是普通用户，如果你想运行多个namespace可以在容器里使用root权限再创建多个namespace。</p>
+<h3 id="Network_namespace"><a href="#Network_namespace" class="headerlink" title="Network namespace"></a><font size="2"> Network namespace </font></h3><p>网络部分暂时还没理清楚，尽情期待。</p>
+<h2 id="cgroup"><a href="#cgroup" class="headerlink" title="cgroup"></a><strong>cgroup</strong></h2><p>Linux cgroup全称是linux control group，是Linux内核的一个功能，主要用来限制，控制与分离一个进程组群的资源(包括CPU计算资源,内存,磁盘IO)。<br>cgroup主要提供了如下功能：</p>
+<blockquote>
+<p>Resource limitation: 限制资源使用，比如内存使用上限以及文件系统的缓存限制。<br>Prioritization: 优先级控制，比如：CPU利用和磁盘IO吞吐。<br>Accounting: 一些审计或一些统计，主要目的是为了计费。<br>Control: 挂起进程，恢复执行进程。</p>
+</blockquote>
+<p>本质上来说，cgroup是内核附加在程序上的一系列钩子(hooks)，通过程序运行时对资源的调度触发相应的钩子以达到资源追踪和限制的目的。<br>接下来我们通过三个小实验来感受一下如何限制CPU资源，memory资源，磁盘IO资源。其实Linux已经把cgroup做成一个file system，可以直接mount。</p>
+<h3 id="u9650_u5236CPU"><a href="#u9650_u5236CPU" class="headerlink" title="限制CPU"></a><font size="2"> 限制CPU </font></h3><p>首先我们挂载cgroup子系统。然后查看/sys/fs/cgroup/<br><img src="/about/docker/cgroup/1.png" alt="logo"><br>你也可以用lssubsys命令查看cgroup能够限制哪些资源，初次使用会让你下载cgroup-bin，cgroup-bin会装上cgroup的所有子系统，如下图，我这里的测试主要是cpu，memory，blkio。<br><img src="/about/docker/cgroup/2.png" alt="logo"><br>正式进入限制CPU的测试:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /sys/fs/cgroup/cpu</span><br><span class="line">mkdir test</span><br><span class="line"><span class="comment"># 然后你会发现test目录下会生长出许多文件，表示的是限制CPU使用,限制进程数等</span></span><br></pre></td></tr></table></figure></p>
+<p>现在我们运行一个main.c程序如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include&lt;stdio.h&gt;</span></span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	int i=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">		i++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们会发现该程序极其损耗CPU资源，几乎达到100%:<br><img src="/about/docker/cgroup/3.png" alt="logo"><br>我们将之前建立的test组做一些限制，然后发现该进程的PID是4008，将该PID加入到test组中:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="number">20000</span> &gt; /sys/fs/cgroup/cpu/test/cpu.cfs_quota_us</span><br><span class="line">echo <span class="number">4008</span> &gt; /sys/fs/cgroup/cpu/test/tasks</span><br></pre></td></tr></table></figure></p>
+<p>我们会发现CPU的利用率瞬间降到20%(与我们之前设置test组的20000有关):<br><img src="/about/docker/cgroup/4.png" alt="logo"><br>于是就这样我们对CPU资源进行了限制的测试，当然也可以写多线程来对每个线程使用的CPU资源进行限制，类似上述的方法可以自己试试。</p>
+<h3 id="u9650_u5236memory"><a href="#u9650_u5236memory" class="headerlink" title="限制memory"></a><font size="2"> 限制memory </font></h3><p>同理我们在memory目录中建一个test组:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /sys/fs/cgroup/memory/</span><br><span class="line">mkdir test</span><br></pre></td></tr></table></figure></p>
+<p>现在我们运行一个程序不停的分配内存:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;stdlib.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;string.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sys/types.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;unistd.h&gt;</span></span><br><span class="line"> </span><br><span class="line">int main(void)</span><br><span class="line">&#123;</span><br><span class="line">    int size = <span class="number">0</span>;</span><br><span class="line">    int chunk_size = <span class="number">512</span>;</span><br><span class="line">    char *p = NULL;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">if</span> ((p = (char *)malloc(sizeof(char)*chunk_size)) == NULL) &#123;</span><br><span class="line">            printf(<span class="string">"out of memory!!\n"</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        memset(p, <span class="number">1</span>, chunk_size);</span><br><span class="line">        size += chunk_size;</span><br><span class="line">        printf(<span class="string">"[%d] - memory is allocated [%8d] bytes \n"</span>, getpid(), size);</span><br><span class="line">        sleep(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行上述程序:<br><img src="/about/docker/cgroup/6.png" alt="logo"><br>我们将之前建立的test组做一些限制，然后发现该进程的PID是3133，将该PID加入到test组中:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="number">10</span>k &gt; /sys/fs/cgroup/memory/test/memory.limit_in_bytes</span><br><span class="line">echo <span class="number">3133</span> &gt; /sys/fs/cgroup/memory/test/tasks</span><br></pre></td></tr></table></figure></p>
+<p>于是就出现了上图中的分配到超过10kBytes时kill的情况，从而达到了限制内存的目的。</p>
+<h3 id="u9650_u5236_u78C1_u76D8IO"><a href="#u9650_u5236_u78C1_u76D8IO" class="headerlink" title="限制磁盘IO"></a><font size="2"> 限制磁盘IO </font></h3><p>我们来测试如何限制硬盘的IO，模拟命令如下:(从/dev/sda1上读入数据,输出到/dev/null,/dev/null是一个“黑洞”,只能写入不能读，而且写入的文件不保存)<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="keyword">if</span>=/dev/sda1 of=/dev/null</span><br></pre></td></tr></table></figure></p>
+<p>我们使用iotop命令测试速度如下，发现IO的速度是316.3MB/s:<br><img src="/about/docker/cgroup/7.png" alt="logo"><br>当我们使用IO限制，将该IO的PID 3382加入到test组里面时，如下代码(8:0是设备号可以通过ls -l /dev/sda1获得，1048576刚好是1M):<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">'8:0 1048576'</span> &gt; /sys/fs/cgroup/blkio/test/blkio.throttle.read_bps_device</span><br><span class="line">echo <span class="number">3382</span>  &gt; /sys/fs/cgroup/blkio/test/tasks</span><br></pre></td></tr></table></figure></p>
+<p>于是结果如下<br><img src="/about/docker/cgroup/8.png" alt="logo"><br>从上图可以发现我们确实将磁盘的IO操作限制在了1M，达到了限制磁盘IO的目的。</p>
+<h2 id="aufs"><a href="#aufs" class="headerlink" title="aufs"></a><strong>aufs</strong></h2><p>aufs是一种union file system，所谓UnionFS就是将不同物理位置的目录合并mount到同一个目录。UnionFS的一个最主要的应用是，把一张CD/DVD和一个硬盘目录给联合mount在一起，然后，你就可以对这个只读的CD/DVD上的文件进行修改(当然，修改的文件存于硬盘上的目录里)。之前在上篇博客<a href="http://mainboy.github.io/2016/01/11/docker-入门/#more" target="_blank" rel="external">docker入门</a>中介绍过，docker的镜像都是只读的模版，当镜像运行在容器中的时候会在镜像的最上层添加一层可写层。如下图所示:<br><img src="/about/docker/aufs/1.png" width="400" height="100" alt="logo" align="center"><br>docker的分层镜像正是基于aufs实现。但是aufs并没有进入Linux内核主线(内核主线是打算发展overlayFS来取代aufs，最新的Linux内核应该已经包含overlay。)，主要是Linus不让，可能是觉得aufs写得烂，也有可能是不喜欢aufs，但是很多Linux发行版都支持aufs，比如Debian，Ubuntu。Centos不支持aufs，所以其采用的是DeviceMapper(然而并没有aufs好用)。可以查看发行版是否支持aufs<br><img src="/about/docker/aufs/2.png" alt="logo"><br>也可以看看docker是aufs驱动还是DeviceMapper驱动<br><img src="/about/docker/aufs/3.png" alt="logo"><br>docker的分层镜像，除了aufs，devicemapper，docker还支持btrfs和vfs，你可以使用-s或–storage-driver= 选项来指定相关的镜像存储</p>
+<p>接下来通过几个例子来介绍aufs<br>1) 测试1<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建fruits vegetables mnt三个目录</span></span><br><span class="line">mkdir fruits vegetables mnt</span><br><span class="line"><span class="comment"># 在fruits里创建apple，tomato两个文件，vegetables里创建carrots，tomato两个文件</span></span><br><span class="line">cd ./fruits</span><br><span class="line">touch apple tomato</span><br><span class="line">cd ../vegetables</span><br><span class="line">touch carrots tomato</span><br><span class="line"><span class="comment"># 将fruits和vegetables目录union mount到./mnt目录中</span></span><br><span class="line">mount -t aufs -o dirs=./fruits:./vegetables none ./mnt</span><br><span class="line"><span class="comment"># mnt目录下会出现三个文件apple，carrots，tomato，你可能会疑问tomato是属于fruits还是vegetables，我可以先告诉你是属于fruits，后面解释为什么。</span></span><br><span class="line"><span class="comment"># 接下来做两个小测试</span></span><br><span class="line"><span class="comment"># First</span></span><br><span class="line">echo mnt &gt; ./mnt/apple</span><br><span class="line">cat ./mnt/apple</span><br><span class="line">cat ./fruits/apple</span><br><span class="line"><span class="comment"># 你会发现上述两个cat输出一样</span></span><br><span class="line"><span class="comment"># Second</span></span><br><span class="line">echo mnt_carrots &gt; ./mnt/carrots</span><br><span class="line">cat ./vegetables/carrots</span><br><span class="line">cat ./fruits/carrots</span><br><span class="line"><span class="comment"># 第一个cat没有任何输出，第二个cat输出了mnt_carrots，我们修改了./mnt/carrots的文件内容，./vegetables/carrots并没有变化，反而是./fruits目录中出现了carrots文件，其内容是我们在./mnt/carrots里的内容</span></span><br><span class="line"><span class="comment"># 原因在于我们在mount aufs命令中，并没有指定vegetables和fruits的目录权限，默认上来说，命令行上第一个(最左边)的目录是可读可写的，后面的全都是只读的，这是不是很类似docker的分层镜像？</span></span><br></pre></td></tr></table></figure></p>
+<p>2) 测试2<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 现在我们来设置指定权限来mount aufs，先把./fruits/carrots删掉以免干扰。</span></span><br><span class="line">mount -t aufs -o dirs=./fruits=rw:./vegetables=rw none ./mnt</span><br><span class="line"><span class="comment"># 接下来我们再做两个小实验</span></span><br><span class="line"><span class="comment"># First</span></span><br><span class="line">echo <span class="string">"mnt_carrots"</span> &gt; ./mnt/carrots</span><br><span class="line">cat ./vegetables/carrots</span><br><span class="line">cat ./fruits/carrots</span><br><span class="line"><span class="comment"># 我们设置vegetables和fruits两个目录都是可读写的，所以第一个cat有输出，第二个cat无输出符合我们的预期。</span></span><br><span class="line"><span class="comment"># Second 我们来解释tomato</span></span><br><span class="line">echo <span class="string">"mnt_tomato"</span> &gt; ./mnt/tomato</span><br><span class="line">cat ./fruits/tomato</span><br><span class="line">cat ./vegetables/tomato</span><br><span class="line"><span class="comment"># 我们发现第一个cat有输出，第二个cat没有输出，即是当有重复文件名的时候，在mount命令行上，越往前的优先级越高。</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a><strong>reference</strong></h2><p>进程间通信<br><a href="http://songlee24.github.io/2015/04/21/linux-IPC/" target="_blank" rel="external">Inter-Process Communication</a></p>
+<p>namespace<br><a href="http://lwn.net/Articles/531114/" target="_blank" rel="external">Namespaces in operation</a><br><a href="http://man7.org/linux/man-pages/man7/namespaces.7.html" target="_blank" rel="external">Linux Namespace Man Page</a><br><a href="http://crosbymichael.com/creating-containers-part-1.html" target="_blank" rel="external">Creating containers - Part 1</a><br><a href="http://blog.yadutaf.fr/2013/12/22/introduction-to-linux-namespaces-part-1-uts/" target="_blank" rel="external">Introduction to Linux namespaces</a></p>
+<p>cgroup<br><a href="https://lwn.net/Articles/484251/" target="_blank" rel="external">Fixing control groups</a><br><a href="http://lwn.net/Articles/601840/" target="_blank" rel="external">The unified control group hierarchy in 3.16</a><br><a href="http://events.linuxfoundation.org/sites/events/files/slides/2014-KLF.pdf" target="_blank" rel="external">Cgroup v2(PDF)</a></p>
+<p>aufs<br><a href="http://www.linuxjournal.com/article/7714" target="_blank" rel="external">Introduce UnionFS</a><br><a href="http://lwn.net/Articles/325369/" target="_blank" rel="external">Union file systems: Implementations, part I</a><br><a href="http://lwn.net/Articles/327738/" target="_blank" rel="external">Union file systems: Implementations, part 2</a><br><a href="http://lwn.net/Articles/403012/" target="_blank" rel="external">Another union filesystem approach</a><br><a href="http://lwn.net/Articles/324291/" target="_blank" rel="external">Unioning file systems: Architecture, features, and design choices</a></p>
+<p><a href="http://coolshell.cn/articles/17010.html" target="_blank" rel="external">酷壳</a></p>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cloud-computing/" rel="tag">#cloud computing</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/year/01/11/docker-入门/" rel="next" title="docker 入门">
+                <i class="fa fa-chevron-left"></i> docker 入门
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="year/01/23/docker背后的技术/"
+           data-title="docker 背后的技术" data-url="http://yoursite.com/year/01/23/docker背后的技术/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/yk.jpeg"
+               alt="yankang" />
+          <p class="site-author-name" itemprop="name">yankang</p>
+          <p class="site-description motion-element" itemprop="description">a geek</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/mainboy" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/wowyk1" target="_blank">
+                  
+                    <i class="fa fa-twitter"></i> Twitter
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2971508677/profile?topnav=1&wvr=6&is_all=1" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> 微博
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.douban.com/people/139871255/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> 豆瓣
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#namespace"><span class="nav-number">1.</span> <span class="nav-text">namespace</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UTS_namespace"><span class="nav-number">1.1.</span> <span class="nav-text"> UTS namespace </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IPC_namespace"><span class="nav-number">1.2.</span> <span class="nav-text"> IPC namespace </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PID_namespace"><span class="nav-number">1.3.</span> <span class="nav-text"> PID namespace </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mount_namespace"><span class="nav-number">1.4.</span> <span class="nav-text"> Mount namespace </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#USER_namespace"><span class="nav-number">1.5.</span> <span class="nav-text"> USER namespace </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Network_namespace"><span class="nav-number">1.6.</span> <span class="nav-text"> Network namespace </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cgroup"><span class="nav-number">2.</span> <span class="nav-text">cgroup</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#u9650_u5236CPU"><span class="nav-number">2.1.</span> <span class="nav-text"> 限制CPU </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u9650_u5236memory"><span class="nav-number">2.2.</span> <span class="nav-text"> 限制memory </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u9650_u5236_u78C1_u76D8IO"><span class="nav-number">2.3.</span> <span class="nav-text"> 限制磁盘IO </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#aufs"><span class="nav-number">3.</span> <span class="nav-text">aufs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">4.</span> <span class="nav-text">reference</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yankang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"mainboy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+
+</body>
+</html>
