@@ -4,7 +4,7 @@
   <subtitle><![CDATA[less is more]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-02-04T16:10:26.000Z</updated>
+  <updated>2016-02-06T16:10:48.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -13,6 +13,48 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[docker 自己的实践总结]]></title>
+    <link href="http://yoursite.com/year/02/06/docker-%E8%87%AA%E5%B7%B1%E7%9A%84%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/"/>
+    <id>http://yoursite.com/year/02/06/docker-自己的实践总结/</id>
+    <published>2016-02-06T12:45:33.000Z</published>
+    <updated>2016-02-06T16:10:48.000Z</updated>
+    <content type="html"><![CDATA[<p>这两天终于把《docker 从入门到实践》看完了，原本打算写写总结，但是感觉书中的内容太过死板，还不如从自己使用docker的过程中总结出一些好玩的docker应用方法分享给大家，欢迎有更多的人分享自己使用docker时一些好玩的项目，私信我给友情链接。</p>
+<h3 id="u5236_u4F5C_u548C_u4F7F_u7528Vim_u63D2_u4EF6_u7684_u955C_u50CF"><a href="#u5236_u4F5C_u548C_u4F7F_u7528Vim_u63D2_u4EF6_u7684_u955C_u50CF" class="headerlink" title="制作和使用Vim插件的镜像"></a>制作和使用Vim插件的镜像</h3><p>如果你用关键词Vim搜索我的博客会发现有篇博客专门介绍如何使用Vim的插件来配置类似于VS的集成开发环境。现在我使用docker制作Vim插件的镜像来实现在多机上快速建立这样的VS集成开发环境。</p>
+<h4 id="u5229_u7528Dockerfile_u5236_u4F5C_u955C_u50CF"><a href="#u5229_u7528Dockerfile_u5236_u4F5C_u955C_u50CF" class="headerlink" title="利用Dockerfile制作镜像"></a><font size="2"> 利用Dockerfile制作镜像 </font></h4><p>将需要打包的插件放在某个目录下:<br><img src="/about/docker/practice/1.png" alt="logo"><br>当前目录下编辑Dockerfile，将插件打包到基于ubuntu镜像创建的镜像中:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:<span class="number">14.04</span></span><br><span class="line">MAINTAINER Kang Yan &lt;wowyk@qq.com&gt;</span><br><span class="line"></span><br><span class="line">ADD . /tool</span><br></pre></td></tr></table></figure></p>
+<p>制作镜像，命令如下(happymain是我在daocloud上注册的用户名，主要的原因是国内有时候无法访问docker hub，所以就使用daocloud):<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t daocloud.io/happymain/tool .</span><br></pre></td></tr></table></figure></p>
+<h4 id="push_u955C_u50CF_u5230daocloud"><a href="#push_u955C_u50CF_u5230daocloud" class="headerlink" title="push镜像到daocloud"></a><font size="2"> push镜像到daocloud </font></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker push daocloud.io/happymain/tool</span><br></pre></td></tr></table></figure>
+<h4 id="u5728_u90E8_u7F72_u673A_u4E0Apull_u955C_u50CF"><a href="#u5728_u90E8_u7F72_u673A_u4E0Apull_u955C_u50CF" class="headerlink" title="在部署机上pull镜像"></a><font size="2"> 在部署机上pull镜像 </font></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull daocloud.io/happymain/tool</span><br></pre></td></tr></table></figure>
+<p>在一个会话中运行容器:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -t -i daocloud.io/happymain/tool</span><br></pre></td></tr></table></figure></p>
+<p>在另一个会话中导出到test.tar:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker ps(得到containerID)</span><br><span class="line">docker export containerID &gt; test.tar</span><br></pre></td></tr></table></figure></p>
+<p>这个test.tar就是整个文件系统的所有文件，找个目录将其解压，其中的tool目录就是Vim的插件。</p>
+<h4 id="u5728_u90E8_u7F72_u673A_u4E0A_u7B80_u5355_u64CD_u4F5C_u5B8C_u6210_u5B89_u88C5"><a href="#u5728_u90E8_u7F72_u673A_u4E0A_u7B80_u5355_u64CD_u4F5C_u5B8C_u6210_u5B89_u88C5" class="headerlink" title="在部署机上简单操作完成安装"></a><font size="2"> 在部署机上简单操作完成安装 </font></h4><p>1) ctags需要单独编译安装<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tar xvf ctags-<span class="number">5.8</span>.tar</span><br><span class="line">cd ctags-<span class="number">5.8</span></span><br><span class="line">./configure</span><br><span class="line">make &amp; make install</span><br></pre></td></tr></table></figure></p>
+<p>2) 需要将插件移到~/.vim目录下，将hello中的配置拷贝到~/.vimrc<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mv * ~/.vim</span><br><span class="line">cd ~/.vim</span><br><span class="line">cp hello ~/.vimrc</span><br></pre></td></tr></table></figure></p>
+<p>这样就实现了VS集成开发环境的移植，其实Github也可以做类似的工作;)</p>
+<h3 id="u5F00_u53D1_u4E0E_u8FD0_u7EF4_u7684_u9694_u79BB"><a href="#u5F00_u53D1_u4E0E_u8FD0_u7EF4_u7684_u9694_u79BB" class="headerlink" title="开发与运维的隔离"></a>开发与运维的隔离</h3><p>比如说我在主机上编写代码，容器中同步更新并且可以直接运行:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -t -i -v $(pwd):/test ubuntu:<span class="number">14.04</span></span><br></pre></td></tr></table></figure></p>
+<p>结果如下:<br><img src="/about/docker/practice/2.png" alt="logo"><br>我们可以看出主机的docker目录下的文件被映射到容器中的test目录下，你可以尝试编辑主机上的test.c文件，然后观察容器中的test.c完全同步更新。所以我们甚至可以想象如果只映射test可执行文件就相当于只在容器中运维，这样的话就可以实现开发和运维的隔离。再往大的讲，我可以映射上述那样的目录后，开启多个容器共享该目录，从而实现多个用户同时编辑，运维。如下所示:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -v $(pwd):/test --name test training/postgres echo hello!		 </span><br><span class="line">docker run -d --volumes-<span class="keyword">from</span> test --name test1 training/postgres</span><br><span class="line">docker run -d --volumes-<span class="keyword">from</span> test --name test2 training/postgres</span><br></pre></td></tr></table></figure></p>
+<p> 在主机中编辑test.c文件并且编译以后，test1，test2容器都会同步更新并且直接可以运行，也就是说如果我只暴露test可执行文件给test1,test2，那么就可以实现开发与测试运维的隔离。 </p>
+<h3 id="mysql_u5BB9_u5668_u4E0Ewordpress_u5BB9_u5668_u7684_u8FDE_u63A5"><a href="#mysql_u5BB9_u5668_u4E0Ewordpress_u5BB9_u5668_u7684_u8FDE_u63A5" class="headerlink" title="mysql容器与wordpress容器的连接"></a>mysql容器与wordpress容器的连接</h3><p>拉取mysql和wordpress镜像(使用daocloud加速器来拉取):<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dao pull mysql</span><br><span class="line">dao pull wordpress</span><br></pre></td></tr></table></figure></p>
+<p>运行mysql容器:</p>
+<pre><code class="python">docker run -d --name mysql -e MYSQL_ROOT_PASSWORD=<span class="number">123456</span> mysql
+</code></pre>
+<p>连接mysql容器，运行wordpress容器:</p>
+<pre><code class="python">docker run -d --name wordpress --link mysql:mysql -p <span class="number">8888</span>:<span class="number">80</span> wordpress
+</code></pre>
+<p>这样以后在浏览器中输入0.0.0.0:8888就可以使用wordpress，剩下的你就可以自己玩博客了。当然还有很多好玩的东西没有列举出来，欢迎大家继续分享！</p>
+<h3 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h3><p><a href="http://dockerpool.com/static/books/docker_practice/index.html" target="_blank" rel="external">docker 从入门到实践</a>    </p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>这两天终于把《docker 从入门到实践》看完了，原本打算写写总结，但是感觉书中的内容太过死板，还不如从自己使用docker的过程中总结出一些好玩的docker应用方法分享给大家，欢迎有更多的人分享自己使用docker时一些好玩的项目，私信我给友情链接。</p>
+<h3 i]]>
+    </summary>
+    
+      <category term="cloud computing" scheme="http://yoursite.com/tags/cloud-computing/"/>
+    
+      <category term="docker" scheme="http://yoursite.com/categories/docker/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[docker 背后的技术]]></title>

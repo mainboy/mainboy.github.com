@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Architecture," />
+  <meta name="keywords" content="cloud computing," />
 
 
 
@@ -59,24 +59,21 @@
 
 
 
-<meta name="description" content="gem5简介GEM5是一款模块化的离散事件驱动全系统模拟器，它结合了M5和GEMS中最优秀的部分，是一款高度可配置、集成多种ISA和多种CPU模型的体系结构模拟器。M5是由Michigan大学开发的一款开源的多处理机模拟器，受到了业内的广泛关注，很多高水平论文都采用M5作为研究工具。另一方面，Wisconsin推出的GEMS能够对储存层次进行详细而灵活的模拟，包括对多种不同的cache一致性协议和">
+<meta name="description" content="这两天终于把《docker 从入门到实践》看完了，原本打算写写总结，但是感觉书中的内容太过死板，还不如从自己使用docker的过程中总结出一些好玩的docker应用方法分享给大家，欢迎有更多的人分享自己使用docker时一些好玩的项目，私信我给友情链接。
+制作和使用Vim插件的镜像如果你用关键词Vim搜索我的博客会发现有篇博客专门介绍如何使用Vim的插件来配置类似于VS的集成开发环境。现在我使用d">
 <meta property="og:type" content="article">
-<meta property="og:title" content="gem5">
-<meta property="og:url" content="http://yoursite.com/year/01/06/gem5/index.html">
+<meta property="og:title" content="docker 自己的实践总结">
+<meta property="og:url" content="http://yoursite.com/year/02/06/docker-自己的实践总结/index.html">
 <meta property="og:site_name" content="Kiss">
-<meta property="og:description" content="gem5简介GEM5是一款模块化的离散事件驱动全系统模拟器，它结合了M5和GEMS中最优秀的部分，是一款高度可配置、集成多种ISA和多种CPU模型的体系结构模拟器。M5是由Michigan大学开发的一款开源的多处理机模拟器，受到了业内的广泛关注，很多高水平论文都采用M5作为研究工具。另一方面，Wisconsin推出的GEMS能够对储存层次进行详细而灵活的模拟，包括对多种不同的cache一致性协议和">
-<meta property="og:image" content="http://yoursite.com/about/gem5/1.png">
-<meta property="og:image" content="http://yoursite.com/about/gem5/2.png">
-<meta property="og:image" content="http://yoursite.com/about/gem5/3.png">
-<meta property="og:image" content="http://yoursite.com/about/gem5/4.png">
-<meta property="og:image" content="http://yoursite.com/about/gem5/5.png">
-<meta property="og:image" content="http://yoursite.com/about/gem5/6.png">
-<meta property="og:image" content="http://yoursite.com/about/gem5/7.png">
-<meta property="og:image" content="http://yoursite.com/about/gem5/8.png">
-<meta property="og:updated_time" content="2016-01-12T14:31:56.000Z">
+<meta property="og:description" content="这两天终于把《docker 从入门到实践》看完了，原本打算写写总结，但是感觉书中的内容太过死板，还不如从自己使用docker的过程中总结出一些好玩的docker应用方法分享给大家，欢迎有更多的人分享自己使用docker时一些好玩的项目，私信我给友情链接。
+制作和使用Vim插件的镜像如果你用关键词Vim搜索我的博客会发现有篇博客专门介绍如何使用Vim的插件来配置类似于VS的集成开发环境。现在我使用d">
+<meta property="og:image" content="http://yoursite.com/about/docker/practice/1.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/practice/2.png">
+<meta property="og:updated_time" content="2016-02-06T16:10:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="gem5">
-<meta name="twitter:description" content="gem5简介GEM5是一款模块化的离散事件驱动全系统模拟器，它结合了M5和GEMS中最优秀的部分，是一款高度可配置、集成多种ISA和多种CPU模型的体系结构模拟器。M5是由Michigan大学开发的一款开源的多处理机模拟器，受到了业内的广泛关注，很多高水平论文都采用M5作为研究工具。另一方面，Wisconsin推出的GEMS能够对储存层次进行详细而灵活的模拟，包括对多种不同的cache一致性协议和">
+<meta name="twitter:title" content="docker 自己的实践总结">
+<meta name="twitter:description" content="这两天终于把《docker 从入门到实践》看完了，原本打算写写总结，但是感觉书中的内容太过死板，还不如从自己使用docker的过程中总结出一些好玩的docker应用方法分享给大家，欢迎有更多的人分享自己使用docker时一些好玩的项目，私信我给友情链接。
+制作和使用Vim插件的镜像如果你用关键词Vim搜索我的博客会发现有篇博客专门介绍如何使用Vim的插件来配置类似于VS的集成开发环境。现在我使用d">
 
 
 
@@ -94,7 +91,7 @@
   };
 </script>
 
-  <title> gem5 | Kiss </title>
+  <title> docker 自己的实践总结 | Kiss </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -269,7 +266,7 @@
             
             
               
-                gem5
+                docker 自己的实践总结
               
             
           </h1>
@@ -281,19 +278,38 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-06T20:50:17+08:00" content="2016-01-06">
-              2016-01-06
+            <time itemprop="dateCreated" datetime="2016-02-06T20:45:33+08:00" content="2016-02-06">
+              2016-02-06
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/year/01/06/gem5/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/06/gem5/" itemprop="commentsCount"></span>
+                <a href="/year/02/06/docker-自己的实践总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="year/02/06/docker-自己的实践总结/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -303,7 +319,7 @@
 
           
           
-             <span id="/year/01/06/gem5/" class="leancloud_visitors" data-flag-title="gem5">
+             <span id="/year/02/06/docker-自己的实践总结/" class="leancloud_visitors" data-flag-title="docker 自己的实践总结">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -323,32 +339,30 @@
       
 
       
-        <h4 id="gem5_u7B80_u4ECB"><a href="#gem5_u7B80_u4ECB" class="headerlink" title="gem5简介"></a>gem5简介</h4><p>GEM5是一款模块化的离散事件驱动全系统模拟器，它结合了M5和GEMS中最优秀的部分，是一款高度可配置、集成多种ISA和多种CPU模型的体系结构模拟器。M5是由Michigan大学开发的一款开源的多处理机模拟器，受到了业内的广泛关注，很多高水平论文都采用M5作为研究工具。另一方面，Wisconsin推出的GEMS能够对储存层次进行详细而灵活的模拟，包括对多种不同的cache一致性协议和互联模型的支持。目前的GEM5是M5和GEMS的一个紧耦合版本。<br>GEM5已经能够支持多种商用ISA，包括X86、ARM、ALPHA、MIPS、Power、SPARC等，并且能够在X86、ARM、ALPHA上加载操作系统。</p>
-<h4 id="gem5_u7CFB_u7EDF_u6A21_u578B"><a href="#gem5_u7CFB_u7EDF_u6A21_u578B" class="headerlink" title="gem5系统模型"></a>gem5系统模型</h4><p>gem5支持两种不同的系统模型:SE(syscall emulation)和FS(full system)。</p>
-<blockquote>
-<p>SE模型<br>SE模型能够仿真大部分操作系统级服务，能够取得很好功能模拟加速比。<br>FS模型<br>FS模型模拟完整的全系统，包括OS，运行在用户态和核心态的线程调度以及各种设备。能够精确模拟系统时间等开销。</p>
-</blockquote>
-<h4 id="gem5_u7684_u5B89_u88C5_u4F7F_u7528"><a href="#gem5_u7684_u5B89_u88C5_u4F7F_u7528" class="headerlink" title="gem5的安装使用"></a>gem5的安装使用</h4><p>首先需要介绍一下我的运行环境,我的环境是在虚拟机上安装的ubuntu14.04, 分配了2个CPU, 当然CPU越多越好,后面会讲为什么。其次是内存尽量足够, 4G应该是够的, 不然编译的过程中可能会出错。安装时将ubuntu提升到root权限。<br><strong>1)安装相关的工具</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install mercurial scons swig gcc m4 python python-dev libprotobuf-dev libgoogle-perftools-dev g++</span><br></pre></td></tr></table></figure></p>
-<p>简要介绍一下上述工具:<br>mercurial是一个类似于git的软件版本控制工具,主要是负责下载和更新gem5的。<br>scons是类似于make的自动编译链接工具。区别就是make是寻找当前目录的Makefile文件, scons是寻找当前目录的SConstruct配置文件。<br>swig是将C++程序封装以后供给python调用。<br>gcc与g++是C/C++的编译和链接工具,因为gem5对其版本有要求,所以我们这里相当于更新一下。<br>python和python-dev是支持python的工具<br>libprotobuf-dev和libgoogle-perftools-dev是google的一套序列化工具。类似于XML的功能, 将结构化的数据进行序列化存储或传输, 在另一端进行反序列化。protobuf支持C++、Java、Python 三种语言的 API, 它的主要优点就是快, 简单易学。</p>
-<p><strong>2)下载gem5</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hg clone http://repo.gem5.org/gem5</span><br></pre></td></tr></table></figure></p>
-<p><strong>3)构建gem5</strong>(-j<n>中,n=2*cpu的个数,为编译过程分配n个人物,多线程编译,速度会提升)我选择的是ALPHA指令集架构,当然也可以用其他的架构ARM/X86等。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scons build/ALPHA/gem5.opt -j4</span><br></pre></td></tr></table></figure></n></p>
-<p>上述过程可能会失败：<br><strong>问题1)</strong>如果zlib.h文件没找到就需要安装<a href="http://www.zlib.net" target="_blank" rel="external">zlib-1.2.8</a>下载以后将zlib-1.2.8加入gem5<br>进入zlib-1.2.8目录执行下面命令：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
-<p><strong>问题2)</strong>如果出现有关protobuf相关的问题就去下载<a href="https://developers.google.com/protocol-buffers/docs/downloads?hl=zh-cn" target="_blank" rel="external">protobuf-2.6.1</a>, 完成以后将protobuf-2.6.1加入gem5<br>同样进入protobuf-2.6.1目录执行下面命令：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
-<p>同时需要将下面的代码加入~/.bashrc文件里面(下面第三行的/home/yankang/MyItem/gem5/protobuf-2.6.1替换成你的protobuf-2.6.1所在目录)<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/lib</span><br><span class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib</span><br><span class="line">export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/home/yankang/MyItem/gem5/protobuf-<span class="number">2.6</span><span class="number">.1</span></span><br></pre></td></tr></table></figure></p>
-<p>如果不加上述三行，会找不到protobuf-2.6.1的。</p>
-<p><strong>4)测试hello world</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./build/ALPHA/gem5.opt configs/example/se.py -c tests/test-progs/hello/bin/alpha/linux/hello</span><br></pre></td></tr></table></figure></p>
-<p>可以清楚的看见hello world被打印出来。<br><img src="/about/gem5/1.png" alt="logo"><br>可以看出几点:<br>Gem5是精确级模拟, 因为它内部的最小计时单位是tick, 而1秒=1万亿ticks。<br>可以通过gdb访问7000端口从而进行调试工作。</p>
-<h4 id="gem5_u5168_u7CFB_u7EDF_u6A21_u62DF"><a href="#gem5_u5168_u7CFB_u7EDF_u6A21_u62DF" class="headerlink" title="gem5全系统模拟"></a>gem5全系统模拟</h4><p>*)首先下载系统<a href="http://www.m5sim.org/dist/current/m5_system_2.0b3.tar.bz2" target="_blank" rel="external">镜像</a></p>
-<p>*)新建一个目录full_system_images, 将上述压缩包解压到full_system_images目录中, 并用pwd得到镜像所在目录, 我的目录在<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/yankang/MyItem/full_system_images/</span><br></pre></td></tr></table></figure></p>
-<p>*)将镜像目录重定向到~/.bashrc中:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"export M5_PATH=/home/yankang/MyItem/full_system_images/"</span> &gt;&gt; ~/.bashrc</span><br></pre></td></tr></table></figure></p>
-<p>*)开启全系统仿真:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./build/ALPHA/gem5.opt configs/example/fs.py</span><br></pre></td></tr></table></figure></p>
-<p>如图:<br><img src="/about/gem5/2.png" alt="logo"><br>从该结果可以看出:<br>通过3456端口可以访问全系统。<br>于是开启另一个终端, 在gem5目录中输入<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd util/term/</span><br></pre></td></tr></table></figure></p>
-<p>进入上述目录以后输入make, 即可编译出m5term。<br>接着输入:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m5term localhost <span class="number">3456</span></span><br></pre></td></tr></table></figure></p>
-<p>就可以进入系统结果如图:<br><img src="/about/gem5/3.png" alt="logo"><br>输入clear即可清屏:<br>再输入ls就可以看到如下图:<br><img src="/about/gem5/4.png" alt="logo"><br>benchmarks中有一些测试程序:<br>进入以后可以看到下图:<br><img src="/about/gem5/5.png" alt="logo"><br>我们可以测试一下pthread_mutex_test:<br><img src="/about/gem5/6.png" alt="logo"><br>同时我们也可以尝试将hello world程序加入到这个系统里面<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp ./tests/test-progs/hello/bin/alpha/linux/hello ./hello</span><br></pre></td></tr></table></figure></p>
-<p>然后将镜像系统挂载在/mnt上:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -o,loop,offset=<span class="number">32256</span> ../full_system_images/disks/linux-latest.img /mnt/</span><br></pre></td></tr></table></figure></p>
-<p>将hello拷贝到/mnt<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp hello /mnt</span><br></pre></td></tr></table></figure></p>
-<p>ls的结果如下图:<br><img src="/about/gem5/7.png" alt="logo"><br>可以看到hello进入了镜像系统然后解挂载:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">umount /mnt</span><br></pre></td></tr></table></figure></p>
-<p>重新进入全系统模拟结果如图:<br><img src="/about/gem5/8.png" alt="logo"></p>
+        <p>这两天终于把《docker 从入门到实践》看完了，原本打算写写总结，但是感觉书中的内容太过死板，还不如从自己使用docker的过程中总结出一些好玩的docker应用方法分享给大家，欢迎有更多的人分享自己使用docker时一些好玩的项目，私信我给友情链接。</p>
+<h3 id="u5236_u4F5C_u548C_u4F7F_u7528Vim_u63D2_u4EF6_u7684_u955C_u50CF"><a href="#u5236_u4F5C_u548C_u4F7F_u7528Vim_u63D2_u4EF6_u7684_u955C_u50CF" class="headerlink" title="制作和使用Vim插件的镜像"></a>制作和使用Vim插件的镜像</h3><p>如果你用关键词Vim搜索我的博客会发现有篇博客专门介绍如何使用Vim的插件来配置类似于VS的集成开发环境。现在我使用docker制作Vim插件的镜像来实现在多机上快速建立这样的VS集成开发环境。</p>
+<h4 id="u5229_u7528Dockerfile_u5236_u4F5C_u955C_u50CF"><a href="#u5229_u7528Dockerfile_u5236_u4F5C_u955C_u50CF" class="headerlink" title="利用Dockerfile制作镜像"></a><font size="2"> 利用Dockerfile制作镜像 </font></h4><p>将需要打包的插件放在某个目录下:<br><img src="/about/docker/practice/1.png" alt="logo"><br>当前目录下编辑Dockerfile，将插件打包到基于ubuntu镜像创建的镜像中:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:<span class="number">14.04</span></span><br><span class="line">MAINTAINER Kang Yan &lt;wowyk@qq.com&gt;</span><br><span class="line"></span><br><span class="line">ADD . /tool</span><br></pre></td></tr></table></figure></p>
+<p>制作镜像，命令如下(happymain是我在daocloud上注册的用户名，主要的原因是国内有时候无法访问docker hub，所以就使用daocloud):<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t daocloud.io/happymain/tool .</span><br></pre></td></tr></table></figure></p>
+<h4 id="push_u955C_u50CF_u5230daocloud"><a href="#push_u955C_u50CF_u5230daocloud" class="headerlink" title="push镜像到daocloud"></a><font size="2"> push镜像到daocloud </font></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker push daocloud.io/happymain/tool</span><br></pre></td></tr></table></figure>
+<h4 id="u5728_u90E8_u7F72_u673A_u4E0Apull_u955C_u50CF"><a href="#u5728_u90E8_u7F72_u673A_u4E0Apull_u955C_u50CF" class="headerlink" title="在部署机上pull镜像"></a><font size="2"> 在部署机上pull镜像 </font></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull daocloud.io/happymain/tool</span><br></pre></td></tr></table></figure>
+<p>在一个会话中运行容器:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -t -i daocloud.io/happymain/tool</span><br></pre></td></tr></table></figure></p>
+<p>在另一个会话中导出到test.tar:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker ps(得到containerID)</span><br><span class="line">docker export containerID &gt; test.tar</span><br></pre></td></tr></table></figure></p>
+<p>这个test.tar就是整个文件系统的所有文件，找个目录将其解压，其中的tool目录就是Vim的插件。</p>
+<h4 id="u5728_u90E8_u7F72_u673A_u4E0A_u7B80_u5355_u64CD_u4F5C_u5B8C_u6210_u5B89_u88C5"><a href="#u5728_u90E8_u7F72_u673A_u4E0A_u7B80_u5355_u64CD_u4F5C_u5B8C_u6210_u5B89_u88C5" class="headerlink" title="在部署机上简单操作完成安装"></a><font size="2"> 在部署机上简单操作完成安装 </font></h4><p>1) ctags需要单独编译安装<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tar xvf ctags-<span class="number">5.8</span>.tar</span><br><span class="line">cd ctags-<span class="number">5.8</span></span><br><span class="line">./configure</span><br><span class="line">make &amp; make install</span><br></pre></td></tr></table></figure></p>
+<p>2) 需要将插件移到~/.vim目录下，将hello中的配置拷贝到~/.vimrc<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mv * ~/.vim</span><br><span class="line">cd ~/.vim</span><br><span class="line">cp hello ~/.vimrc</span><br></pre></td></tr></table></figure></p>
+<p>这样就实现了VS集成开发环境的移植，其实Github也可以做类似的工作;)</p>
+<h3 id="u5F00_u53D1_u4E0E_u8FD0_u7EF4_u7684_u9694_u79BB"><a href="#u5F00_u53D1_u4E0E_u8FD0_u7EF4_u7684_u9694_u79BB" class="headerlink" title="开发与运维的隔离"></a>开发与运维的隔离</h3><p>比如说我在主机上编写代码，容器中同步更新并且可以直接运行:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -t -i -v $(pwd):/test ubuntu:<span class="number">14.04</span></span><br></pre></td></tr></table></figure></p>
+<p>结果如下:<br><img src="/about/docker/practice/2.png" alt="logo"><br>我们可以看出主机的docker目录下的文件被映射到容器中的test目录下，你可以尝试编辑主机上的test.c文件，然后观察容器中的test.c完全同步更新。所以我们甚至可以想象如果只映射test可执行文件就相当于只在容器中运维，这样的话就可以实现开发和运维的隔离。再往大的讲，我可以映射上述那样的目录后，开启多个容器共享该目录，从而实现多个用户同时编辑，运维。如下所示:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -v $(pwd):/test --name test training/postgres echo hello!		 </span><br><span class="line">docker run -d --volumes-<span class="keyword">from</span> test --name test1 training/postgres</span><br><span class="line">docker run -d --volumes-<span class="keyword">from</span> test --name test2 training/postgres</span><br></pre></td></tr></table></figure></p>
+<p> 在主机中编辑test.c文件并且编译以后，test1，test2容器都会同步更新并且直接可以运行，也就是说如果我只暴露test可执行文件给test1,test2，那么就可以实现开发与测试运维的隔离。 </p>
+<h3 id="mysql_u5BB9_u5668_u4E0Ewordpress_u5BB9_u5668_u7684_u8FDE_u63A5"><a href="#mysql_u5BB9_u5668_u4E0Ewordpress_u5BB9_u5668_u7684_u8FDE_u63A5" class="headerlink" title="mysql容器与wordpress容器的连接"></a>mysql容器与wordpress容器的连接</h3><p>拉取mysql和wordpress镜像(使用daocloud加速器来拉取):<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dao pull mysql</span><br><span class="line">dao pull wordpress</span><br></pre></td></tr></table></figure></p>
+<p>运行mysql容器:</p>
+<pre><code class="python">docker run -d --name mysql -e MYSQL_ROOT_PASSWORD=<span class="number">123456</span> mysql
+</code></pre>
+<p>连接mysql容器，运行wordpress容器:</p>
+<pre><code class="python">docker run -d --name wordpress --link mysql:mysql -p <span class="number">8888</span>:<span class="number">80</span> wordpress
+</code></pre>
+<p>这样以后在浏览器中输入0.0.0.0:8888就可以使用wordpress，剩下的你就可以自己玩博客了。当然还有很多好玩的东西没有列举出来，欢迎大家继续分享！</p>
+<h3 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h3><p><a href="http://dockerpool.com/static/books/docker_practice/index.html" target="_blank" rel="external">docker 从入门到实践</a>    </p>
 
       
     </div>
@@ -357,7 +371,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Architecture/" rel="tag">#Architecture</a>
+            <a href="/tags/cloud-computing/" rel="tag">#cloud computing</a>
           
         </div>
       
@@ -366,17 +380,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/year/01/06/Vim/" rel="next" title="Vim">
-                <i class="fa fa-chevron-left"></i> Vim
+              <a href="/year/01/23/docker背后的技术/" rel="next" title="docker 背后的技术">
+                <i class="fa fa-chevron-left"></i> docker 背后的技术
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/year/01/11/docker-入门/" rel="prev" title="docker 入门">
-                docker 入门 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -391,10 +401,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="year/01/06/gem5/"
-     data-title="gem5"
+        <div class="ds-share flat" data-thread-key="year/02/06/docker-自己的实践总结/"
+     data-title="docker 自己的实践总结"
      data-content=""
-     data-url="http://yoursite.com/year/01/06/gem5/">
+     data-url="http://yoursite.com/year/02/06/docker-自己的实践总结/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -421,8 +431,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="year/01/06/gem5/"
-           data-title="gem5" data-url="http://yoursite.com/year/01/06/gem5/">
+      <div class="ds-thread" data-thread-key="year/02/06/docker-自己的实践总结/"
+           data-title="docker 自己的实践总结" data-url="http://yoursite.com/year/02/06/docker-自己的实践总结/">
       </div>
     
   </div>
@@ -554,7 +564,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#gem5_u7B80_u4ECB"><span class="nav-number">1.</span> <span class="nav-text">gem5简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gem5_u7CFB_u7EDF_u6A21_u578B"><span class="nav-number">2.</span> <span class="nav-text">gem5系统模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gem5_u7684_u5B89_u88C5_u4F7F_u7528"><span class="nav-number">3.</span> <span class="nav-text">gem5的安装使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gem5_u5168_u7CFB_u7EDF_u6A21_u62DF"><span class="nav-number">4.</span> <span class="nav-text">gem5全系统模拟</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u5236_u4F5C_u548C_u4F7F_u7528Vim_u63D2_u4EF6_u7684_u955C_u50CF"><span class="nav-number">1.</span> <span class="nav-text">制作和使用Vim插件的镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u5229_u7528Dockerfile_u5236_u4F5C_u955C_u50CF"><span class="nav-number">1.1.</span> <span class="nav-text"> 利用Dockerfile制作镜像 </span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#push_u955C_u50CF_u5230daocloud"><span class="nav-number">1.2.</span> <span class="nav-text"> push镜像到daocloud </span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5728_u90E8_u7F72_u673A_u4E0Apull_u955C_u50CF"><span class="nav-number">1.3.</span> <span class="nav-text"> 在部署机上pull镜像 </span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5728_u90E8_u7F72_u673A_u4E0A_u7B80_u5355_u64CD_u4F5C_u5B8C_u6210_u5B89_u88C5"><span class="nav-number">1.4.</span> <span class="nav-text"> 在部署机上简单操作完成安装 </span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5F00_u53D1_u4E0E_u8FD0_u7EF4_u7684_u9694_u79BB"><span class="nav-number">2.</span> <span class="nav-text">开发与运维的隔离</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql_u5BB9_u5668_u4E0Ewordpress_u5BB9_u5668_u7684_u8FDE_u63A5"><span class="nav-number">3.</span> <span class="nav-text">mysql容器与wordpress容器的连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-number">4.</span> <span class="nav-text">reference</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
