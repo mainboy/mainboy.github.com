@@ -4,7 +4,7 @@
   <subtitle><![CDATA[less is more]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-02-07T01:07:37.000Z</updated>
+  <updated>2016-02-08T11:39:11.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,11 +15,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[docker 自己的实践总结]]></title>
+    <title><![CDATA[docker 实践总结]]></title>
     <link href="http://yoursite.com/year/02/06/docker-%E8%87%AA%E5%B7%B1%E7%9A%84%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/year/02/06/docker-自己的实践总结/</id>
     <published>2016-02-06T12:45:33.000Z</published>
-    <updated>2016-02-07T01:07:37.000Z</updated>
+    <updated>2016-02-08T11:39:11.000Z</updated>
     <content type="html"><![CDATA[<p>这两天终于把《docker 从入门到实践》看完了，原本打算写写总结，但是感觉书中的内容太过死板，还不如从自己使用docker的过程中总结出一些好玩的docker应用方法分享给大家，欢迎有更多的人分享自己使用docker时一些好玩的项目，私信我给友情链接。</p>
 <h3 id="u5236_u4F5C_u548C_u4F7F_u7528Vim_u63D2_u4EF6_u7684_u955C_u50CF"><a href="#u5236_u4F5C_u548C_u4F7F_u7528Vim_u63D2_u4EF6_u7684_u955C_u50CF" class="headerlink" title="制作和使用Vim插件的镜像"></a>制作和使用Vim插件的镜像</h3><p>如果你用关键词Vim搜索我的博客会发现有篇博客专门介绍如何使用Vim的插件来配置类似于VS的集成开发环境。现在我使用docker制作Vim插件的镜像来实现在多机上快速建立这样的VS集成开发环境。</p>
 <h4 id="u5229_u7528Dockerfile_u5236_u4F5C_u955C_u50CF"><a href="#u5229_u7528Dockerfile_u5236_u4F5C_u955C_u50CF" class="headerlink" title="利用Dockerfile制作镜像"></a><font size="2"> 利用Dockerfile制作镜像 </font></h4><p>将需要打包的插件放在某个目录下:<br><img src="/about/docker/practice/1.png" alt="logo"><br>当前目录下编辑Dockerfile，将插件打包到基于ubuntu镜像创建的镜像中:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:<span class="number">14.04</span></span><br><span class="line">MAINTAINER Kang Yan &lt;wowyk@qq.com&gt;</span><br><span class="line"></span><br><span class="line">ADD . /tool</span><br></pre></td></tr></table></figure></p>
