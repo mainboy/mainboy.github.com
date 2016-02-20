@@ -4,7 +4,7 @@
   <subtitle><![CDATA[less is more]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-02-08T11:39:11.000Z</updated>
+  <updated>2016-02-14T12:34:06.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -13,6 +13,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[大话存储2学习笔记]]></title>
+    <link href="http://yoursite.com/year/02/09/%E5%A4%A7%E8%AF%9D%E5%AD%98%E5%82%A82%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>http://yoursite.com/year/02/09/大话存储2学习笔记/</id>
+    <published>2016-02-08T23:17:17.000Z</published>
+    <updated>2016-02-14T12:34:06.000Z</updated>
+    <content type="html"><![CDATA[<p>今天是大年初二，睡得早醒得也早。想想最近除了拜年也不算很忙，打算看看冬瓜头写的《大话存储2》，其实我刚开始也不知道这本书，我组栋梁给我墙裂推荐这本书，并且还将他的书借给我过年回家看，承蒙我组栋梁的厚爱，所以开此博客，分章纪录自己的学习心得。以下所有内容都是自己学习总结，不一定准备表达作者的意思，仅供参考。</p>
+<h3 id="u5B58_u50A8_u7CFB_u7EDF_u7684_u524D_u4E16_u4ECA_u751F"><a href="#u5B58_u50A8_u7CFB_u7EDF_u7684_u524D_u4E16_u4ECA_u751F" class="headerlink" title="存储系统的前世今生"></a>存储系统的前世今生</h3><p>这个章节主要讲了存储设备的发展: 竹筒和纸张–&gt;选数管–&gt;穿孔卡–&gt;穿孔纸带–&gt;磁带–&gt;磁鼓存储器–&gt;硬盘驱动器–&gt;软盘–&gt;光盘–&gt;Flash芯片和卡式存储–&gt;磁盘阵列–&gt;大型网络化磁盘阵列。最后作者介绍了自己理解的信息，数据，数据存储，讲了信息如何影响到人类的行为以及对比人类的行为理解计算机的行为。</p>
+<h3 id="u8D70_u8FDB_u8BA1_u7B97_u673AIO_u4E16_u754C"><a href="#u8D70_u8FDB_u8BA1_u7B97_u673AIO_u4E16_u754C" class="headerlink" title="走进计算机IO世界"></a>走进计算机IO世界</h3><p>理解计算机的IO世界就应该要知道计算机系统的组成。当前计算机的组成都是冯罗伊曼结构，本质上是计算，存储，控制三大部件。CPU，内存和IO设备(IO设备需要控制器读写)通过总线连接。作者将CPU，内存和磁盘比作本地的网络，通过总线连接而不是TCP/IP协议的连接。作者也讲到了CPU和内存属于同一个冲突域(连接在北桥上)，IO设备(鼠标，键盘之类的)是另一个冲突域(连接在南桥上)，但是并没有指明当前的性能瓶颈在IO。</p>
+<h3 id="u78C1_u76D8_u539F_u7406_u4E0E_u6280_u672F_u8BE6_u89E3"><a href="#u78C1_u76D8_u539F_u7406_u4E0E_u6280_u672F_u8BE6_u89E3" class="headerlink" title="磁盘原理与技术详解"></a>磁盘原理与技术详解</h3><p>首先介绍了磁盘的组件概念，诸如盘面，磁道，柱面和扇区。磁盘的工作原理是先读写柱面上的数据再寻道到下一个磁道读写。然后作者类比打字机讲解了磁盘的读写过程，寻道是径向位移由步进电机来驱动，扇区是由盘片旋转移动，磁头不动来确定的，所以影响磁盘性能的关键因素分别是盘片的转速(影响连续读写)和寻道的速度(影响随机IO)。讲完磁盘以后就需要将磁盘连接到计算机系统中，这时候需要一些接口协议标准，诸如ATA(分为SATA和PATA，PATA又名IDE)和SCSI。计算机完整的使用磁盘过程是:</p>
+<blockquote>
+<p>1) 系统BIOS初始化执行基本的磁盘控制器驱动程序<br>2) CPU可以产生SCSI或ATA指令CDB来控制磁盘控制器<br>3) 磁盘控制器通过SCSI接口或ATA接口访问磁盘上的磁盘驱动器的控制电路，该控制电路解析指令驱动磁头臂完成IO操作。</p>
+</blockquote>
+<p>作者接着讲述了IOPS(IO/s)和MBPS(MB/s)来描述磁盘的性能，其实不光是磁盘，存储设备的性能都会说明这些参数。IOPS=队列深度/IO延时，队列深度增加，IO延迟也会随即增加。而IOPS就有点类似于存储设备的IO消化能力。MBPS就是吞吐量。<br>作者还介绍了固态硬盘，主要是讲了Flash介质的，其实新型存储材料的研究还包括PCM，MRAM，RRAM，FeRAM等。Flash介质的固态硬盘相对于磁盘性能快得不只一个数量级，Flash不用寻道，但是Flash也有不完美的地方比如写前擦除，写放大之类的。相应的解决策略作者也讲了一些，感觉就是野路子不够专业，其实概括起来就是磨损均衡，垃圾回收，写前预处理，预留备用空间。</p>
+<h3 id="u5927_u8BDD/_u8BE6_u89E3_u4E03_u79CDRAID"><a href="#u5927_u8BDD/_u8BE6_u89E3_u4E03_u79CDRAID" class="headerlink" title="大话/详解七种RAID"></a>大话/详解七种RAID</h3><h3 id="RAID_2C__u865A_u62DF_u78C1_u76D8_2C__u5377_u548C_u6587_u4EF6_u7CFB_u7EDF_u5B9E_u6218"><a href="#RAID_2C__u865A_u62DF_u78C1_u76D8_2C__u5377_u548C_u6587_u4EF6_u7CFB_u7EDF_u5B9E_u6218" class="headerlink" title="RAID, 虚拟磁盘, 卷和文件系统实战"></a>RAID, 虚拟磁盘, 卷和文件系统实战</h3><h3 id="u5927_u8BDD_u5B58_u50A8_u9635_u5217"><a href="#u5927_u8BDD_u5B58_u50A8_u9635_u5217" class="headerlink" title="大话存储阵列"></a>大话存储阵列</h3><h3 id="u7CFB_u7EDF_u4E0E_u7CFB_u7EDF_u4E4B_u95F4_u7684_u8BED_u8A00OSI"><a href="#u7CFB_u7EDF_u4E0E_u7CFB_u7EDF_u4E4B_u95F4_u7684_u8BED_u8A00OSI" class="headerlink" title="系统与系统之间的语言OSI"></a>系统与系统之间的语言OSI</h3><h3 id="Fibre_Channel_u534F_u8BAE_u8BE6_u89E3"><a href="#Fibre_Channel_u534F_u8BAE_u8BE6_u89E3" class="headerlink" title="Fibre Channel协议详解"></a>Fibre Channel协议详解</h3><h3 id="FC_u534F_u8BAE_u7684_u5DE8_u5927_u529B_u91CF"><a href="#FC_u534F_u8BAE_u7684_u5DE8_u5927_u529B_u91CF" class="headerlink" title="FC协议的巨大力量"></a>FC协议的巨大力量</h3><h3 id="DAS_2C_SAN_u548CNAS"><a href="#DAS_2C_SAN_u548CNAS" class="headerlink" title="DAS, SAN和NAS"></a>DAS, SAN和NAS</h3><h3 id="u5927_u8BDD_u4EE5_u592A_u7F51_u548CTCP/IP_u534F_u8BAE"><a href="#u5927_u8BDD_u4EE5_u592A_u7F51_u548CTCP/IP_u534F_u8BAE" class="headerlink" title="大话以太网和TCP/IP协议"></a>大话以太网和TCP/IP协议</h3><h3 id="u5B58_u50A8_u7F51_u7EDC_u7684_u65B0_u519BIP_SAN"><a href="#u5B58_u50A8_u7F51_u7EDC_u7684_u65B0_u519BIP_SAN" class="headerlink" title="存储网络的新军IP SAN"></a>存储网络的新军IP SAN</h3><h3 id="IP_u548CFC_u878D_u5408_u7684_u7ED3_u679C"><a href="#IP_u548CFC_u878D_u5408_u7684_u7ED3_u679C" class="headerlink" title="IP和FC融合的结果"></a>IP和FC融合的结果</h3><h3 id="u865A_u62DF_u5316"><a href="#u865A_u62DF_u5316" class="headerlink" title="虚拟化"></a>虚拟化</h3><h3 id="u5B58_u50A8_u96C6_u7FA4"><a href="#u5B58_u50A8_u96C6_u7FA4" class="headerlink" title="存储集群"></a>存储集群</h3><h3 id="u6570_u636E_u4FDD_u62A4_u548C_u5907_u4EFD_u6280_u672F"><a href="#u6570_u636E_u4FDD_u62A4_u548C_u5907_u4EFD_u6280_u672F" class="headerlink" title="数据保护和备份技术"></a>数据保护和备份技术</h3><h3 id="u5927_u8BDD_u6570_u636E_u5BB9_u707E"><a href="#u5927_u8BDD_u6570_u636E_u5BB9_u707E" class="headerlink" title="大话数据容灾"></a>大话数据容灾</h3><h3 id="u6570_u636E_u524D_u5904_u7406_u4E0E_u540E_u5904_u7406"><a href="#u6570_u636E_u524D_u5904_u7406_u4E0E_u540E_u5904_u7406" class="headerlink" title="数据前处理与后处理"></a>数据前处理与后处理</h3><h3 id="u7CFB_u7EDFIO_u8DEF_u5F84_u53CA_u4F18_u5316"><a href="#u7CFB_u7EDFIO_u8DEF_u5F84_u53CA_u4F18_u5316" class="headerlink" title="系统IO路径及优化"></a>系统IO路径及优化</h3><h3 id="u5927_u8BDD_u4E91_u5B58_u50A8"><a href="#u5927_u8BDD_u4E91_u5B58_u50A8" class="headerlink" title="大话云存储"></a>大话云存储</h3>]]></content>
+    <summary type="html">
+    <![CDATA[<p>今天是大年初二，睡得早醒得也早。想想最近除了拜年也不算很忙，打算看看冬瓜头写的《大话存储2》，其实我刚开始也不知道这本书，我组栋梁给我墙裂推荐这本书，并且还将他的书借给我过年回家看，承蒙我组栋梁的厚爱，所以开此博客，分章纪录自己的学习心得。以下所有内容都是自己学习总结，不一]]>
+    </summary>
+    
+      <category term="Storage" scheme="http://yoursite.com/tags/Storage/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[docker 实践总结]]></title>

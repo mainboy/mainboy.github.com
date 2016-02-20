@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hardware," />
+  <meta name="keywords" content="Storage," />
 
 
 
@@ -59,43 +59,19 @@
 
 
 
-<meta name="description" content="本实验使用Digilent Anvyl Spartan6 FPGA开发套件，只需要使用EDK中的Xilinx Platform Studio.(XPS) 务必注意后面的备注Could not detect MDM peripheral on hardware.这是我写博文的主要原因,竟然被这么一个愚蠢的问题给卡住了。。。
-第一步：在XPS操作(1)点击Create New Project Usin">
+<meta name="description" content="今天是大年初二，睡得早醒得也早。想想最近除了拜年也不算很忙，打算看看冬瓜头写的《大话存储2》，其实我刚开始也不知道这本书，我组栋梁给我墙裂推荐这本书，并且还将他的书借给我过年回家看，承蒙我组栋梁的厚爱，所以开此博客，分章纪录自己的学习心得。以下所有内容都是自己学习总结，不一定准备表达作者的意思，仅供参考。
+存储系统的前世今生这个章节主要讲了存储设备的发展: 竹筒和纸张–&amp;gt;选数管–&amp;gt;穿孔">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MicroBlaze Simple IO Test">
-<meta property="og:url" content="http://yoursite.com/year/01/03/MicroBlaze-Simple-IO-Test/index.html">
+<meta property="og:title" content="大话存储2学习笔记">
+<meta property="og:url" content="http://yoursite.com/year/02/09/大话存储2学习笔记/index.html">
 <meta property="og:site_name" content="Kiss">
-<meta property="og:description" content="本实验使用Digilent Anvyl Spartan6 FPGA开发套件，只需要使用EDK中的Xilinx Platform Studio.(XPS) 务必注意后面的备注Could not detect MDM peripheral on hardware.这是我写博文的主要原因,竟然被这么一个愚蠢的问题给卡住了。。。
-第一步：在XPS操作(1)点击Create New Project Usin">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/1.jpeg">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/2.png">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/3.jpeg">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/4.jpeg">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/5.png">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/6.jpeg">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/7.png">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/8.jpeg">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/9.png">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/10.png">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/11.jpeg">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/12.png">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/13.jpeg">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/14.jpeg">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/15.jpeg">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/16.jpeg">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/17.jpeg">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/18.png">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/19.jpeg">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/20.png">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/21.jpeg">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/22.jpeg">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/23.png">
-<meta property="og:image" content="http://yoursite.com/about/microblaze/24.png">
-<meta property="og:updated_time" content="2016-01-06T14:30:31.000Z">
+<meta property="og:description" content="今天是大年初二，睡得早醒得也早。想想最近除了拜年也不算很忙，打算看看冬瓜头写的《大话存储2》，其实我刚开始也不知道这本书，我组栋梁给我墙裂推荐这本书，并且还将他的书借给我过年回家看，承蒙我组栋梁的厚爱，所以开此博客，分章纪录自己的学习心得。以下所有内容都是自己学习总结，不一定准备表达作者的意思，仅供参考。
+存储系统的前世今生这个章节主要讲了存储设备的发展: 竹筒和纸张–&amp;gt;选数管–&amp;gt;穿孔">
+<meta property="og:updated_time" content="2016-02-14T12:34:06.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MicroBlaze Simple IO Test">
-<meta name="twitter:description" content="本实验使用Digilent Anvyl Spartan6 FPGA开发套件，只需要使用EDK中的Xilinx Platform Studio.(XPS) 务必注意后面的备注Could not detect MDM peripheral on hardware.这是我写博文的主要原因,竟然被这么一个愚蠢的问题给卡住了。。。
-第一步：在XPS操作(1)点击Create New Project Usin">
+<meta name="twitter:title" content="大话存储2学习笔记">
+<meta name="twitter:description" content="今天是大年初二，睡得早醒得也早。想想最近除了拜年也不算很忙，打算看看冬瓜头写的《大话存储2》，其实我刚开始也不知道这本书，我组栋梁给我墙裂推荐这本书，并且还将他的书借给我过年回家看，承蒙我组栋梁的厚爱，所以开此博客，分章纪录自己的学习心得。以下所有内容都是自己学习总结，不一定准备表达作者的意思，仅供参考。
+存储系统的前世今生这个章节主要讲了存储设备的发展: 竹筒和纸张–&amp;gt;选数管–&amp;gt;穿孔">
 
 
 
@@ -113,7 +89,7 @@
   };
 </script>
 
-  <title> MicroBlaze Simple IO Test | Kiss </title>
+  <title> 大话存储2学习笔记 | Kiss </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -288,7 +264,7 @@
             
             
               
-                MicroBlaze Simple IO Test
+                大话存储2学习笔记
               
             
           </h1>
@@ -300,8 +276,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-03T10:03:31+08:00" content="2016-01-03">
-              2016-01-03
+            <time itemprop="dateCreated" datetime="2016-02-09T07:17:17+08:00" content="2016-02-09">
+              2016-02-09
             </time>
           </span>
 
@@ -311,8 +287,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/year/01/03/MicroBlaze-Simple-IO-Test/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/03/MicroBlaze-Simple-IO-Test/" itemprop="commentsCount"></span>
+                <a href="/year/02/09/大话存储2学习笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="year/02/09/大话存储2学习笔记/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -322,7 +298,7 @@
 
           
           
-             <span id="/year/01/03/MicroBlaze-Simple-IO-Test/" class="leancloud_visitors" data-flag-title="MicroBlaze Simple IO Test">
+             <span id="/year/02/09/大话存储2学习笔记/" class="leancloud_visitors" data-flag-title="大话存储2学习笔记">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -342,12 +318,15 @@
       
 
       
-        <p>本实验使用Digilent Anvyl Spartan6 FPGA开发套件，只需要使用EDK中的Xilinx Platform Studio.(XPS) 务必注意后面的备注Could not detect MDM peripheral on hardware.这是我写博文的主要原因,竟然被这么一个愚蠢的问题给卡住了。。。</p>
-<p>第一步：在XPS操作<br>(1)点击Create New Project Using Base System Builder<br><img src="/about/microblaze/1.jpeg" alt="logo"><br>(2)选择安装路径及命名<br><img src="/about/microblaze/2.png" alt="logo"><br>(3)FPGA选择XC6SLX45，封装为csg484，按下图配置，一定要记住你是高电平复位还是低电平复位(这是我写这篇文档的重要原因)<br><img src="/about/microblaze/3.jpeg" alt="logo"><br>(4)按下图配置, 需要在Add Device中找到开关, LED灯, 串口加入。点击Finish<br><img src="/about/microblaze/4.jpeg" alt="logo"><br>(5)去掉CLK_N, 将CLK_P改成CLK得到下图<br><img src="/about/microblaze/5.png" alt="logo"><br>(6)进入.mhs和.ucf文件<br>进入.mhs将DIFFERENTIAL_POLARITY = P去掉<br><img src="/about/microblaze/6.jpeg" alt="logo"><br>进入.ucf加入以下引脚绑定<br><img src="/about/microblaze/7.png" alt="logo"><br>(7)点击Generate BitStream 开始生成, 若出现bug再重新点击Generate BitStream生成</p>
-<p>第二步：进入SDK平台<br>(1)在XPS环境中导出SDK：<br>先选择XPS环境中Project下的“Export Hardware Design To SDK …”<br><img src="/about/microblaze/8.jpeg" alt="logo"><br>在弹出的对话框中选择“Export &amp; Launch SDK”<br><img src="/about/microblaze/9.png" alt="logo"><br>(2)选择工作目录，最好在SDK下面新建一个SDK_workspace文件夹, 点击OK<br><img src="/about/microblaze/10.png" alt="logo"><br>(3)如下图所示界面，稍等片刻<br><img src="/about/microblaze/11.jpeg" alt="logo"><br>导入完成，出现如下界面，此时的CPU_SYS_hw_platform平台为默认的平台，我们可以理解为硬件平台。现在就完全进入了SDK环境，此后就可以从Windows界面直接进入。<br><img src="/about/microblaze/12.png" alt="logo"><br>(4)新建一个工程，选择Xilinx C Project，点击Next<br><img src="/about/microblaze/13.jpeg" alt="logo"><br>(5)选择 Hello World 模板，点Next<br><img src="/about/microblaze/14.jpeg" alt="logo"><br>(6)生成成功，点击Finish 即可<br><img src="/about/microblaze/15.jpeg" alt="logo"><br>此时的模版已经生成，在里面hello_world_0下展开会有src文件夹，其中的helloworld.c可以进行编写，但是此时的程序已经是一个完整的程序，运行即可。</p>
-<p>(7)由于要点亮LED灯，为简单起见，我们类似于上面的模版生成一个Peripheral Tests模版，如下图，点Next<br><img src="/about/microblaze/16.jpeg" alt="logo"><br>弹出下图所示界面后等待，如下图，完成后点Finish<br><img src="/about/microblaze/17.jpeg" alt="logo"><br>(8)Build Project<br>右键点击peripheral_test_o在弹出的选项中选择Build Project，或者在工具栏中的Project下选择Build Project<br><img src="/about/microblaze/18.png" alt="logo"><br>(9)Program FPGA<br>单击工具栏的Program FPGA图标，如下图所示，或者在Xilinx Tools中选择Program FPGA<br><img src="/about/microblaze/19.jpeg" alt="logo"><br>在弹出的下图中选择相应目录下的.bit文件和.bmm文件（一般选择_bd的那一个），然后点击Program即可<br><img src="/about/microblaze/20.png" alt="logo"><br>当进度条跑满的时候就表示下载成功</p>
-<p>重新认识下工具栏中比较常用的几个，如下图所示。<br>第一个红色框框住的图标表示Program FPGA，这在前面已经用到过；<br>绿色框所示的图标为Debug模式下进行调试用的，一般会在完善程序的时候用到；<br>紫色框所示图标即为最常用的验证程序是否运行正确时使用到的，本次实验我们就点击这个图标，然后观察FPGA开发板上面的外围设备有没有按照预期的结果运行。<br><img src="/about/microblaze/21.jpeg" alt="logo"><br>(10)运行程序<br>点击上面提到的紫色框中图标右侧的小三角，选择“Run Configurations … ”或者在直接在菜单栏Run下面的选项中选择“Run Configurations … ”弹出如下图所示对话框<br>先选中左侧的peripheral_test_0.elf，在右侧的STDIO Connection下，先选中Connect STDIO to Console复选框，再在Port下拉菜单中选择COM1(这要看你的设备也可能是COM4等等)，点击右下的Apply后，点Run即可<br><img src="/about/microblaze/22.jpeg" alt="logo"><br>此时，程序已经运行起来，因为是第一次设置，所以上述步骤不可省略。<br>运行完后观察FPGA开发板，可以看到8个LED灯依次亮起，打开串口调试工具并正确设置后也可以看到在接收区出现如下图所示输出，这充分表明Microblaze和SDK中的程序均正确运行起来。(如果我们在硬件平台设计时使用了“调试串口”，不需要专用的串口调试软件，在SDK的Console中就可以看到下面的信息)<br><img src="/about/microblaze/23.png" alt="logo"><br>备注:如果你出现下面这种错误, 处理方法, 想想之前是RESET设置的高电平还是低电平重置, 如果是高电平重置,则当你Program一定要将RESET置为低电平, 否则置为高电平, 切记！<br><img src="/about/microblaze/24.png" alt="logo"></p>
-
+        <p>今天是大年初二，睡得早醒得也早。想想最近除了拜年也不算很忙，打算看看冬瓜头写的《大话存储2》，其实我刚开始也不知道这本书，我组栋梁给我墙裂推荐这本书，并且还将他的书借给我过年回家看，承蒙我组栋梁的厚爱，所以开此博客，分章纪录自己的学习心得。以下所有内容都是自己学习总结，不一定准备表达作者的意思，仅供参考。</p>
+<h3 id="u5B58_u50A8_u7CFB_u7EDF_u7684_u524D_u4E16_u4ECA_u751F"><a href="#u5B58_u50A8_u7CFB_u7EDF_u7684_u524D_u4E16_u4ECA_u751F" class="headerlink" title="存储系统的前世今生"></a>存储系统的前世今生</h3><p>这个章节主要讲了存储设备的发展: 竹筒和纸张–&gt;选数管–&gt;穿孔卡–&gt;穿孔纸带–&gt;磁带–&gt;磁鼓存储器–&gt;硬盘驱动器–&gt;软盘–&gt;光盘–&gt;Flash芯片和卡式存储–&gt;磁盘阵列–&gt;大型网络化磁盘阵列。最后作者介绍了自己理解的信息，数据，数据存储，讲了信息如何影响到人类的行为以及对比人类的行为理解计算机的行为。</p>
+<h3 id="u8D70_u8FDB_u8BA1_u7B97_u673AIO_u4E16_u754C"><a href="#u8D70_u8FDB_u8BA1_u7B97_u673AIO_u4E16_u754C" class="headerlink" title="走进计算机IO世界"></a>走进计算机IO世界</h3><p>理解计算机的IO世界就应该要知道计算机系统的组成。当前计算机的组成都是冯罗伊曼结构，本质上是计算，存储，控制三大部件。CPU，内存和IO设备(IO设备需要控制器读写)通过总线连接。作者将CPU，内存和磁盘比作本地的网络，通过总线连接而不是TCP/IP协议的连接。作者也讲到了CPU和内存属于同一个冲突域(连接在北桥上)，IO设备(鼠标，键盘之类的)是另一个冲突域(连接在南桥上)，但是并没有指明当前的性能瓶颈在IO。</p>
+<h3 id="u78C1_u76D8_u539F_u7406_u4E0E_u6280_u672F_u8BE6_u89E3"><a href="#u78C1_u76D8_u539F_u7406_u4E0E_u6280_u672F_u8BE6_u89E3" class="headerlink" title="磁盘原理与技术详解"></a>磁盘原理与技术详解</h3><p>首先介绍了磁盘的组件概念，诸如盘面，磁道，柱面和扇区。磁盘的工作原理是先读写柱面上的数据再寻道到下一个磁道读写。然后作者类比打字机讲解了磁盘的读写过程，寻道是径向位移由步进电机来驱动，扇区是由盘片旋转移动，磁头不动来确定的，所以影响磁盘性能的关键因素分别是盘片的转速(影响连续读写)和寻道的速度(影响随机IO)。讲完磁盘以后就需要将磁盘连接到计算机系统中，这时候需要一些接口协议标准，诸如ATA(分为SATA和PATA，PATA又名IDE)和SCSI。计算机完整的使用磁盘过程是:</p>
+<blockquote>
+<p>1) 系统BIOS初始化执行基本的磁盘控制器驱动程序<br>2) CPU可以产生SCSI或ATA指令CDB来控制磁盘控制器<br>3) 磁盘控制器通过SCSI接口或ATA接口访问磁盘上的磁盘驱动器的控制电路，该控制电路解析指令驱动磁头臂完成IO操作。</p>
+</blockquote>
+<p>作者接着讲述了IOPS(IO/s)和MBPS(MB/s)来描述磁盘的性能，其实不光是磁盘，存储设备的性能都会说明这些参数。IOPS=队列深度/IO延时，队列深度增加，IO延迟也会随即增加。而IOPS就有点类似于存储设备的IO消化能力。MBPS就是吞吐量。<br>作者还介绍了固态硬盘，主要是讲了Flash介质的，其实新型存储材料的研究还包括PCM，MRAM，RRAM，FeRAM等。Flash介质的固态硬盘相对于磁盘性能快得不只一个数量级，Flash不用寻道，但是Flash也有不完美的地方比如写前擦除，写放大之类的。相应的解决策略作者也讲了一些，感觉就是野路子不够专业，其实概括起来就是磨损均衡，垃圾回收，写前预处理，预留备用空间。</p>
+<h3 id="u5927_u8BDD/_u8BE6_u89E3_u4E03_u79CDRAID"><a href="#u5927_u8BDD/_u8BE6_u89E3_u4E03_u79CDRAID" class="headerlink" title="大话/详解七种RAID"></a>大话/详解七种RAID</h3><h3 id="RAID_2C__u865A_u62DF_u78C1_u76D8_2C__u5377_u548C_u6587_u4EF6_u7CFB_u7EDF_u5B9E_u6218"><a href="#RAID_2C__u865A_u62DF_u78C1_u76D8_2C__u5377_u548C_u6587_u4EF6_u7CFB_u7EDF_u5B9E_u6218" class="headerlink" title="RAID, 虚拟磁盘, 卷和文件系统实战"></a>RAID, 虚拟磁盘, 卷和文件系统实战</h3><h3 id="u5927_u8BDD_u5B58_u50A8_u9635_u5217"><a href="#u5927_u8BDD_u5B58_u50A8_u9635_u5217" class="headerlink" title="大话存储阵列"></a>大话存储阵列</h3><h3 id="u7CFB_u7EDF_u4E0E_u7CFB_u7EDF_u4E4B_u95F4_u7684_u8BED_u8A00OSI"><a href="#u7CFB_u7EDF_u4E0E_u7CFB_u7EDF_u4E4B_u95F4_u7684_u8BED_u8A00OSI" class="headerlink" title="系统与系统之间的语言OSI"></a>系统与系统之间的语言OSI</h3><h3 id="Fibre_Channel_u534F_u8BAE_u8BE6_u89E3"><a href="#Fibre_Channel_u534F_u8BAE_u8BE6_u89E3" class="headerlink" title="Fibre Channel协议详解"></a>Fibre Channel协议详解</h3><h3 id="FC_u534F_u8BAE_u7684_u5DE8_u5927_u529B_u91CF"><a href="#FC_u534F_u8BAE_u7684_u5DE8_u5927_u529B_u91CF" class="headerlink" title="FC协议的巨大力量"></a>FC协议的巨大力量</h3><h3 id="DAS_2C_SAN_u548CNAS"><a href="#DAS_2C_SAN_u548CNAS" class="headerlink" title="DAS, SAN和NAS"></a>DAS, SAN和NAS</h3><h3 id="u5927_u8BDD_u4EE5_u592A_u7F51_u548CTCP/IP_u534F_u8BAE"><a href="#u5927_u8BDD_u4EE5_u592A_u7F51_u548CTCP/IP_u534F_u8BAE" class="headerlink" title="大话以太网和TCP/IP协议"></a>大话以太网和TCP/IP协议</h3><h3 id="u5B58_u50A8_u7F51_u7EDC_u7684_u65B0_u519BIP_SAN"><a href="#u5B58_u50A8_u7F51_u7EDC_u7684_u65B0_u519BIP_SAN" class="headerlink" title="存储网络的新军IP SAN"></a>存储网络的新军IP SAN</h3><h3 id="IP_u548CFC_u878D_u5408_u7684_u7ED3_u679C"><a href="#IP_u548CFC_u878D_u5408_u7684_u7ED3_u679C" class="headerlink" title="IP和FC融合的结果"></a>IP和FC融合的结果</h3><h3 id="u865A_u62DF_u5316"><a href="#u865A_u62DF_u5316" class="headerlink" title="虚拟化"></a>虚拟化</h3><h3 id="u5B58_u50A8_u96C6_u7FA4"><a href="#u5B58_u50A8_u96C6_u7FA4" class="headerlink" title="存储集群"></a>存储集群</h3><h3 id="u6570_u636E_u4FDD_u62A4_u548C_u5907_u4EFD_u6280_u672F"><a href="#u6570_u636E_u4FDD_u62A4_u548C_u5907_u4EFD_u6280_u672F" class="headerlink" title="数据保护和备份技术"></a>数据保护和备份技术</h3><h3 id="u5927_u8BDD_u6570_u636E_u5BB9_u707E"><a href="#u5927_u8BDD_u6570_u636E_u5BB9_u707E" class="headerlink" title="大话数据容灾"></a>大话数据容灾</h3><h3 id="u6570_u636E_u524D_u5904_u7406_u4E0E_u540E_u5904_u7406"><a href="#u6570_u636E_u524D_u5904_u7406_u4E0E_u540E_u5904_u7406" class="headerlink" title="数据前处理与后处理"></a>数据前处理与后处理</h3><h3 id="u7CFB_u7EDFIO_u8DEF_u5F84_u53CA_u4F18_u5316"><a href="#u7CFB_u7EDFIO_u8DEF_u5F84_u53CA_u4F18_u5316" class="headerlink" title="系统IO路径及优化"></a>系统IO路径及优化</h3><h3 id="u5927_u8BDD_u4E91_u5B58_u50A8"><a href="#u5927_u8BDD_u4E91_u5B58_u50A8" class="headerlink" title="大话云存储"></a>大话云存储</h3>
       
     </div>
 
@@ -355,7 +334,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Hardware/" rel="tag">#Hardware</a>
+            <a href="/tags/Storage/" rel="tag">#Storage</a>
           
         </div>
       
@@ -364,17 +343,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/year/01/02/组合数学/" rel="next" title="组合数学">
-                <i class="fa fa-chevron-left"></i> 组合数学
+              <a href="/year/02/06/docker-自己的实践总结/" rel="next" title="docker 实践总结">
+                <i class="fa fa-chevron-left"></i> docker 实践总结
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/year/01/03/图着色问题/" rel="prev" title="图着色问题">
-                图着色问题 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -389,10 +364,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="year/01/03/MicroBlaze-Simple-IO-Test/"
-     data-title="MicroBlaze Simple IO Test"
+        <div class="ds-share flat" data-thread-key="year/02/09/大话存储2学习笔记/"
+     data-title="大话存储2学习笔记"
      data-content=""
-     data-url="http://yoursite.com/year/01/03/MicroBlaze-Simple-IO-Test/">
+     data-url="http://yoursite.com/year/02/09/大话存储2学习笔记/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -419,8 +394,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="year/01/03/MicroBlaze-Simple-IO-Test/"
-           data-title="MicroBlaze Simple IO Test" data-url="http://yoursite.com/year/01/03/MicroBlaze-Simple-IO-Test/">
+      <div class="ds-thread" data-thread-key="year/02/09/大话存储2学习笔记/"
+           data-title="大话存储2学习笔记" data-url="http://yoursite.com/year/02/09/大话存储2学习笔记/">
       </div>
     
   </div>
@@ -552,7 +527,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u5B58_u50A8_u7CFB_u7EDF_u7684_u524D_u4E16_u4ECA_u751F"><span class="nav-number">1.</span> <span class="nav-text">存储系统的前世今生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u8D70_u8FDB_u8BA1_u7B97_u673AIO_u4E16_u754C"><span class="nav-number">2.</span> <span class="nav-text">走进计算机IO世界</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u78C1_u76D8_u539F_u7406_u4E0E_u6280_u672F_u8BE6_u89E3"><span class="nav-number">3.</span> <span class="nav-text">磁盘原理与技术详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5927_u8BDD/_u8BE6_u89E3_u4E03_u79CDRAID"><span class="nav-number">4.</span> <span class="nav-text">大话/详解七种RAID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAID_2C__u865A_u62DF_u78C1_u76D8_2C__u5377_u548C_u6587_u4EF6_u7CFB_u7EDF_u5B9E_u6218"><span class="nav-number">5.</span> <span class="nav-text">RAID, 虚拟磁盘, 卷和文件系统实战</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5927_u8BDD_u5B58_u50A8_u9635_u5217"><span class="nav-number">6.</span> <span class="nav-text">大话存储阵列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u7CFB_u7EDF_u4E0E_u7CFB_u7EDF_u4E4B_u95F4_u7684_u8BED_u8A00OSI"><span class="nav-number">7.</span> <span class="nav-text">系统与系统之间的语言OSI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fibre_Channel_u534F_u8BAE_u8BE6_u89E3"><span class="nav-number">8.</span> <span class="nav-text">Fibre Channel协议详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FC_u534F_u8BAE_u7684_u5DE8_u5927_u529B_u91CF"><span class="nav-number">9.</span> <span class="nav-text">FC协议的巨大力量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DAS_2C_SAN_u548CNAS"><span class="nav-number">10.</span> <span class="nav-text">DAS, SAN和NAS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5927_u8BDD_u4EE5_u592A_u7F51_u548CTCP/IP_u534F_u8BAE"><span class="nav-number">11.</span> <span class="nav-text">大话以太网和TCP/IP协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5B58_u50A8_u7F51_u7EDC_u7684_u65B0_u519BIP_SAN"><span class="nav-number">12.</span> <span class="nav-text">存储网络的新军IP SAN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP_u548CFC_u878D_u5408_u7684_u7ED3_u679C"><span class="nav-number">13.</span> <span class="nav-text">IP和FC融合的结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u865A_u62DF_u5316"><span class="nav-number">14.</span> <span class="nav-text">虚拟化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5B58_u50A8_u96C6_u7FA4"><span class="nav-number">15.</span> <span class="nav-text">存储集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u6570_u636E_u4FDD_u62A4_u548C_u5907_u4EFD_u6280_u672F"><span class="nav-number">16.</span> <span class="nav-text">数据保护和备份技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5927_u8BDD_u6570_u636E_u5BB9_u707E"><span class="nav-number">17.</span> <span class="nav-text">大话数据容灾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u6570_u636E_u524D_u5904_u7406_u4E0E_u540E_u5904_u7406"><span class="nav-number">18.</span> <span class="nav-text">数据前处理与后处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u7CFB_u7EDFIO_u8DEF_u5F84_u53CA_u4F18_u5316"><span class="nav-number">19.</span> <span class="nav-text">系统IO路径及优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5927_u8BDD_u4E91_u5B58_u50A8"><span class="nav-number">20.</span> <span class="nav-text">大话云存储</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
