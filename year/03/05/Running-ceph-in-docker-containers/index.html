@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Storage,cloud computing,docker," />
 
 
 
@@ -59,19 +59,24 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="description" content="由于毕设在研究docker容器中运行的ceph，现记录下我的运行过程。
+环境说明运行环境是centOS 7上安装的Docker version1.10.2。共计有三个主机，每个主机上配置两个硬盘，其中一个硬盘用于装系统，另一个硬盘作为OSD对象存储。由于MON所用计算资源和存储资源都很少所以直接在主机上运行。这样就共计三个MON和三个OSD。
+修改主机名我的三个主机IP分别是192.168.3.6">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/year/01/01/hello-world/index.html">
+<meta property="og:title" content="Running ceph in docker containers">
+<meta property="og:url" content="http://yoursite.com/year/03/05/Running-ceph-in-docker-containers/index.html">
 <meta property="og:site_name" content="Kiss">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-01-11T13:17:52.000Z">
+<meta property="og:description" content="由于毕设在研究docker容器中运行的ceph，现记录下我的运行过程。
+环境说明运行环境是centOS 7上安装的Docker version1.10.2。共计有三个主机，每个主机上配置两个硬盘，其中一个硬盘用于装系统，另一个硬盘作为OSD对象存储。由于MON所用计算资源和存储资源都很少所以直接在主机上运行。这样就共计三个MON和三个OSD。
+修改主机名我的三个主机IP分别是192.168.3.6">
+<meta property="og:image" content="http://yoursite.com/about/docker/ceph-docker/1.png">
+<meta property="og:image" content="http://yoursite.com/about/docker/ceph-docker/2.png">
+<meta property="og:updated_time" content="2016-03-05T14:10:35.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="Running ceph in docker containers">
+<meta name="twitter:description" content="由于毕设在研究docker容器中运行的ceph，现记录下我的运行过程。
+环境说明运行环境是centOS 7上安装的Docker version1.10.2。共计有三个主机，每个主机上配置两个硬盘，其中一个硬盘用于装系统，另一个硬盘作为OSD对象存储。由于MON所用计算资源和存储资源都很少所以直接在主机上运行。这样就共计三个MON和三个OSD。
+修改主机名我的三个主机IP分别是192.168.3.6">
 
 
 
@@ -89,7 +94,7 @@ Quick">
   };
 </script>
 
-  <title> Hello World | Kiss </title>
+  <title> Running ceph in docker containers | Kiss </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -264,7 +269,7 @@ Quick">
             
             
               
-                Hello World
+                Running ceph in docker containers
               
             
           </h1>
@@ -276,19 +281,38 @@ Quick">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-01T10:20:30+08:00" content="2016-01-01">
-              2016-01-01
+            <time itemprop="dateCreated" datetime="2016-03-05T20:35:59+08:00" content="2016-03-05">
+              2016-03-05
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/year/01/01/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/01/hello-world/" itemprop="commentsCount"></span>
+                <a href="/year/03/05/Running-ceph-in-docker-containers/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="year/03/05/Running-ceph-in-docker-containers/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -298,7 +322,7 @@ Quick">
 
           
           
-             <span id="/year/01/01/hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
+             <span id="/year/03/05/Running-ceph-in-docker-containers/" class="leancloud_visitors" data-flag-title="Running ceph in docker containers">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -318,33 +342,51 @@ Quick">
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start"><a href="#Quick_Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create_a_new_post"><a href="#Create_a_new_post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server"><a href="#Run_server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files"><a href="#Generate_static_files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites"><a href="#Deploy_to_remote_sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>由于毕设在研究docker容器中运行的ceph，现记录下我的运行过程。</p>
+<h3 id="u73AF_u5883_u8BF4_u660E"><a href="#u73AF_u5883_u8BF4_u660E" class="headerlink" title="环境说明"></a>环境说明</h3><p>运行环境是centOS 7上安装的Docker version1.10.2。共计有三个主机，每个主机上配置两个硬盘，其中一个硬盘用于装系统，另一个硬盘作为OSD对象存储。由于MON所用计算资源和存储资源都很少所以直接在主机上运行。这样就共计三个MON和三个OSD。</p>
+<h3 id="u4FEE_u6539_u4E3B_u673A_u540D"><a href="#u4FEE_u6539_u4E3B_u673A_u540D" class="headerlink" title="修改主机名"></a>修改主机名</h3><p>我的三个主机IP分别是192.168.3.65，192.168.3.66，192.168.3.67。将对应的主机名改为ceph1, ceph2, ceph3.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hostname</span><br></pre></td></tr></table></figure></p>
+<h3 id="u6539_u53D8_u5BB9_u5668_u548C_u4E3B_u673A_u6620_u5C04_u7684_u76EE_u5F55_u6807_u7B7E"><a href="#u6539_u53D8_u5BB9_u5668_u548C_u4E3B_u673A_u6620_u5C04_u7684_u76EE_u5F55_u6807_u7B7E" class="headerlink" title="改变容器和主机映射的目录标签"></a>改变容器和主机映射的目录标签</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chcon -Rt svirt_sandbox_file_t /etc/ceph</span><br><span class="line">chcon -Rt svirt_sandbox_file_t /var/lib/ceph</span><br></pre></td></tr></table></figure>
+<p>上述过程需要设置SELinux是enable的，且三个主机都需要上述步骤。</p>
+<h3 id="u8FD0_u884CMON"><a href="#u8FD0_u884CMON" class="headerlink" title="运行MON"></a>运行MON</h3><p>先在ceph1上运行MON<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --net=host -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph/ -e MON_IP=<span class="number">192.168</span><span class="number">.3</span><span class="number">.65</span> -e CEPH_PUBLIC_NETWORK=<span class="number">192.168</span><span class="number">.3</span><span class="number">.0</span>/<span class="number">24</span> ceph/daemon mon</span><br></pre></td></tr></table></figure></p>
+<p>需要说明CEPH_PUBLIC_NETWORK是你的网卡CIDR值。一般CIDR＝IP &amp; mask。<br>这时候会出现下图的效果:<br><img src="/about/docker/ceph-docker/1.png" alt="logo"></p>
+<p>接着在ceph2和ceph3上运行MON，需要将ceph1上的/etc/ceph和/var/lib/ceph目录下的东西都转移到ceph2和ceph3相应的目录中。</p>
+<p>然后在ceph2运行:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --net=host -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph/ -e MON_IP=<span class="number">192.168</span><span class="number">.3</span><span class="number">.66</span> -e CEPH_PUBLIC_NETWORK=<span class="number">192.168</span><span class="number">.3</span><span class="number">.0</span>/<span class="number">24</span> ceph/daemon mon</span><br></pre></td></tr></table></figure></p>
+<p>在ceph3中运行<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --net=host -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph/ -e MON_IP=<span class="number">192.168</span><span class="number">.3</span><span class="number">.67</span> -e CEPH_PUBLIC_NETWORK=<span class="number">192.168</span><span class="number">.3</span><span class="number">.0</span>/<span class="number">24</span> ceph/daemon mon</span><br></pre></td></tr></table></figure></p>
+<p>这时候会看见三个MON都启动了:<br><img src="/about/docker/ceph-docker/2.png" alt="logo">`</p>
+<h3 id="u8FD0_u884COSD"><a href="#u8FD0_u884COSD" class="headerlink" title="运行OSD"></a>运行OSD</h3><p>使用mkfs将新添加的硬盘格式化制作ext4或者btrfs文件系统<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkfs -t ext4 /dev/sdb</span><br></pre></td></tr></table></figure></p>
+<p>挂载OSD<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --net=host -v /etc/ceph:/etc/ceph -v /var/lib/ceph:/var/lib/ceph -v /dev:/dev --privileged=true -e OSD_FORCE_ZAP=<span class="number">1</span> -e OSD_DEVICE=/dev/sdb ceph/daemon osd_ceph_disk</span><br></pre></td></tr></table></figure></p>
+<p>这时就发现OSD进入了集群<br>同理在ceph2和ceph3中类似操作。</p>
+<p>这样我们就完成了在容器中运行ceph，另外我们也可以利用Dockerfile自己构建相关的镜像;ceph/demo镜像提供单机版的容器化的ceph，其中包含一个MON和一个OSD，可以用来学习ceph集群的操作;<br>运行命令如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --net=host -e MON_IP=<span class="number">192.168</span><span class="number">.3</span><span class="number">.66</span> -e CEPH_NETWORK=<span class="number">192.168</span><span class="number">.3</span><span class="number">.0</span>/<span class="number">24</span> ceph/demo</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">exec</span> -t -i ContainID /bin/bash</span><br></pre></td></tr></table></figure>
+<h3 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.youtube.com/watch?v=FUSTjTBA8f8&amp;spfreload=10" target="_blank" rel="external">Demo:running Ceph in Docker containers</a><br><a href="http://bbs.ceph.org.cn/article/29#rd?sukey=014c68f407f2d3e12d6bb2c1d65e8cbed9e267135c4c2e973fe434235a519d84b6418f464512ff0410254dbe32d03dc8" target="_blank" rel="external">在Docker里运行Ceph集群</a></p>
 
       
     </div>
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Storage/" rel="tag">#Storage</a>
+          
+            <a href="/tags/cloud-computing/" rel="tag">#cloud computing</a>
+          
+            <a href="/tags/docker/" rel="tag">#docker</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/year/02/15/过年总结/" rel="next" title="过年总结">
+                <i class="fa fa-chevron-left"></i> 过年总结
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/year/01/01/Ceph/" rel="prev" title="Ceph:可靠的, 可扩展的高性能分布式系统">
-                Ceph:可靠的, 可扩展的高性能分布式系统 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -359,10 +401,10 @@ Quick">
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="year/01/01/hello-world/"
-     data-title="Hello World"
+        <div class="ds-share flat" data-thread-key="year/03/05/Running-ceph-in-docker-containers/"
+     data-title="Running ceph in docker containers"
      data-content=""
-     data-url="http://yoursite.com/year/01/01/hello-world/">
+     data-url="http://yoursite.com/year/03/05/Running-ceph-in-docker-containers/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -389,8 +431,8 @@ Quick">
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="year/01/01/hello-world/"
-           data-title="Hello World" data-url="http://yoursite.com/year/01/01/hello-world/">
+      <div class="ds-thread" data-thread-key="year/03/05/Running-ceph-in-docker-containers/"
+           data-title="Running ceph in docker containers" data-url="http://yoursite.com/year/03/05/Running-ceph-in-docker-containers/">
       </div>
     
   </div>
@@ -522,7 +564,7 @@ Quick">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick_Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create_a_new_post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run_server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate_static_files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy_to_remote_sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u73AF_u5883_u8BF4_u660E"><span class="nav-number">1.</span> <span class="nav-text">环境说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u4FEE_u6539_u4E3B_u673A_u540D"><span class="nav-number">2.</span> <span class="nav-text">修改主机名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u6539_u53D8_u5BB9_u5668_u548C_u4E3B_u673A_u6620_u5C04_u7684_u76EE_u5F55_u6807_u7B7E"><span class="nav-number">3.</span> <span class="nav-text">改变容器和主机映射的目录标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u8FD0_u884CMON"><span class="nav-number">4.</span> <span class="nav-text">运行MON</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u8FD0_u884COSD"><span class="nav-number">5.</span> <span class="nav-text">运行OSD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u53C2_u8003"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="cloud computing," />
+  <meta name="keywords" content="Storage,cloud computing," />
 
 
 
@@ -68,7 +68,8 @@
 <meta property="og:description" content="此文翻译于Sage Weil在2006年发表于OSDI上的文章(Ceph: A Scalable, High-Performance Distributed File System)，由于用于本人的毕业设计文献翻译，所以严禁复制和转载，违者必究! 
 摘要我们已经开发出ceph，一个能提供卓越的性能，可靠性和可扩展性的分布式文件系统。ceph通过一个伪随机数据分布函数(CRUSH)取代分配表来最大化">
 <meta property="og:image" content="http://yoursite.com/about/ceph/1.png">
-<meta property="og:updated_time" content="2016-02-22T07:18:08.000Z">
+<meta property="og:image" content="http://yoursite.com/about/ceph/2.png">
+<meta property="og:updated_time" content="2016-03-05T12:39:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ceph:可靠的, 可扩展的高性能分布式系统">
 <meta name="twitter:description" content="此文翻译于Sage Weil在2006年发表于OSDI上的文章(Ceph: A Scalable, High-Performance Distributed File System)，由于用于本人的毕业设计文献翻译，所以严禁复制和转载，违者必究! 
@@ -359,8 +360,18 @@
 <p>正是这个原因，高性能计算组织提出了一组针对POSIX IO接口的高性能计算扩展集合，这个扩展子集是由ceph实现的。最值得注意的是，这其中就包括一个O_LAZY标志开放允许应用程序明确放宽共享写文件普通的一致性要求。当IO不是同步运行的时候，性能敏感的应用程序管理自身一致性(HPC负载中常见的模式是通过写同一文件的不同部分)允许缓冲写和缓存读。如果需要的话，应用程序可以使用另外两个系统调用明确同步:lazyio_propagate将在对象存储中刷新一个给定的字节范围，lazyio_synchronize将确保先前的传递会影响后续的读。ceph同步模型在同步IO的客户端之间提供正确的读写和共享写语义保留了简洁性，并且扩展了应用接口来放松性能敏感的分布式应用的一致性。</p>
 <h4 id="u547D_u540D_u7A7A_u95F4_u64CD_u4F5C"><a href="#u547D_u540D_u7A7A_u95F4_u64CD_u4F5C" class="headerlink" title="命名空间操作"></a>命名空间操作</h4><p>客户端和文件系统的命名空间的交互是由元数据服务器集群管理。读操作(e.g.,readdir,stat)和更新(e.g.,unlink,chmod)是被MDS同步以后采用来确保序列化，一致性，正确的安保和安全性。为了简化，没有元数据锁和租赁权限给客户端。特别对于HPC的负载，回调提供了潜在较高复杂度开销的最小上界。</p>
 <p>相反，ceph优化了最常见的元数据访问情形。一个readdir随后跟着每个文件的stat(e.g.,ls -l)是极为常见的访问模式并且是众所周知的性能杀手。ceph中的readdir只需要单个MDS请求就可以获取包含索引节点内容的整个目录。默认情况下，如果一个readdir后面紧接着一个或多个stat，简要的缓存信息被返回，否则这些信息被丢弃。虽然稍微放松一致性导致中间的索引节点修改被忽视，为了提高性能我们乐意这个交易。这个行为明确的被readdirplus扩展解决，能够返回目录项的lstat结果(就像一些具体的OS实现的getdir功能)。</p>
-<p>ceph能够允许一致性通过缓存元数据进一步放宽，很像早期版本的NFS通常缓存30秒。然而这个方法在某种程度上破坏了对于应用很关键的一致性，比如那些使用stat去决定一个文件是否更新的应用–它们要么表现不正确要么等待旧的缓存数据超时。</p>
-<p>我们没有选择再次提供正确的行为和扩展实例的接口，因为这可能反过来影响性能。当多个客户端打开同一文件进行stat操作时很清楚地描述了这个选择。为了返回正确的文件大小和修改时间，MDS撤销所有写权限，暂时停止更新并且搜集写入者中最新的文件大小和修改时间。最高值随着stat回复被返回并且权限被发布允许进一步的进展。虽然停止多个写入者或许看起来很剧烈，但是有必要确保序列化。(对于单个写入者。一个正确的值可以无需打断进程的被写入客户端修复。)没有必要一致性的应用(POSIX接口没有对准它们的需要的受害者)可以使用statlite，statlite采用一位掩码指定不需要保持一致的索引节点域。</p>
+<p>ceph能够允许一致性通过缓存元数据进一步放宽，很像早期版本的NFS通常缓存30秒。然而这个方法在某种程度上破坏了对于应用很关键的连贯性，比如那些使用stat去决定一个文件是否更新的应用–它们要么表现不正确要么等待旧的缓存数据超时。</p>
+<p>我们没有选择再次提供正确的行为和扩展实例的接口，因为这可能反过来影响性能。当多个客户端打开同一文件进行stat操作时很清楚地描述了这个选择。为了返回正确的文件大小和修改时间，MDS撤销所有写权限，暂时停止更新并且搜集写入者中最新的文件大小和修改时间。最高值随着stat回复被返回并且权限被发布允许进一步的进展。虽然停止多个写入者或许看起来很剧烈，但是有必要确保序列化。(对于单个写入者。一个正确的值可以无需打断进程的被写入客户端修复。)没有必要连贯性的应用(POSIX接口没有对准它们的需要的受害者)可以使用statlite，statlite采用一位掩码指定不需要保持一致的索引节点域。</p>
+<h3 id="u52A8_u6001_u5730_u5206_u5E03_u5F0F_u5143_u6570_u636E"><a href="#u52A8_u6001_u5730_u5206_u5E03_u5F0F_u5143_u6570_u636E" class="headerlink" title="动态地分布式元数据"></a>动态地分布式元数据</h3><p>元数据操作往往占了一半的文件系统的工作负载并且处在关键路径，使得MDS集群对于整体性能至关重要。分布式文件系统中的元数据管理也呈现出紧张的扩展挑战: 虽然随着更多的存储设备的规模化，容量和总的IO率能够任意扩张，但是元数据的更大程度的依存关系将使得一致性和连贯性的扩展更加困难。</p>
+<p>ceph中的文件和目录的元数据是很小的，几乎全部由目录项(文件名)和索引节点(80 bytes)组成。传统的文件系统中的文件分配元数据没有必要，因为对象名是由索引节点编号构造，使用CRUSH函数分配给OSDs。这个简化了元数据的工作负载并且允许MDS高效地管理很大的工作文件集，而不是文件的大小。我们设计通过两个分层的存储策略进一步寻求最小化和磁盘IO相关的元数据，以及通过使用动态子树分区最大化局部性和缓存效率。</p>
+<h4 id="u5143_u6570_u636E_u5B58_u50A8"><a href="#u5143_u6570_u636E_u5B58_u50A8" class="headerlink" title="元数据存储"></a>元数据存储</h4><p>虽然MDS集群目标在于使用内存缓存满足大多数请求，但是为了安全，元数据更新一定得提交到磁盘。一组大的，有界的懒惰地冲刷日志允许MDS用高效和分布式的方式将更新的元数据流到OSD集群中。包含多个百兆字节的单个MDS日志也反复吸收(大多数通用负载)元数据更新以至于当旧日志项被最终冲刷到长期存储中时，很多已经过时。虽然MDS的恢复功能还没有被实现，日志被设计成在一个MDS故障时，其他的节点可以迅速重新扫描日志来恢复错误节点中的内存缓存(用于快速启动)中关键内容，这样一来恢复了文件系统的状态。</p>
+<p>这个策略提供了两全其美: 流更新到硬盘是一个高效且串行的方式，大大减少了重写的工作负载，使得长期的磁盘存储布局可以得到优化来方便未来的读。特别的，索引节点嵌入到目录中能允许MDS预取整个目录用于单个OSD读请求和利用在大多数负载中存在的高度目录局部性。每个目录的内容使用和元数据日志以及文件数据一样的条带化和分布式策略写入OSD集群中。索引节点编号按范围分配到MDS，在我们原型中被认为是不变的，在未来，它们可能在文件删除时被很细的重排。辅助锚表维护罕见的有多个硬连接的索引节点，这些硬连接都可以按索引节点编号全局寻找到，而不会有一个巨大的，稀疏的且繁琐的索引节点表来拖累单链接文件。</p>
+<h4 id="u52A8_u6001_u5B50_u6811_u5206_u533A"><a href="#u52A8_u6001_u5B50_u6811_u5206_u533A" class="headerlink" title="动态子树分区"></a>动态子树分区</h4><p>我们的主拷贝缓存策略使得每个权威的MDS都有责任管理缓存连贯性和任意片段元数据的串行更新。尽管大多数存在的分布式文件系统采用静态子树划分来下放这个权力(通常强制管理员将数据集雕刻成更小的静态卷)，最近一些实验室的文件系统已经使用Hash函数来分布目录和文件元数据，却牺牲了负载分布的局部性。这两种方法都有关键的限制: 静态子树划分未能处理动态负载和动态数据集，而Hash破坏了元数据的局部性和元数据高效预取和存储的关键机会。</p>
+<p><img src="/about/ceph/2.png" alt="logo"></p>
+<p>ceph的MDS集群是基于动态子树分区策略，能够自适应地在一组节点中分配分层的缓存元数据。每个MDS使用指数时间衰减的计数器来测量目录层次中的元数据的受欢迎度。任何操作都增加受影响索引节点和它到根目录所有祖先的计数器，提供每个MDS一棵描述最近负载分配的权重树。MDS负载值周期性地被比较，适当大小的目录层次子树被迁移来保持负载均衡。共享的长期存储和精心构造的命名空间锁的组合使得这种内存缓存适当内容迁移到新权威对连贯性锁和客户端权限影响最小。为了安全，导入的元数据被写入到新的MDS日志，同时两端附加的日志项确保权威的转换是不受中间错误的破坏(类似于两阶段提交)。基于子树分区的结果是最小化了前缀副本的开销并且维护了局部性。</p>
+<p>当元数据在多个MDS节点中复制时，索引节点内容被划分到三组，每组有不同的一致性语义: 安全(持有者，模式)，文件(大小，修改时间)和不可变的(索引节点编号，改变时间，布局)。虽然不可变的领域是永远不会改变，安全和文件锁是由独立的有限状态机约束，每个不同的状态集和过渡设计都能容纳不同的访问和更新模式，同时最小化锁争用。比如，路径遍历时需要持有者和模式安全检查但是很少改变，因此需要很少的状态，而文件锁反映更广泛的客户端访问模式。因为它有管理MDS发布客户端权限的能力。</p>
+<h4 id="u6D41_u91CF_u63A7_u5236"><a href="#u6D41_u91CF_u63A7_u5236" class="headerlink" title="流量控制"></a>流量控制</h4><p>在多个节点之间划分多个目录层次能够平衡广泛的工作负载，但是不能总是解决热点和多个客户端访问同一目录和文件导致的瞬间拥塞。当热点需要和不会引起一般情况下的相关开销和目录局部性的损失，ceph使用受欢迎度的知识来提供更宽的分布。经常被读目录的内容(e.g.,many opens)会被多个节点选择性地复制来负载均衡。特别大的目录或者经历相当大的写负载时(e.g.,many file creations)会按照包含的文件名在集群中映射，以损失目录局部性为代价实现负载均衡。这个自适应方法允许ceph涵盖更广的分区粒度，捕捉到文件系统中具体情况和分配的粗细分区的好处。</p>
+<p>每个MDS响应时提供给客户端授权的更新信息和相关的索引节点的所有副本和它的祖先，允许客户端知道与它们交互的文件系统的部分元数据分区。未来的元数据操作直接针对权威(对于更新)或者基于给定路径最深的已知前缀随机副本(对于读)。通常客户端知道不受欢迎的元数据位置并且能够直接和适当的MDS联系。然而，客户端访问流行的元数据时会被告知元数据驻留在不同的或多个MDS节点上，有效地限定了客户端相信特定元数据片段驻留在特定MDS的数量，在它们并发之前就已经分散了潜在的热点和瞬间的拥塞。</p>
 
       
     </div>
@@ -368,6 +379,8 @@
     <footer class="post-footer">
       
         <div class="post-tags">
+          
+            <a href="/tags/Storage/" rel="tag">#Storage</a>
           
             <a href="/tags/cloud-computing/" rel="tag">#cloud computing</a>
           
@@ -479,7 +492,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-count">16</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -493,7 +506,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -566,7 +579,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u6458_u8981"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u4ECB_u7ECD"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u7CFB_u7EDF_u6982_u8FF0"><span class="nav-number">3.</span> <span class="nav-text">系统概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5BA2_u6237_u7AEF_u64CD_u4F5C"><span class="nav-number">4.</span> <span class="nav-text">客户端操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u6587_u4EF6IO_u548C_u6743_u9650"><span class="nav-number">4.1.</span> <span class="nav-text">文件IO和权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5BA2_u6237_u7AEF_u540C_u6B65"><span class="nav-number">4.2.</span> <span class="nav-text">客户端同步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u547D_u540D_u7A7A_u95F4_u64CD_u4F5C"><span class="nav-number">4.3.</span> <span class="nav-text">命名空间操作</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u6458_u8981"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u4ECB_u7ECD"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u7CFB_u7EDF_u6982_u8FF0"><span class="nav-number">3.</span> <span class="nav-text">系统概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5BA2_u6237_u7AEF_u64CD_u4F5C"><span class="nav-number">4.</span> <span class="nav-text">客户端操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u6587_u4EF6IO_u548C_u6743_u9650"><span class="nav-number">4.1.</span> <span class="nav-text">文件IO和权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5BA2_u6237_u7AEF_u540C_u6B65"><span class="nav-number">4.2.</span> <span class="nav-text">客户端同步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u547D_u540D_u7A7A_u95F4_u64CD_u4F5C"><span class="nav-number">4.3.</span> <span class="nav-text">命名空间操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u52A8_u6001_u5730_u5206_u5E03_u5F0F_u5143_u6570_u636E"><span class="nav-number">5.</span> <span class="nav-text">动态地分布式元数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u5143_u6570_u636E_u5B58_u50A8"><span class="nav-number">5.1.</span> <span class="nav-text">元数据存储</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u52A8_u6001_u5B50_u6811_u5206_u533A"><span class="nav-number">5.2.</span> <span class="nav-text">动态子树分区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u6D41_u91CF_u63A7_u5236"><span class="nav-number">5.3.</span> <span class="nav-text">流量控制</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

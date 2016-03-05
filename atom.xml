@@ -4,7 +4,7 @@
   <subtitle><![CDATA[less is more]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-02-20T09:00:17.000Z</updated>
+  <updated>2016-03-05T14:10:35.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -13,6 +13,45 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Running ceph in docker containers]]></title>
+    <link href="http://yoursite.com/year/03/05/Running-ceph-in-docker-containers/"/>
+    <id>http://yoursite.com/year/03/05/Running-ceph-in-docker-containers/</id>
+    <published>2016-03-05T12:35:59.000Z</published>
+    <updated>2016-03-05T14:10:35.000Z</updated>
+    <content type="html"><![CDATA[<p>由于毕设在研究docker容器中运行的ceph，现记录下我的运行过程。</p>
+<h3 id="u73AF_u5883_u8BF4_u660E"><a href="#u73AF_u5883_u8BF4_u660E" class="headerlink" title="环境说明"></a>环境说明</h3><p>运行环境是centOS 7上安装的Docker version1.10.2。共计有三个主机，每个主机上配置两个硬盘，其中一个硬盘用于装系统，另一个硬盘作为OSD对象存储。由于MON所用计算资源和存储资源都很少所以直接在主机上运行。这样就共计三个MON和三个OSD。</p>
+<h3 id="u4FEE_u6539_u4E3B_u673A_u540D"><a href="#u4FEE_u6539_u4E3B_u673A_u540D" class="headerlink" title="修改主机名"></a>修改主机名</h3><p>我的三个主机IP分别是192.168.3.65，192.168.3.66，192.168.3.67。将对应的主机名改为ceph1, ceph2, ceph3.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hostname</span><br></pre></td></tr></table></figure></p>
+<h3 id="u6539_u53D8_u5BB9_u5668_u548C_u4E3B_u673A_u6620_u5C04_u7684_u76EE_u5F55_u6807_u7B7E"><a href="#u6539_u53D8_u5BB9_u5668_u548C_u4E3B_u673A_u6620_u5C04_u7684_u76EE_u5F55_u6807_u7B7E" class="headerlink" title="改变容器和主机映射的目录标签"></a>改变容器和主机映射的目录标签</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chcon -Rt svirt_sandbox_file_t /etc/ceph</span><br><span class="line">chcon -Rt svirt_sandbox_file_t /var/lib/ceph</span><br></pre></td></tr></table></figure>
+<p>上述过程需要设置SELinux是enable的，且三个主机都需要上述步骤。</p>
+<h3 id="u8FD0_u884CMON"><a href="#u8FD0_u884CMON" class="headerlink" title="运行MON"></a>运行MON</h3><p>先在ceph1上运行MON<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --net=host -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph/ -e MON_IP=<span class="number">192.168</span><span class="number">.3</span><span class="number">.65</span> -e CEPH_PUBLIC_NETWORK=<span class="number">192.168</span><span class="number">.3</span><span class="number">.0</span>/<span class="number">24</span> ceph/daemon mon</span><br></pre></td></tr></table></figure></p>
+<p>需要说明CEPH_PUBLIC_NETWORK是你的网卡CIDR值。一般CIDR＝IP &amp; mask。<br>这时候会出现下图的效果:<br><img src="/about/docker/ceph-docker/1.png" alt="logo"></p>
+<p>接着在ceph2和ceph3上运行MON，需要将ceph1上的/etc/ceph和/var/lib/ceph目录下的东西都转移到ceph2和ceph3相应的目录中。</p>
+<p>然后在ceph2运行:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --net=host -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph/ -e MON_IP=<span class="number">192.168</span><span class="number">.3</span><span class="number">.66</span> -e CEPH_PUBLIC_NETWORK=<span class="number">192.168</span><span class="number">.3</span><span class="number">.0</span>/<span class="number">24</span> ceph/daemon mon</span><br></pre></td></tr></table></figure></p>
+<p>在ceph3中运行<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --net=host -v /etc/ceph:/etc/ceph -v /var/lib/ceph/:/var/lib/ceph/ -e MON_IP=<span class="number">192.168</span><span class="number">.3</span><span class="number">.67</span> -e CEPH_PUBLIC_NETWORK=<span class="number">192.168</span><span class="number">.3</span><span class="number">.0</span>/<span class="number">24</span> ceph/daemon mon</span><br></pre></td></tr></table></figure></p>
+<p>这时候会看见三个MON都启动了:<br><img src="/about/docker/ceph-docker/2.png" alt="logo">`</p>
+<h3 id="u8FD0_u884COSD"><a href="#u8FD0_u884COSD" class="headerlink" title="运行OSD"></a>运行OSD</h3><p>使用mkfs将新添加的硬盘格式化制作ext4或者btrfs文件系统<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkfs -t ext4 /dev/sdb</span><br></pre></td></tr></table></figure></p>
+<p>挂载OSD<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --net=host -v /etc/ceph:/etc/ceph -v /var/lib/ceph:/var/lib/ceph -v /dev:/dev --privileged=true -e OSD_FORCE_ZAP=<span class="number">1</span> -e OSD_DEVICE=/dev/sdb ceph/daemon osd_ceph_disk</span><br></pre></td></tr></table></figure></p>
+<p>这时就发现OSD进入了集群<br>同理在ceph2和ceph3中类似操作。</p>
+<p>这样我们就完成了在容器中运行ceph，另外我们也可以利用Dockerfile自己构建相关的镜像;ceph/demo镜像提供单机版的容器化的ceph，其中包含一个MON和一个OSD，可以用来学习ceph集群的操作;<br>运行命令如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --net=host -e MON_IP=<span class="number">192.168</span><span class="number">.3</span><span class="number">.66</span> -e CEPH_NETWORK=<span class="number">192.168</span><span class="number">.3</span><span class="number">.0</span>/<span class="number">24</span> ceph/demo</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">exec</span> -t -i ContainID /bin/bash</span><br></pre></td></tr></table></figure>
+<h3 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.youtube.com/watch?v=FUSTjTBA8f8&amp;spfreload=10" target="_blank" rel="external">Demo:running Ceph in Docker containers</a><br><a href="http://bbs.ceph.org.cn/article/29#rd?sukey=014c68f407f2d3e12d6bb2c1d65e8cbed9e267135c4c2e973fe434235a519d84b6418f464512ff0410254dbe32d03dc8" target="_blank" rel="external">在Docker里运行Ceph集群</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>由于毕设在研究docker容器中运行的ceph，现记录下我的运行过程。</p>
+<h3 id="u73AF_u5883_u8BF4_u660E"><a href="#u73AF_u5883_u8BF4_u660E" class="headerlink" title="环境说]]>
+    </summary>
+    
+      <category term="Storage" scheme="http://yoursite.com/tags/Storage/"/>
+    
+      <category term="cloud computing" scheme="http://yoursite.com/tags/cloud-computing/"/>
+    
+      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
+    
+      <category term="docker" scheme="http://yoursite.com/categories/docker/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[过年总结]]></title>
@@ -58,7 +97,7 @@
     <link href="http://yoursite.com/year/02/06/docker-%E8%87%AA%E5%B7%B1%E7%9A%84%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/year/02/06/docker-自己的实践总结/</id>
     <published>2016-02-06T12:45:33.000Z</published>
-    <updated>2016-02-08T11:39:11.000Z</updated>
+    <updated>2016-03-05T12:38:13.000Z</updated>
     <content type="html"><![CDATA[<p>这两天终于把《docker 从入门到实践》看完了，原本打算写写总结，但是感觉书中的内容太过死板，还不如从自己使用docker的过程中总结出一些好玩的docker应用方法分享给大家，欢迎有更多的人分享自己使用docker时一些好玩的项目，私信我给友情链接。</p>
 <h3 id="u5236_u4F5C_u548C_u4F7F_u7528Vim_u63D2_u4EF6_u7684_u955C_u50CF"><a href="#u5236_u4F5C_u548C_u4F7F_u7528Vim_u63D2_u4EF6_u7684_u955C_u50CF" class="headerlink" title="制作和使用Vim插件的镜像"></a>制作和使用Vim插件的镜像</h3><p>如果你用关键词Vim搜索我的博客会发现有篇博客专门介绍如何使用Vim的插件来配置类似于VS的集成开发环境。现在我使用docker制作Vim插件的镜像来实现在多机上快速建立这样的VS集成开发环境。</p>
 <h4 id="u5229_u7528Dockerfile_u5236_u4F5C_u955C_u50CF"><a href="#u5229_u7528Dockerfile_u5236_u4F5C_u955C_u50CF" class="headerlink" title="利用Dockerfile制作镜像"></a><font size="2"> 利用Dockerfile制作镜像 </font></h4><p>将需要打包的插件放在某个目录下:<br><img src="/about/docker/practice/1.png" alt="logo"><br>当前目录下编辑Dockerfile，将插件打包到基于ubuntu镜像创建的镜像中:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:<span class="number">14.04</span></span><br><span class="line">MAINTAINER Kang Yan &lt;wowyk@qq.com&gt;</span><br><span class="line"></span><br><span class="line">ADD . /tool</span><br></pre></td></tr></table></figure></p>
@@ -93,6 +132,8 @@
     
       <category term="cloud computing" scheme="http://yoursite.com/tags/cloud-computing/"/>
     
+      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
+    
       <category term="docker" scheme="http://yoursite.com/categories/docker/"/>
     
   </entry>
@@ -102,7 +143,7 @@
     <link href="http://yoursite.com/year/01/23/docker%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/"/>
     <id>http://yoursite.com/year/01/23/docker背后的技术/</id>
     <published>2016-01-23T15:33:41.000Z</published>
-    <updated>2016-02-04T16:10:26.000Z</updated>
+    <updated>2016-03-05T12:38:31.000Z</updated>
     <content type="html"><![CDATA[<p>最近一直都在学习使用docker，当你使用docker越久你就越发的想了解docker背后是如何实现的。其实docker的一些功能之前就已经在Linux内核中实现了，只是有些没有进入内核主线中，但是技术就是这样不会凭空产生，总是靠大量的积累，由量变到质变最后在某个时刻绽放。本文主要是介绍docker背后的内核技术namespace，cgroup，aufs。</p>
 <h2 id="namespace"><a href="#namespace" class="headerlink" title="namespace"></a><strong>namespace</strong></h2><p>Linux namespace主要的功能就是提供内核级别的环境隔离，这有点类似于Unix中的chroot系统调用，通过修改根目录将用户jail在一个特定的目录下，这样的jail就无法访问外部的内容，而且每一个jail的pid都是1，1意味着是当前环境下的所有进程的根节点，从而实现了环境隔离。<br>Linux namespace提供如下名字空间：(官方的文档<a href="http://lwn.net/Articles/531114/" target="_blank" rel="external">namespaces in operation</a>)<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">|       分类        |  系统调用参数   |     内核版本     </span><br><span class="line">| UTS namespace     |  CLONE_NEWUTS   |   Linux <span class="number">2.6</span><span class="number">.19</span></span><br><span class="line">| IPC namespace     |  CLONE_NEWIPC   |   Linux <span class="number">2.6</span><span class="number">.19</span></span><br><span class="line">| PID namespace     |  CLONE_NEWPID   |   Linux <span class="number">2.6</span><span class="number">.24</span></span><br><span class="line">| Mount namespace   |  CLONE_NEWNS    |   Linux <span class="number">2.4</span><span class="number">.19</span>    </span><br><span class="line">| USER namespace    |  CLONE_NEWUSER  |started <span class="keyword">in</span> Linux <span class="number">2.6</span><span class="number">.23</span> <span class="keyword">and</span> completed <span class="keyword">in</span> Linux <span class="number">3.8</span></span><br><span class="line">| Network namespace |  CLONE_NEWNET   |started <span class="keyword">in</span> Linux <span class="number">2.6</span><span class="number">.24</span> <span class="keyword">and</span> largely completed by about Linux <span class="number">2.6</span><span class="number">.29</span></span><br></pre></td></tr></table></figure></p>
 <p>接下来介绍上述namespace的用法，可以体会一下环境隔离。(我的运行环境是ubuntu14.04，内核版本是4.3.3)<br>与namespace相关的API主要是以下三个:<br>clone():创建一个新进程，具体里面的参数自己man一下<br>unshare():使某个进程脱离某个namespace<br>setns():把某个进程加入到某个namespace          </p>
@@ -162,6 +203,8 @@
     
       <category term="cloud computing" scheme="http://yoursite.com/tags/cloud-computing/"/>
     
+      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
+    
       <category term="docker" scheme="http://yoursite.com/categories/docker/"/>
     
   </entry>
@@ -171,7 +214,7 @@
     <link href="http://yoursite.com/year/01/11/docker-%E5%85%A5%E9%97%A8/"/>
     <id>http://yoursite.com/year/01/11/docker-入门/</id>
     <published>2016-01-11T05:26:05.000Z</published>
-    <updated>2016-02-02T05:21:15.000Z</updated>
+    <updated>2016-03-05T12:37:56.000Z</updated>
     <content type="html"><![CDATA[<p><img src="/about/docker/1.png" width="500" height="200" alt="logo" align="center">        </p>
 <h3 id="u7B80_u4ECB"><a href="#u7B80_u4ECB" class="headerlink" title="简介"></a>简介</h3><p>docker是基于LXC的容器技术，它利用Linux内核中namespace隔离进程环境，cgroup限制进程使用物理设备资源，同时创新性的将只读镜像分层，当需要在容器中运行镜像时，只需要在镜像的最外面添加一层可写层。你可以简单的将docker容器理解为进程以及运行进程所需要的轻量级环境。</p>
 <p><img src="/about/docker/2.png" width="500" height="200" alt="logo" align="center"><br>如上图所示，左边是VM，右边是docker的工作层次，可以看出容器是在操作系统层面上实现的虚拟化，直接复用本地主机的操作系统，而传统方式则是在硬件层面实现的管理器。docker的优势在于比VM更轻，无需整个系统的资源环境，直接在容器中运行应用，而且支持Build once, run anywhere。缺点就是所有的容器都是运行在Linux内核上的进程，安全性值得考量，尤其是docker用在大量租户的云计算环境中。</p>
@@ -217,6 +260,8 @@
     </summary>
     
       <category term="cloud computing" scheme="http://yoursite.com/tags/cloud-computing/"/>
+    
+      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
     
       <category term="docker" scheme="http://yoursite.com/categories/docker/"/>
     
@@ -445,7 +490,7 @@
     <link href="http://yoursite.com/year/01/01/Ceph/"/>
     <id>http://yoursite.com/year/01/01/Ceph/</id>
     <published>2016-01-01T15:36:54.000Z</published>
-    <updated>2016-02-22T07:18:08.000Z</updated>
+    <updated>2016-03-05T12:39:39.000Z</updated>
     <content type="html"><![CDATA[<p>此文翻译于Sage Weil在2006年发表于OSDI上的文章(Ceph: A Scalable, High-Performance Distributed File System)，由于用于本人的毕业设计文献翻译，所以严禁复制和转载，违者必究! </p>
 <h3 id="u6458_u8981"><a href="#u6458_u8981" class="headerlink" title="摘要"></a>摘要</h3><p>我们已经开发出ceph，一个能提供卓越的性能，可靠性和可扩展性的分布式文件系统。ceph通过一个伪随机数据分布函数(CRUSH)取代分配表来最大化分离数据和元数据的管理。CRUSH函数被设计用于异构，动态，由不可靠对象存储设备(OSDs)构成的集群中。我们通过将数据副本，错误检测和恢复功能分发给正在运行专门的本地对象文件系统的OSDs来利用设备的智能性。动态的分布式元数据集群提供极度高效地元数据管理和无缝地适应广泛的通用计算和科学计算文件系统工作负载。在各种工作负载下的性能测试表明，Ceph的具有优良的I/O性能和可扩展的元数据管理，支持每秒25万以上的元数据操作。</p>
 <h3 id="u4ECB_u7ECD"><a href="#u4ECB_u7ECD" class="headerlink" title="介绍"></a>介绍</h3><p>系统设计者一直都在试图改善文件系统的性能，这对于极为广泛的一类应用的整体性能很重要。学术界尤其是高性能计算组织在分布式存储系统的性能和扩展性保持领先，一般预示着未来几年的更加通用的需要。传统的解决方案，比如NFS，提供一个直接的模型，服务器对外一个文件系统层次使得客户机可以映射到它们的本地名字空间。即使是被广泛使用，客户机/服务器的中心化本质已被证明是扩展性能的极大阻碍。</p>
@@ -467,13 +512,25 @@
 <p>正是这个原因，高性能计算组织提出了一组针对POSIX IO接口的高性能计算扩展集合，这个扩展子集是由ceph实现的。最值得注意的是，这其中就包括一个O_LAZY标志开放允许应用程序明确放宽共享写文件普通的一致性要求。当IO不是同步运行的时候，性能敏感的应用程序管理自身一致性(HPC负载中常见的模式是通过写同一文件的不同部分)允许缓冲写和缓存读。如果需要的话，应用程序可以使用另外两个系统调用明确同步:lazyio_propagate将在对象存储中刷新一个给定的字节范围，lazyio_synchronize将确保先前的传递会影响后续的读。ceph同步模型在同步IO的客户端之间提供正确的读写和共享写语义保留了简洁性，并且扩展了应用接口来放松性能敏感的分布式应用的一致性。</p>
 <h4 id="u547D_u540D_u7A7A_u95F4_u64CD_u4F5C"><a href="#u547D_u540D_u7A7A_u95F4_u64CD_u4F5C" class="headerlink" title="命名空间操作"></a>命名空间操作</h4><p>客户端和文件系统的命名空间的交互是由元数据服务器集群管理。读操作(e.g.,readdir,stat)和更新(e.g.,unlink,chmod)是被MDS同步以后采用来确保序列化，一致性，正确的安保和安全性。为了简化，没有元数据锁和租赁权限给客户端。特别对于HPC的负载，回调提供了潜在较高复杂度开销的最小上界。</p>
 <p>相反，ceph优化了最常见的元数据访问情形。一个readdir随后跟着每个文件的stat(e.g.,ls -l)是极为常见的访问模式并且是众所周知的性能杀手。ceph中的readdir只需要单个MDS请求就可以获取包含索引节点内容的整个目录。默认情况下，如果一个readdir后面紧接着一个或多个stat，简要的缓存信息被返回，否则这些信息被丢弃。虽然稍微放松一致性导致中间的索引节点修改被忽视，为了提高性能我们乐意这个交易。这个行为明确的被readdirplus扩展解决，能够返回目录项的lstat结果(就像一些具体的OS实现的getdir功能)。</p>
-<p>ceph能够允许一致性通过缓存元数据进一步放宽，很像早期版本的NFS通常缓存30秒。然而这个方法在某种程度上破坏了对于应用很关键的一致性，比如那些使用stat去决定一个文件是否更新的应用–它们要么表现不正确要么等待旧的缓存数据超时。</p>
-<p>我们没有选择再次提供正确的行为和扩展实例的接口，因为这可能反过来影响性能。当多个客户端打开同一文件进行stat操作时很清楚地描述了这个选择。为了返回正确的文件大小和修改时间，MDS撤销所有写权限，暂时停止更新并且搜集写入者中最新的文件大小和修改时间。最高值随着stat回复被返回并且权限被发布允许进一步的进展。虽然停止多个写入者或许看起来很剧烈，但是有必要确保序列化。(对于单个写入者。一个正确的值可以无需打断进程的被写入客户端修复。)没有必要一致性的应用(POSIX接口没有对准它们的需要的受害者)可以使用statlite，statlite采用一位掩码指定不需要保持一致的索引节点域。</p>
+<p>ceph能够允许一致性通过缓存元数据进一步放宽，很像早期版本的NFS通常缓存30秒。然而这个方法在某种程度上破坏了对于应用很关键的连贯性，比如那些使用stat去决定一个文件是否更新的应用–它们要么表现不正确要么等待旧的缓存数据超时。</p>
+<p>我们没有选择再次提供正确的行为和扩展实例的接口，因为这可能反过来影响性能。当多个客户端打开同一文件进行stat操作时很清楚地描述了这个选择。为了返回正确的文件大小和修改时间，MDS撤销所有写权限，暂时停止更新并且搜集写入者中最新的文件大小和修改时间。最高值随着stat回复被返回并且权限被发布允许进一步的进展。虽然停止多个写入者或许看起来很剧烈，但是有必要确保序列化。(对于单个写入者。一个正确的值可以无需打断进程的被写入客户端修复。)没有必要连贯性的应用(POSIX接口没有对准它们的需要的受害者)可以使用statlite，statlite采用一位掩码指定不需要保持一致的索引节点域。</p>
+<h3 id="u52A8_u6001_u5730_u5206_u5E03_u5F0F_u5143_u6570_u636E"><a href="#u52A8_u6001_u5730_u5206_u5E03_u5F0F_u5143_u6570_u636E" class="headerlink" title="动态地分布式元数据"></a>动态地分布式元数据</h3><p>元数据操作往往占了一半的文件系统的工作负载并且处在关键路径，使得MDS集群对于整体性能至关重要。分布式文件系统中的元数据管理也呈现出紧张的扩展挑战: 虽然随着更多的存储设备的规模化，容量和总的IO率能够任意扩张，但是元数据的更大程度的依存关系将使得一致性和连贯性的扩展更加困难。</p>
+<p>ceph中的文件和目录的元数据是很小的，几乎全部由目录项(文件名)和索引节点(80 bytes)组成。传统的文件系统中的文件分配元数据没有必要，因为对象名是由索引节点编号构造，使用CRUSH函数分配给OSDs。这个简化了元数据的工作负载并且允许MDS高效地管理很大的工作文件集，而不是文件的大小。我们设计通过两个分层的存储策略进一步寻求最小化和磁盘IO相关的元数据，以及通过使用动态子树分区最大化局部性和缓存效率。</p>
+<h4 id="u5143_u6570_u636E_u5B58_u50A8"><a href="#u5143_u6570_u636E_u5B58_u50A8" class="headerlink" title="元数据存储"></a>元数据存储</h4><p>虽然MDS集群目标在于使用内存缓存满足大多数请求，但是为了安全，元数据更新一定得提交到磁盘。一组大的，有界的懒惰地冲刷日志允许MDS用高效和分布式的方式将更新的元数据流到OSD集群中。包含多个百兆字节的单个MDS日志也反复吸收(大多数通用负载)元数据更新以至于当旧日志项被最终冲刷到长期存储中时，很多已经过时。虽然MDS的恢复功能还没有被实现，日志被设计成在一个MDS故障时，其他的节点可以迅速重新扫描日志来恢复错误节点中的内存缓存(用于快速启动)中关键内容，这样一来恢复了文件系统的状态。</p>
+<p>这个策略提供了两全其美: 流更新到硬盘是一个高效且串行的方式，大大减少了重写的工作负载，使得长期的磁盘存储布局可以得到优化来方便未来的读。特别的，索引节点嵌入到目录中能允许MDS预取整个目录用于单个OSD读请求和利用在大多数负载中存在的高度目录局部性。每个目录的内容使用和元数据日志以及文件数据一样的条带化和分布式策略写入OSD集群中。索引节点编号按范围分配到MDS，在我们原型中被认为是不变的，在未来，它们可能在文件删除时被很细的重排。辅助锚表维护罕见的有多个硬连接的索引节点，这些硬连接都可以按索引节点编号全局寻找到，而不会有一个巨大的，稀疏的且繁琐的索引节点表来拖累单链接文件。</p>
+<h4 id="u52A8_u6001_u5B50_u6811_u5206_u533A"><a href="#u52A8_u6001_u5B50_u6811_u5206_u533A" class="headerlink" title="动态子树分区"></a>动态子树分区</h4><p>我们的主拷贝缓存策略使得每个权威的MDS都有责任管理缓存连贯性和任意片段元数据的串行更新。尽管大多数存在的分布式文件系统采用静态子树划分来下放这个权力(通常强制管理员将数据集雕刻成更小的静态卷)，最近一些实验室的文件系统已经使用Hash函数来分布目录和文件元数据，却牺牲了负载分布的局部性。这两种方法都有关键的限制: 静态子树划分未能处理动态负载和动态数据集，而Hash破坏了元数据的局部性和元数据高效预取和存储的关键机会。</p>
+<p><img src="/about/ceph/2.png" alt="logo"></p>
+<p>ceph的MDS集群是基于动态子树分区策略，能够自适应地在一组节点中分配分层的缓存元数据。每个MDS使用指数时间衰减的计数器来测量目录层次中的元数据的受欢迎度。任何操作都增加受影响索引节点和它到根目录所有祖先的计数器，提供每个MDS一棵描述最近负载分配的权重树。MDS负载值周期性地被比较，适当大小的目录层次子树被迁移来保持负载均衡。共享的长期存储和精心构造的命名空间锁的组合使得这种内存缓存适当内容迁移到新权威对连贯性锁和客户端权限影响最小。为了安全，导入的元数据被写入到新的MDS日志，同时两端附加的日志项确保权威的转换是不受中间错误的破坏(类似于两阶段提交)。基于子树分区的结果是最小化了前缀副本的开销并且维护了局部性。</p>
+<p>当元数据在多个MDS节点中复制时，索引节点内容被划分到三组，每组有不同的一致性语义: 安全(持有者，模式)，文件(大小，修改时间)和不可变的(索引节点编号，改变时间，布局)。虽然不可变的领域是永远不会改变，安全和文件锁是由独立的有限状态机约束，每个不同的状态集和过渡设计都能容纳不同的访问和更新模式，同时最小化锁争用。比如，路径遍历时需要持有者和模式安全检查但是很少改变，因此需要很少的状态，而文件锁反映更广泛的客户端访问模式。因为它有管理MDS发布客户端权限的能力。</p>
+<h4 id="u6D41_u91CF_u63A7_u5236"><a href="#u6D41_u91CF_u63A7_u5236" class="headerlink" title="流量控制"></a>流量控制</h4><p>在多个节点之间划分多个目录层次能够平衡广泛的工作负载，但是不能总是解决热点和多个客户端访问同一目录和文件导致的瞬间拥塞。当热点需要和不会引起一般情况下的相关开销和目录局部性的损失，ceph使用受欢迎度的知识来提供更宽的分布。经常被读目录的内容(e.g.,many opens)会被多个节点选择性地复制来负载均衡。特别大的目录或者经历相当大的写负载时(e.g.,many file creations)会按照包含的文件名在集群中映射，以损失目录局部性为代价实现负载均衡。这个自适应方法允许ceph涵盖更广的分区粒度，捕捉到文件系统中具体情况和分配的粗细分区的好处。</p>
+<p>每个MDS响应时提供给客户端授权的更新信息和相关的索引节点的所有副本和它的祖先，允许客户端知道与它们交互的文件系统的部分元数据分区。未来的元数据操作直接针对权威(对于更新)或者基于给定路径最深的已知前缀随机副本(对于读)。通常客户端知道不受欢迎的元数据位置并且能够直接和适当的MDS联系。然而，客户端访问流行的元数据时会被告知元数据驻留在不同的或多个MDS节点上，有效地限定了客户端相信特定元数据片段驻留在特定MDS的数量，在它们并发之前就已经分散了潜在的热点和瞬间的拥塞。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>此文翻译于Sage Weil在2006年发表于OSDI上的文章(Ceph: A Scalable, High-Performance Distributed File System)，由于用于本人的毕业设计文献翻译，所以严禁复制和转载，违者必究! </p>
 <h3 id="]]>
     </summary>
+    
+      <category term="Storage" scheme="http://yoursite.com/tags/Storage/"/>
     
       <category term="cloud computing" scheme="http://yoursite.com/tags/cloud-computing/"/>
     
