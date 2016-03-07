@@ -70,7 +70,7 @@ MBR分区和GPT分区简介我们从上图看到partition table是gpt，可以�
 <meta property="og:image" content="http://yoursite.com/about/partition/1.png">
 <meta property="og:image" content="http://yoursite.com/about/partition/2.png">
 <meta property="og:image" content="http://yoursite.com/about/partition/3.png">
-<meta property="og:updated_time" content="2016-03-07T14:05:38.000Z">
+<meta property="og:updated_time" content="2016-03-07T15:09:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="硬盘分区">
 <meta name="twitter:description" content="磁盘包括硬盘和软盘，都由磁性材料制成。磁盘英文名disk，硬盘英文名hard disk。写这篇博客主要是因为最近在运行ceph的时候突然报错说是无效的GPT头结构，然后就查了下GPT分区和MBR分区，这里记录我学习到的东西，更多详细的内容前辈们都已经提到过不再赘述，引用中大家可以去看。
@@ -334,6 +334,8 @@ MBR分区和GPT分区简介我们从上图看到partition table是gpt，可以�
 <p><img src="/about/partition/2.png" alt="logo"></p>
 <p>查看某个分区的详细信息<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/sgdisk --info=<span class="number">1</span> /dev/sdb</span><br></pre></td></tr></table></figure></p>
 <p><img src="/about/partition/3.png" alt="logo"></p>
+<p>最后再介绍两个命令:<br>查询每个分区挂载的目录<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df</span><br></pre></td></tr></table></figure></p>
+<p>将/dev/sdb1分区格式化成ext4文件系统<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkfs -t ext4 /dev/sdb1</span><br></pre></td></tr></table></figure></p>
 <h3 id="u5F15_u7528"><a href="#u5F15_u7528" class="headerlink" title="引用"></a>引用</h3><p><a href="http://www.ruanyifeng.com/blog/2013/02/booting.html" target="_blank" rel="external">计算机是如何启动的</a><br><a href="http://www.anchor.com.au/blog/2012/10/the-difference-between-booting-mbr-and-gpt-with-grub/" target="_blank" rel="external">The difference between booting MBR and GPT with GRUB</a><br><a href="http://hustcat.github.io/sgdisk-basic/" target="_blank" rel="external">sgdisk常用操作</a></p>
 
       
