@@ -269,6 +269,112 @@
             
               
                 
+                <a class="post-title-link" href="/year/03/07/硬盘分区/" itemprop="url">
+                  硬盘分区
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-07T20:15:04+08:00" content="2016-03-07">
+              2016-03-07
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/year/03/07/硬盘分区/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="year/03/07/硬盘分区/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/year/03/07/硬盘分区/" class="leancloud_visitors" data-flag-title="硬盘分区">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          磁盘包括硬盘和软盘，都由磁性材料制成。磁盘英文名disk，硬盘英文名hard disk。写这篇博客主要是因为最近在运行ceph的时候突然报错说是无效的GPT头结构，然后就查了下GPT分区和MBR分区，这里记录我学习到的东西，更多详细的内容前辈们都已经提到过不再赘述，引用中大家可以去看。
+MBR分区和GPT分区简介我们从上图看到partition table是gpt，可以设置为msdos的。我之前ceph运行出错的原因就是分区表类型是msdos，然后我改成gpt就解决了问题。我的理解是分区表类型代
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/year/03/07/硬盘分区/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/year/03/05/Running-ceph-in-docker-containers/" itemprop="url">
                   Running ceph in docker containers
                 </a>
@@ -712,131 +818,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/year/01/23/docker背后的技术/" itemprop="url">
-                  docker 背后的技术
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-23T23:33:41+08:00" content="2016-01-23">
-              2016-01-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index">
-                    <span itemprop="name">docker</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/year/01/23/docker背后的技术/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/23/docker背后的技术/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/year/01/23/docker背后的技术/" class="leancloud_visitors" data-flag-title="docker 背后的技术">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          最近一直都在学习使用docker，当你使用docker越久你就越发的想了解docker背后是如何实现的。其实docker的一些功能之前就已经在Linux内核中实现了，只是有些没有进入内核主线中，但是技术就是这样不会凭空产生，总是靠大量的积累，由量变到质变最后在某个时刻绽放。本文主要是介绍docker背后的内核技术namespace，cgroup，aufs。
-namespaceLinux namespace主要的功能就是提供内核级别的环境隔离，这有点类似于Unix中的chroot系统调用，通过修改
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/year/01/23/docker背后的技术/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -883,7 +864,7 @@ namespaceLinux namespace主要的功能就是提供内核级别的环境隔离�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-count">17</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

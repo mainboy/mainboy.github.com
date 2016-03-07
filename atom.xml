@@ -4,7 +4,7 @@
   <subtitle><![CDATA[less is more]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-03-05T14:10:35.000Z</updated>
+  <updated>2016-03-07T14:05:38.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -13,6 +13,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[硬盘分区]]></title>
+    <link href="http://yoursite.com/year/03/07/%E7%A1%AC%E7%9B%98%E5%88%86%E5%8C%BA/"/>
+    <id>http://yoursite.com/year/03/07/硬盘分区/</id>
+    <published>2016-03-07T12:15:04.000Z</published>
+    <updated>2016-03-07T14:05:38.000Z</updated>
+    <content type="html"><![CDATA[<p>磁盘包括硬盘和软盘，都由磁性材料制成。磁盘英文名disk，硬盘英文名hard disk。写这篇博客主要是因为最近在运行ceph的时候突然报错说是无效的GPT头结构，然后就查了下GPT分区和MBR分区，这里记录我学习到的东西，更多详细的内容前辈们都已经提到过不再赘述，引用中大家可以去看。</p>
+<h3 id="MBR_u5206_u533A_u548CGPT_u5206_u533A_u7B80_u4ECB"><a href="#MBR_u5206_u533A_u548CGPT_u5206_u533A_u7B80_u4ECB" class="headerlink" title="MBR分区和GPT分区简介"></a>MBR分区和GPT分区简介</h3><p><img src="/about/partition/1.png" alt="logo"><br>我们从上图看到partition table是gpt，可以设置为msdos的。我之前ceph运行出错的原因就是分区表类型是msdos，然后我改成gpt就解决了问题。<br>我的理解是分区表类型代表硬盘是什么分区，msdos代表的是MBR分区，gpt代表的是GPT分区。传统的BIOS只支持MBR分区硬盘启动，一个硬盘只能分成四个分区，并且单个分区最大不超过2TB。EFI支持GPT分区启动的，GPT分区没有分区数目的限制并且单个分区可以超过2TB。</p>
+<h3 id="MBR_u5206_u533A_u548CGPT_u5206_u533A_u7684_u8F6C_u6362"><a href="#MBR_u5206_u533A_u548CGPT_u5206_u533A_u7684_u8F6C_u6362" class="headerlink" title="MBR分区和GPT分区的转换"></a>MBR分区和GPT分区的转换</h3><p>比如硬盘/dev/sdb</p>
+<p>转换成GPT<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">parted /dev/sdb</span><br><span class="line">mklabel gpt</span><br></pre></td></tr></table></figure></p>
+<p>转换成MBR<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">parted /dev/sdb</span><br><span class="line">mklabel msdos</span><br></pre></td></tr></table></figure></p>
+<h3 id="fdisk_2C_sgdisk_u548Cparted_u5206_u533A_u5DE5_u5177"><a href="#fdisk_2C_sgdisk_u548Cparted_u5206_u533A_u5DE5_u5177" class="headerlink" title="fdisk, sgdisk和parted分区工具"></a>fdisk, sgdisk和parted分区工具</h3><h4 id="fdisk_28_u521B_u5EFAMBR_u5206_u533A_29_u5DE5_u5177_u5E38_u7528_u547D_u4EE4"><a href="#fdisk_28_u521B_u5EFAMBR_u5206_u533A_29_u5DE5_u5177_u5E38_u7528_u547D_u4EE4" class="headerlink" title="fdisk(创建MBR分区)工具常用命令"></a>fdisk(创建MBR分区)工具常用命令</h4><p>显示所有硬盘分区情况<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l</span><br></pre></td></tr></table></figure></p>
+<p>显示具体单个硬盘分区情况<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l /dev/sdb</span><br></pre></td></tr></table></figure></p>
+<p>交互显示方便提示fdisk的所有命令如何使用<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br></pre></td></tr></table></figure></p>
+<h4 id="parted_28_u5B9E_u73B0_u5206_u533A_u7C7B_u578B_u8F6C_u6362_29_u5DE5_u5177_u5E38_u7528_u547D_u4EE4"><a href="#parted_28_u5B9E_u73B0_u5206_u533A_u7C7B_u578B_u8F6C_u6362_29_u5DE5_u5177_u5E38_u7528_u547D_u4EE4" class="headerlink" title="parted(实现分区类型转换)工具常用命令"></a>parted(实现分区类型转换)工具常用命令</h4><p>进入parted交互<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">parted /dev/sdb</span><br><span class="line"><span class="comment"># 打印硬盘信息</span></span><br><span class="line"><span class="keyword">print</span></span><br><span class="line"><span class="comment"># 搜索可用命令</span></span><br><span class="line">help</span><br><span class="line"><span class="comment"># 设置分区类型</span></span><br><span class="line">mklabel gpt</span><br></pre></td></tr></table></figure></p>
+<h4 id="sgdisk_28_u521B_u5EFAGPT_u5206_u533A_29_u5DE5_u5177_u5E38_u7528_u547D_u4EE4_28_u5F15_u7528_u81EAhustcat_29"><a href="#sgdisk_28_u521B_u5EFAGPT_u5206_u533A_29_u5DE5_u5177_u5E38_u7528_u547D_u4EE4_28_u5F15_u7528_u81EAhustcat_29" class="headerlink" title="sgdisk(创建GPT分区)工具常用命令(引用自hustcat)"></a>sgdisk(创建GPT分区)工具常用命令(引用自hustcat)</h4><p>查看所有GPT分区<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sgdisk -p /dev/sdb</span><br></pre></td></tr></table></figure></p>
+<p><img src="/about/partition/2.png" alt="logo"></p>
+<p>查看某个分区的详细信息<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/sgdisk --info=<span class="number">1</span> /dev/sdb</span><br></pre></td></tr></table></figure></p>
+<p><img src="/about/partition/3.png" alt="logo"></p>
+<h3 id="u5F15_u7528"><a href="#u5F15_u7528" class="headerlink" title="引用"></a>引用</h3><p><a href="http://www.ruanyifeng.com/blog/2013/02/booting.html" target="_blank" rel="external">计算机是如何启动的</a><br><a href="http://www.anchor.com.au/blog/2012/10/the-difference-between-booting-mbr-and-gpt-with-grub/" target="_blank" rel="external">The difference between booting MBR and GPT with GRUB</a><br><a href="http://hustcat.github.io/sgdisk-basic/" target="_blank" rel="external">sgdisk常用操作</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>磁盘包括硬盘和软盘，都由磁性材料制成。磁盘英文名disk，硬盘英文名hard disk。写这篇博客主要是因为最近在运行ceph的时候突然报错说是无效的GPT头结构，然后就查了下GPT分区和MBR分区，这里记录我学习到的东西，更多详细的内容前辈们都已经提到过不再赘述，引用中大]]>
+    </summary>
+    
+      <category term="Storage" scheme="http://yoursite.com/tags/Storage/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Running ceph in docker containers]]></title>

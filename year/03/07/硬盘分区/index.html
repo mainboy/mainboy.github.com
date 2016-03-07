@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Vim," />
+  <meta name="keywords" content="Storage," />
 
 
 
@@ -59,20 +59,22 @@
 
 
 
-<meta name="description" content="在Linux下编写程序时，拥有一套类似于VS的集成开发环境可以大大提高程序的阅读和编写效率。本文介绍如何安装vim, ctags, cscope, Taglist, SuperTab, OmniCppComplete, Winmanager, NERDTree和MiniBufExplorer等组件。最后的界面类似于如下:
-在安装之前将权限提升到root, 以后尽量使用root权限ubuntu下：s">
+<meta name="description" content="磁盘包括硬盘和软盘，都由磁性材料制成。磁盘英文名disk，硬盘英文名hard disk。写这篇博客主要是因为最近在运行ceph的时候突然报错说是无效的GPT头结构，然后就查了下GPT分区和MBR分区，这里记录我学习到的东西，更多详细的内容前辈们都已经提到过不再赘述，引用中大家可以去看。
+MBR分区和GPT分区简介我们从上图看到partition table是gpt，可以设置为msdos的。我之前c">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vim">
-<meta property="og:url" content="http://yoursite.com/year/01/06/Vim/index.html">
+<meta property="og:title" content="硬盘分区">
+<meta property="og:url" content="http://yoursite.com/year/03/07/硬盘分区/index.html">
 <meta property="og:site_name" content="Kiss">
-<meta property="og:description" content="在Linux下编写程序时，拥有一套类似于VS的集成开发环境可以大大提高程序的阅读和编写效率。本文介绍如何安装vim, ctags, cscope, Taglist, SuperTab, OmniCppComplete, Winmanager, NERDTree和MiniBufExplorer等组件。最后的界面类似于如下:
-在安装之前将权限提升到root, 以后尽量使用root权限ubuntu下：s">
-<meta property="og:image" content="http://yoursite.com/about/Vim/1.png">
-<meta property="og:updated_time" content="2016-01-06T08:49:58.000Z">
+<meta property="og:description" content="磁盘包括硬盘和软盘，都由磁性材料制成。磁盘英文名disk，硬盘英文名hard disk。写这篇博客主要是因为最近在运行ceph的时候突然报错说是无效的GPT头结构，然后就查了下GPT分区和MBR分区，这里记录我学习到的东西，更多详细的内容前辈们都已经提到过不再赘述，引用中大家可以去看。
+MBR分区和GPT分区简介我们从上图看到partition table是gpt，可以设置为msdos的。我之前c">
+<meta property="og:image" content="http://yoursite.com/about/partition/1.png">
+<meta property="og:image" content="http://yoursite.com/about/partition/2.png">
+<meta property="og:image" content="http://yoursite.com/about/partition/3.png">
+<meta property="og:updated_time" content="2016-03-07T14:05:38.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vim">
-<meta name="twitter:description" content="在Linux下编写程序时，拥有一套类似于VS的集成开发环境可以大大提高程序的阅读和编写效率。本文介绍如何安装vim, ctags, cscope, Taglist, SuperTab, OmniCppComplete, Winmanager, NERDTree和MiniBufExplorer等组件。最后的界面类似于如下:
-在安装之前将权限提升到root, 以后尽量使用root权限ubuntu下：s">
+<meta name="twitter:title" content="硬盘分区">
+<meta name="twitter:description" content="磁盘包括硬盘和软盘，都由磁性材料制成。磁盘英文名disk，硬盘英文名hard disk。写这篇博客主要是因为最近在运行ceph的时候突然报错说是无效的GPT头结构，然后就查了下GPT分区和MBR分区，这里记录我学习到的东西，更多详细的内容前辈们都已经提到过不再赘述，引用中大家可以去看。
+MBR分区和GPT分区简介我们从上图看到partition table是gpt，可以设置为msdos的。我之前c">
 
 
 
@@ -90,7 +92,7 @@
   };
 </script>
 
-  <title> Vim | Kiss </title>
+  <title> 硬盘分区 | Kiss </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -265,7 +267,7 @@
             
             
               
-                Vim
+                硬盘分区
               
             
           </h1>
@@ -277,8 +279,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-06T16:20:55+08:00" content="2016-01-06">
-              2016-01-06
+            <time itemprop="dateCreated" datetime="2016-03-07T20:15:04+08:00" content="2016-03-07">
+              2016-03-07
             </time>
           </span>
 
@@ -288,8 +290,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/year/01/06/Vim/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/06/Vim/" itemprop="commentsCount"></span>
+                <a href="/year/03/07/硬盘分区/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="year/03/07/硬盘分区/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -299,7 +301,7 @@
 
           
           
-             <span id="/year/01/06/Vim/" class="leancloud_visitors" data-flag-title="Vim">
+             <span id="/year/03/07/硬盘分区/" class="leancloud_visitors" data-flag-title="硬盘分区">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -319,27 +321,20 @@
       
 
       
-        <p>在Linux下编写程序时，拥有一套类似于VS的集成开发环境可以大大提高程序的阅读和编写效率。本文介绍如何安装vim, ctags, cscope, Taglist, SuperTab, OmniCppComplete, Winmanager, NERDTree和MiniBufExplorer等组件。最后的界面类似于如下:<br><img src="/about/Vim/1.png" alt="logo"></p>
-<p>在安装之前将权限提升到root, 以后尽量使用root权限<br>ubuntu下：sudo su然后输入密码</p>
-<h4 id="u5B89_u88C5vim"><a href="#u5B89_u88C5vim" class="headerlink" title="安装vim"></a>安装vim</h4><pre><code>apt-get install vim
-</code></pre><h4 id="u5B89_u88C5_u4F7F_u7528ctags"><a href="#u5B89_u88C5_u4F7F_u7528ctags" class="headerlink" title="安装使用ctags"></a>安装使用ctags</h4><p>ctags是利用堆栈实现的能快速定位符号的工具。<br>安装方法：<br>1)从<a href="http://ctags.sourceforge.net/" target="_blank" rel="external">http://ctags.sourceforge.net/</a>下载源代码包后，解压缩生成源代码目录<br>2)然后进入源代码根目录执行./configure<br>3)然后执行make<br>4)编译成功后执行make install<br>5)最后将ctrl-F12组合键映射到生成ctags的命令，需要在~/.vimrc(没有就新建)里面添加<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map &lt;C-F12&gt; :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .&lt;CR&gt;</span><br></pre></td></tr></table></figure></p>
-<p>使用ctags的方法:<br>使用vim打开源代码目录里面的文件，然后同时按下ctrl和F12键生成tags。<br>简单的使用就是<br>Ctrl-]    跳转到光标所在符号的定义。<br>Ctrl-t    回到上次跳转前的位置</p>
-<p>更多的功能通过命令man ctags或在vim的命令行模式下(命令行模式就是在正常打开vim后输入:就进入命令行模式)执行help ctags查询。</p>
-<h4 id="u5B89_u88C5_u4F7F_u7528cscope"><a href="#u5B89_u88C5_u4F7F_u7528cscope" class="headerlink" title="安装使用cscope"></a>安装使用cscope</h4><p>安装cscope的方法:<br>1)从<a href="http://cscope.sourceforge.net/" target="_blank" rel="external">http://cscope.sourceforge.net/</a>下载源代码包后，解压缩生成源代码目录<br>2)然后进入源代码根目录执行./configure<br>3)然后执行make<br>4)编译成功后执行make install<br>5)将文件<a href="http://cscope.sourceforge.net/cscope_maps.vim" target="_blank" rel="external">http://cscope.sourceforge.net/cscope_maps.vim</a>下载到~/.vim/plugin目录，如果没有该目录就新建。</p>
-<p>使用cscope的方法:<br>1) 生成cscope数据库文件，进入项目代码根目录运行命令<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cscope -Rbq -f ./a.out</span><br></pre></td></tr></table></figure></p>
-<p>2)打开源代码的根目录下的文件在vim的命令下输入<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cs add ./a.out</span><br></pre></td></tr></table></figure></p>
-<p>将数据库加载进来</p>
-<p>Cscope常用快捷键<br>Ctrl-\ s 查找所有当前光标所在符号出现过位置。<br>Ctrl-\ c 查找所有调用当前光标所在函数的函数。</p>
-<p>在命令行下输入cw还可以重选。<br>为了使cscope展现的更好看，在~/.vimrc里面添加如下行<br>set cscopequickfix=s-,c-,d-,i-,t-,e-</p>
-<h4 id="u5B89_u88C5_u4F7F_u7528Taglist"><a href="#u5B89_u88C5_u4F7F_u7528Taglist" class="headerlink" title="安装使用Taglist"></a>安装使用Taglist</h4><p>1）从<a href="http://www.vim.org/scripts/script.php?script_id=273" target="_blank" rel="external">http://www.vim.org/scripts/script.php?script_id=273</a>下载安装包，也可以从<a href="http://vim-taglist.sourceforge.net/index.html" target="_blank" rel="external">http://vim-taglist.sourceforge.net/index.html</a>下载。<br>2）进入~/.vim目录，将Taglist安装包解压，解压后会在~/.vim目录中生成几个新子目录，如plugin和doc（安装其它插件时，可能还会新建autoload等其它目录）。<br>3）进入~/.vim/doc目录，在Vim下运行”helptags .”命令。此步骤是将doc下的帮助文档加入到Vim的帮助主题中，这样我们就可以通过在Vim中运行“help taglist.txt”查看taglist帮助。<br>4）打开配置文件~/.vimrc，加入以下两行：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let Tlist_Show_One_File=<span class="number">1</span></span><br><span class="line">let Tlist_Exit_OnlyWindow=<span class="number">1</span></span><br></pre></td></tr></table></figure></p>
-<p>在命令行下输入TlistToggle命令就可以打开Taglist窗口。</p>
-<h4 id="u5B89_u88C5_u4F7F_u7528OmniCppComplete"><a href="#u5B89_u88C5_u4F7F_u7528OmniCppComplete" class="headerlink" title="安装使用OmniCppComplete"></a>安装使用OmniCppComplete</h4><p>OmniCppComplete主要提供输入时实时提供类或结构体的属性或方法的提示和补全。跟Talist一样，OmniCppComplete也是一个Vim插件，同样依赖与Ctags工具生成的tags文件。安装步骤跟Taglist类似。<br>从<a href="http://www.vim.org/scripts/script.php?script_id=1520" target="_blank" rel="external">http://www.vim.org/scripts/script.php?script_id=1520</a>下载安装包后。<br>1）进入~/.vim目录，将安装版解压缩<br>2）进入~/.vim/doc目录，在Vim命令行下运行”helptags .”<br>3）在~/.vimrc中加入以下几行：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set nocp</span><br><span class="line">filetype plugin on</span><br></pre></td></tr></table></figure></p>
-<h4 id="u5B89_u88C5_u4F7F_u7528SuperTab"><a href="#u5B89_u88C5_u4F7F_u7528SuperTab" class="headerlink" title="安装使用SuperTab"></a>安装使用SuperTab</h4><p>SuperTab使Tab快捷键具有更快捷的上下文提示功能。跟OmniCppComplete一样，SuperTab也是一个Vim插件。<br>从<a href="http://www.vim.org/scripts/script.php?script_id=1643" target="_blank" rel="external">http://www.vim.org/scripts/script.php?script_id=1643</a>下载安装版。这个安装包跟先前的几个Vim插件不同，它是一个vba文件，即Vimball格式的安装包，这种格式安装包提供傻瓜式的安装插件的方法。<br>1）用Vim打开.vba安装包文件。<br>2）在Vim命令行下运行命令“UseVimball ~/.vim”。此命令将安装包解压缩到~/.vim目录。VImball安装方式的便利之处在于你可以在任何目录打开.vba包安装，而不用切换到安装目的地目录。而且不用运行helptags命令安装帮助文档。<br>3）在~/.vimrc文件中加入以下这行：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let g:SuperTabDefaultCompletionType=<span class="string">"context"</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="u5B89_u88C5_u4F7F_u7528Winmanager_2C_NERDTree_u548CMiniBufExplorer"><a href="#u5B89_u88C5_u4F7F_u7528Winmanager_2C_NERDTree_u548CMiniBufExplorer" class="headerlink" title="安装使用Winmanager, NERDTree和MiniBufExplorer"></a>安装使用Winmanager, NERDTree和MiniBufExplorer</h4><p>前面介绍的几个工具和插件，主要提供快捷的编辑功能，如定义跳转，符号查询，符号提示与补全等。这里的三个插件，主要优化布置VIm的界面。具体来说，NERDTree提供树形浏览文件系统的界面，MiniBufExplorer提供多文件同时编辑功能，而Winmanager将这NERDTree界面和Taglist界面整合起来，使Vim更像VS！<br>分别从<a href="http://www.vim.org/scripts/script.php?script_id=1658" target="_blank" rel="external">http://www.vim.org/scripts/script.php?script_id=1658</a><br><a href="http://www.vim.org/scripts/script.php?script_id=159" target="_blank" rel="external">http://www.vim.org/scripts/script.php?script_id=159</a><br><a href="http://www.vim.org/scripts/script.php?script_id=95" target="_blank" rel="external">http://www.vim.org/scripts/script.php?script_id=95</a><br>下载NERDTree，MiniBufExplorer和Winmanager安装包（Winmanager还有个更新的vba版本<a href="http://www.vim.org/scripts/script.php?script_id=1440" target="_blank" rel="external">http://www.vim.org/scripts/script.php?script_id=1440</a>，这里选用旧版本的Winmanger）。<br>1）像其它插件一样，将NERDTree安装包解压到~/.vim目录。并进入doc目录，在Vim命令行下运行”helptags .”命令。<br>2）MiniBufExplorer只有一个.vim文件，将其拷贝到~/.vim/plugin目录。<br>3）在~/.vimrc文件中加入以下几行：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let g:miniBufExplMapWindowNavVim = <span class="number">1</span> </span><br><span class="line">let g:miniBufExplMapWindowNavArrows = <span class="number">1</span> </span><br><span class="line">let g:miniBufExplMapCTabSwitchBufs = <span class="number">1</span> </span><br><span class="line">let g:miniBufExplModSelTarget = <span class="number">1</span></span><br><span class="line">let g:miniBufExplMoreThanOne=<span class="number">0</span></span><br></pre></td></tr></table></figure></p>
-<p>4）将Winmanager安装包解压到~/.vim目录。<br>5）在~/.vimrc文件中加入以下几行：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">let g:NERDTree_title=<span class="string">"[NERDTree]"</span></span><br><span class="line">let g:winManagerWindowLayout=<span class="string">"NERDTree|TagList"</span></span><br><span class="line"></span><br><span class="line">function! NERDTree_Start()</span><br><span class="line">	<span class="keyword">exec</span> <span class="string">'NERDTree'</span></span><br><span class="line">endfunction</span><br><span class="line"></span><br><span class="line">function! NERDTree_IsValid()</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">endfunction</span><br><span class="line"></span><br><span class="line">nmap wm :WMToggle&lt;CR&gt;</span><br></pre></td></tr></table></figure></p>
-<p>6）这个版本的Winmanager好像有个小bug，你在打开Winmanager界面时，会同时打开一个空的文件。这会影响后续使用，所以我们要在打开Winmanager时关掉这个空文件。在~/.vim/plugin目录下的winmanager.vim文件中找到以下函数定义并在第5行下添加第6行的内容：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function! &lt;SID&gt;ToggleWindowsManager()</span><br><span class="line">	<span class="keyword">if</span> IsWinManagerVisible()</span><br><span class="line">		call s:CloseWindowsManager()</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		call s:StartWindowsManager()</span><br><span class="line">	exe <span class="string">'q'</span></span><br><span class="line">	end</span><br><span class="line">endfunction</span><br></pre></td></tr></table></figure></p>
-<p>这样同时按下w-m就可以打开集成环境。</p>
-<h4 id="u5176_u4ED6_u6709_u7528_u7684_7E/-vimrc_u914D_u7F6E"><a href="#u5176_u4ED6_u6709_u7528_u7684_7E/-vimrc_u914D_u7F6E" class="headerlink" title="其他有用的~/.vimrc配置"></a>其他有用的~/.vimrc配置</h4><p>在~/.vimrc里面加入：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">colo evening</span><br><span class="line">set nu</span><br><span class="line">set autoindent</span><br><span class="line">set tabstop=4</span><br><span class="line">set shiftwidth=4</span><br><span class="line">set mouse=a</span><br><span class="line">set hlsearch</span><br><span class="line"></span><br><span class="line">" 执行特定命令并保留光标位置及搜索历史</span><br><span class="line">function! Preserve(command)</span><br><span class="line">	let _s=@/</span><br><span class="line">	let l = line(".")</span><br><span class="line">	let c = col(".")</span><br><span class="line">	execute a:command</span><br><span class="line"></span><br><span class="line">	let @/=_s</span><br><span class="line">		call cursor(l, c)</span><br><span class="line">	endfunction</span><br><span class="line">" 格式化全文</span><br><span class="line">function! FullFormat()</span><br><span class="line">	call Preserve("normal gg=G")</span><br><span class="line">endfunction</span><br><span class="line">nmap &lt;M-F9&gt; :call FullFormat()&lt;CR&gt;</span><br></pre></td></tr></table></figure></p>
+        <p>磁盘包括硬盘和软盘，都由磁性材料制成。磁盘英文名disk，硬盘英文名hard disk。写这篇博客主要是因为最近在运行ceph的时候突然报错说是无效的GPT头结构，然后就查了下GPT分区和MBR分区，这里记录我学习到的东西，更多详细的内容前辈们都已经提到过不再赘述，引用中大家可以去看。</p>
+<h3 id="MBR_u5206_u533A_u548CGPT_u5206_u533A_u7B80_u4ECB"><a href="#MBR_u5206_u533A_u548CGPT_u5206_u533A_u7B80_u4ECB" class="headerlink" title="MBR分区和GPT分区简介"></a>MBR分区和GPT分区简介</h3><p><img src="/about/partition/1.png" alt="logo"><br>我们从上图看到partition table是gpt，可以设置为msdos的。我之前ceph运行出错的原因就是分区表类型是msdos，然后我改成gpt就解决了问题。<br>我的理解是分区表类型代表硬盘是什么分区，msdos代表的是MBR分区，gpt代表的是GPT分区。传统的BIOS只支持MBR分区硬盘启动，一个硬盘只能分成四个分区，并且单个分区最大不超过2TB。EFI支持GPT分区启动的，GPT分区没有分区数目的限制并且单个分区可以超过2TB。</p>
+<h3 id="MBR_u5206_u533A_u548CGPT_u5206_u533A_u7684_u8F6C_u6362"><a href="#MBR_u5206_u533A_u548CGPT_u5206_u533A_u7684_u8F6C_u6362" class="headerlink" title="MBR分区和GPT分区的转换"></a>MBR分区和GPT分区的转换</h3><p>比如硬盘/dev/sdb</p>
+<p>转换成GPT<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">parted /dev/sdb</span><br><span class="line">mklabel gpt</span><br></pre></td></tr></table></figure></p>
+<p>转换成MBR<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">parted /dev/sdb</span><br><span class="line">mklabel msdos</span><br></pre></td></tr></table></figure></p>
+<h3 id="fdisk_2C_sgdisk_u548Cparted_u5206_u533A_u5DE5_u5177"><a href="#fdisk_2C_sgdisk_u548Cparted_u5206_u533A_u5DE5_u5177" class="headerlink" title="fdisk, sgdisk和parted分区工具"></a>fdisk, sgdisk和parted分区工具</h3><h4 id="fdisk_28_u521B_u5EFAMBR_u5206_u533A_29_u5DE5_u5177_u5E38_u7528_u547D_u4EE4"><a href="#fdisk_28_u521B_u5EFAMBR_u5206_u533A_29_u5DE5_u5177_u5E38_u7528_u547D_u4EE4" class="headerlink" title="fdisk(创建MBR分区)工具常用命令"></a>fdisk(创建MBR分区)工具常用命令</h4><p>显示所有硬盘分区情况<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l</span><br></pre></td></tr></table></figure></p>
+<p>显示具体单个硬盘分区情况<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l /dev/sdb</span><br></pre></td></tr></table></figure></p>
+<p>交互显示方便提示fdisk的所有命令如何使用<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br></pre></td></tr></table></figure></p>
+<h4 id="parted_28_u5B9E_u73B0_u5206_u533A_u7C7B_u578B_u8F6C_u6362_29_u5DE5_u5177_u5E38_u7528_u547D_u4EE4"><a href="#parted_28_u5B9E_u73B0_u5206_u533A_u7C7B_u578B_u8F6C_u6362_29_u5DE5_u5177_u5E38_u7528_u547D_u4EE4" class="headerlink" title="parted(实现分区类型转换)工具常用命令"></a>parted(实现分区类型转换)工具常用命令</h4><p>进入parted交互<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">parted /dev/sdb</span><br><span class="line"><span class="comment"># 打印硬盘信息</span></span><br><span class="line"><span class="keyword">print</span></span><br><span class="line"><span class="comment"># 搜索可用命令</span></span><br><span class="line">help</span><br><span class="line"><span class="comment"># 设置分区类型</span></span><br><span class="line">mklabel gpt</span><br></pre></td></tr></table></figure></p>
+<h4 id="sgdisk_28_u521B_u5EFAGPT_u5206_u533A_29_u5DE5_u5177_u5E38_u7528_u547D_u4EE4_28_u5F15_u7528_u81EAhustcat_29"><a href="#sgdisk_28_u521B_u5EFAGPT_u5206_u533A_29_u5DE5_u5177_u5E38_u7528_u547D_u4EE4_28_u5F15_u7528_u81EAhustcat_29" class="headerlink" title="sgdisk(创建GPT分区)工具常用命令(引用自hustcat)"></a>sgdisk(创建GPT分区)工具常用命令(引用自hustcat)</h4><p>查看所有GPT分区<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sgdisk -p /dev/sdb</span><br></pre></td></tr></table></figure></p>
+<p><img src="/about/partition/2.png" alt="logo"></p>
+<p>查看某个分区的详细信息<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/sgdisk --info=<span class="number">1</span> /dev/sdb</span><br></pre></td></tr></table></figure></p>
+<p><img src="/about/partition/3.png" alt="logo"></p>
+<h3 id="u5F15_u7528"><a href="#u5F15_u7528" class="headerlink" title="引用"></a>引用</h3><p><a href="http://www.ruanyifeng.com/blog/2013/02/booting.html" target="_blank" rel="external">计算机是如何启动的</a><br><a href="http://www.anchor.com.au/blog/2012/10/the-difference-between-booting-mbr-and-gpt-with-grub/" target="_blank" rel="external">The difference between booting MBR and GPT with GRUB</a><br><a href="http://hustcat.github.io/sgdisk-basic/" target="_blank" rel="external">sgdisk常用操作</a></p>
 
       
     </div>
@@ -348,7 +343,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Vim/" rel="tag">#Vim</a>
+            <a href="/tags/Storage/" rel="tag">#Storage</a>
           
         </div>
       
@@ -357,17 +352,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/year/01/03/图着色问题/" rel="next" title="图着色问题">
-                <i class="fa fa-chevron-left"></i> 图着色问题
+              <a href="/year/03/05/Running-ceph-in-docker-containers/" rel="next" title="Running ceph in docker containers">
+                <i class="fa fa-chevron-left"></i> Running ceph in docker containers
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/year/01/06/gem5/" rel="prev" title="gem5">
-                gem5 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -382,10 +373,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="year/01/06/Vim/"
-     data-title="Vim"
+        <div class="ds-share flat" data-thread-key="year/03/07/硬盘分区/"
+     data-title="硬盘分区"
      data-content=""
-     data-url="http://yoursite.com/year/01/06/Vim/">
+     data-url="http://yoursite.com/year/03/07/硬盘分区/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -412,8 +403,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="year/01/06/Vim/"
-           data-title="Vim" data-url="http://yoursite.com/year/01/06/Vim/">
+      <div class="ds-thread" data-thread-key="year/03/07/硬盘分区/"
+           data-title="硬盘分区" data-url="http://yoursite.com/year/03/07/硬盘分区/">
       </div>
     
   </div>
@@ -545,7 +536,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#u5B89_u88C5vim"><span class="nav-number">1.</span> <span class="nav-text">安装vim</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5B89_u88C5_u4F7F_u7528ctags"><span class="nav-number">2.</span> <span class="nav-text">安装使用ctags</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5B89_u88C5_u4F7F_u7528cscope"><span class="nav-number">3.</span> <span class="nav-text">安装使用cscope</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5B89_u88C5_u4F7F_u7528Taglist"><span class="nav-number">4.</span> <span class="nav-text">安装使用Taglist</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5B89_u88C5_u4F7F_u7528OmniCppComplete"><span class="nav-number">5.</span> <span class="nav-text">安装使用OmniCppComplete</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5B89_u88C5_u4F7F_u7528SuperTab"><span class="nav-number">6.</span> <span class="nav-text">安装使用SuperTab</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5B89_u88C5_u4F7F_u7528Winmanager_2C_NERDTree_u548CMiniBufExplorer"><span class="nav-number">7.</span> <span class="nav-text">安装使用Winmanager, NERDTree和MiniBufExplorer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5176_u4ED6_u6709_u7528_u7684_7E/-vimrc_u914D_u7F6E"><span class="nav-number">8.</span> <span class="nav-text">其他有用的~/.vimrc配置</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MBR_u5206_u533A_u548CGPT_u5206_u533A_u7B80_u4ECB"><span class="nav-number">1.</span> <span class="nav-text">MBR分区和GPT分区简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MBR_u5206_u533A_u548CGPT_u5206_u533A_u7684_u8F6C_u6362"><span class="nav-number">2.</span> <span class="nav-text">MBR分区和GPT分区的转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fdisk_2C_sgdisk_u548Cparted_u5206_u533A_u5DE5_u5177"><span class="nav-number">3.</span> <span class="nav-text">fdisk, sgdisk和parted分区工具</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fdisk_28_u521B_u5EFAMBR_u5206_u533A_29_u5DE5_u5177_u5E38_u7528_u547D_u4EE4"><span class="nav-number">3.1.</span> <span class="nav-text">fdisk(创建MBR分区)工具常用命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#parted_28_u5B9E_u73B0_u5206_u533A_u7C7B_u578B_u8F6C_u6362_29_u5DE5_u5177_u5E38_u7528_u547D_u4EE4"><span class="nav-number">3.2.</span> <span class="nav-text">parted(实现分区类型转换)工具常用命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sgdisk_28_u521B_u5EFAGPT_u5206_u533A_29_u5DE5_u5177_u5E38_u7528_u547D_u4EE4_28_u5F15_u7528_u81EAhustcat_29"><span class="nav-number">3.3.</span> <span class="nav-text">sgdisk(创建GPT分区)工具常用命令(引用自hustcat)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5F15_u7528"><span class="nav-number">4.</span> <span class="nav-text">引用</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
