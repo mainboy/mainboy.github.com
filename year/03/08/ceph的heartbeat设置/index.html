@@ -60,28 +60,28 @@
 
 
 <meta name="description" content="ceph MON会根据ceph OSD的状态报告来动态调整集群状态。
-osd heartbeat intervalOSD每隔一段时间检查另OSD心跳，默认时间6s
+常见的设置osd heartbeat intervalOSD每隔一段时间检查另OSD心跳，默认时间6s
 osd heartbeat graceOSD检查另OSD心跳，超过这个时间不回复就向MON报告down，默认时间20s
-mon osd min down reports默认OSD要向MON报告3次另OSD down，MON才会认为另OS">
+mon osd min down reports默认OSD要向MON报告3次另OSD down，MON才会">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ceph的heartbeat设置">
 <meta property="og:url" content="http://yoursite.com/year/03/08/ceph的heartbeat设置/index.html">
 <meta property="og:site_name" content="Kiss">
 <meta property="og:description" content="ceph MON会根据ceph OSD的状态报告来动态调整集群状态。
-osd heartbeat intervalOSD每隔一段时间检查另OSD心跳，默认时间6s
+常见的设置osd heartbeat intervalOSD每隔一段时间检查另OSD心跳，默认时间6s
 osd heartbeat graceOSD检查另OSD心跳，超过这个时间不回复就向MON报告down，默认时间20s
-mon osd min down reports默认OSD要向MON报告3次另OSD down，MON才会认为另OS">
+mon osd min down reports默认OSD要向MON报告3次另OSD down，MON才会">
 <meta property="og:image" content="http://yoursite.com/about/ceph/heartbeat/1.png">
 <meta property="og:image" content="http://yoursite.com/about/ceph/heartbeat/2.png">
 <meta property="og:image" content="http://yoursite.com/about/ceph/heartbeat/3.png">
 <meta property="og:image" content="http://yoursite.com/about/ceph/heartbeat/4.png">
-<meta property="og:updated_time" content="2016-03-08T04:50:13.000Z">
+<meta property="og:updated_time" content="2016-03-08T14:33:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ceph的heartbeat设置">
 <meta name="twitter:description" content="ceph MON会根据ceph OSD的状态报告来动态调整集群状态。
-osd heartbeat intervalOSD每隔一段时间检查另OSD心跳，默认时间6s
+常见的设置osd heartbeat intervalOSD每隔一段时间检查另OSD心跳，默认时间6s
 osd heartbeat graceOSD检查另OSD心跳，超过这个时间不回复就向MON报告down，默认时间20s
-mon osd min down reports默认OSD要向MON报告3次另OSD down，MON才会认为另OS">
+mon osd min down reports默认OSD要向MON报告3次另OSD down，MON才会">
 
 
 
@@ -348,14 +348,18 @@ mon osd min down reports默认OSD要向MON报告3次另OSD down，MON才会认�
 
       
         <p>ceph MON会根据ceph OSD的状态报告来动态调整集群状态。</p>
-<h4 id="osd_heartbeat_interval"><a href="#osd_heartbeat_interval" class="headerlink" title="osd heartbeat interval"></a>osd heartbeat interval</h4><p>OSD每隔一段时间检查另OSD心跳，默认时间6s</p>
-<h4 id="osd_heartbeat_grace"><a href="#osd_heartbeat_grace" class="headerlink" title="osd heartbeat grace"></a>osd heartbeat grace</h4><p>OSD检查另OSD心跳，超过这个时间不回复就向MON报告down，默认时间20s<br><img src="/about/ceph/heartbeat/1.png" alt="logo"></p>
+<h3 id="u5E38_u89C1_u7684_u8BBE_u7F6E"><a href="#u5E38_u89C1_u7684_u8BBE_u7F6E" class="headerlink" title="常见的设置"></a>常见的设置</h3><h4 id="osd_heartbeat_interval"><a href="#osd_heartbeat_interval" class="headerlink" title="osd heartbeat interval"></a>osd heartbeat interval</h4><p>OSD每隔一段时间检查另OSD心跳，默认时间6s</p>
+<h4 id="osd_heartbeat_grace"><a href="#osd_heartbeat_grace" class="headerlink" title="osd heartbeat grace"></a>osd heartbeat grace</h4><p>OSD检查另OSD心跳，超过这个时间不回复就向MON报告down，默认时间20s<br><img src="/about/ceph/heartbeat/1.png" width="500" heigth="300" alt="logo" align="center"></p>
 <h4 id="mon_osd_min_down_reports"><a href="#mon_osd_min_down_reports" class="headerlink" title="mon osd min down reports"></a>mon osd min down reports</h4><p>默认OSD要向MON报告3次另OSD down，MON才会认为另OSD down</p>
-<h4 id="mon_osd_min_down_reporters"><a href="#mon_osd_min_down_reporters" class="headerlink" title="mon osd min down reporters"></a>mon osd min down reporters</h4><p>默认只需要一个OSD向MON报告另OSD down的情况<br><img src="/about/ceph/heartbeat/2.png" alt="logo"></p>
-<h4 id="osd_mon_heartbeat_interval"><a href="#osd_mon_heartbeat_interval" class="headerlink" title="osd mon heartbeat interval"></a>osd mon heartbeat interval</h4><p>如果OSD无法和另OSD peer，每隔一段时间就会接受MON新的集群映射。默认时间30s<br><img src="/about/ceph/heartbeat/3.png" alt="logo"></p>
+<h4 id="mon_osd_min_down_reporters"><a href="#mon_osd_min_down_reporters" class="headerlink" title="mon osd min down reporters"></a>mon osd min down reporters</h4><p>默认只需要一个OSD向MON报告另OSD down的情况<br><img src="/about/ceph/heartbeat/2.png" width="500" heigth="300" alt="logo" align="center"></p>
+<h4 id="osd_mon_heartbeat_interval"><a href="#osd_mon_heartbeat_interval" class="headerlink" title="osd mon heartbeat interval"></a>osd mon heartbeat interval</h4><p>如果OSD无法和另OSD同步，每隔一段时间就会接受MON新的集群映射。默认时间30s<br><img src="/about/ceph/heartbeat/3.png" width="500" heigth="300" alt="logo" align="center"></p>
 <h4 id="mon_osd_report_timeout"><a href="#mon_osd_report_timeout" class="headerlink" title="mon osd report timeout"></a>mon osd report timeout</h4><p>如果OSD没有给MON报告，隔这段时间MON会将OSD标记为down。默认时间900s</p>
 <h4 id="osd_mon_report_interval_min"><a href="#osd_mon_report_interval_min" class="headerlink" title="osd mon report interval min"></a>osd mon report interval min</h4><p>OSD向MON连续报告的最小间隔时间。默认时间5s</p>
-<h4 id="osd_mon_report_interval_max"><a href="#osd_mon_report_interval_max" class="headerlink" title="osd mon report interval max"></a>osd mon report interval max</h4><p>OSD向MON发报告的最大时间间隔。默认时间120s<br><img src="/about/ceph/heartbeat/4.png" alt="logo"></p>
+<h4 id="osd_mon_report_interval_max"><a href="#osd_mon_report_interval_max" class="headerlink" title="osd mon report interval max"></a>osd mon report interval max</h4><p>OSD向MON发报告的最大时间间隔。默认时间120s<br><img src="/about/ceph/heartbeat/4.png" width="500" heigth="300" alt="logo" align="center"></p>
+<h3 id="u5982_u4F55_u5728_u7EBF_u8BBE_u7F6E"><a href="#u5982_u4F55_u5728_u7EBF_u8BBE_u7F6E" class="headerlink" title="如何在线设置"></a>如何在线设置</h3><p>查询心跳<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ceph daemon /var/run/ceph/ceph-mon.ceph.asok config show | grep heart</span><br></pre></td></tr></table></figure></p>
+<p>设置相关的参数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ceph daemon /var/run/ceph/ceph-mon.ceph.asok config set osd_heartbeat_grace <span class="number">30</span></span><br></pre></td></tr></table></figure></p>
+<p>如果重启集群在线设置都会丢失，要想永久设置就必须写在配置文件中。</p>
+<h3 id="u53C2_u8003_u6587_u732E"><a href="#u53C2_u8003_u6587_u732E" class="headerlink" title="参考文献"></a>参考文献</h3><p><a href="http://docs.ceph.com/docs/master/rados/configuration/mon-osd-interaction/" target="_blank" rel="external">Heartbeat Settings</a></p>
 
       
     </div>
@@ -557,7 +561,7 @@ mon osd min down reports默认OSD要向MON报告3次另OSD down，MON才会认�
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#osd_heartbeat_interval"><span class="nav-number">1.</span> <span class="nav-text">osd heartbeat interval</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#osd_heartbeat_grace"><span class="nav-number">2.</span> <span class="nav-text">osd heartbeat grace</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mon_osd_min_down_reports"><span class="nav-number">3.</span> <span class="nav-text">mon osd min down reports</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mon_osd_min_down_reporters"><span class="nav-number">4.</span> <span class="nav-text">mon osd min down reporters</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#osd_mon_heartbeat_interval"><span class="nav-number">5.</span> <span class="nav-text">osd mon heartbeat interval</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mon_osd_report_timeout"><span class="nav-number">6.</span> <span class="nav-text">mon osd report timeout</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#osd_mon_report_interval_min"><span class="nav-number">7.</span> <span class="nav-text">osd mon report interval min</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#osd_mon_report_interval_max"><span class="nav-number">8.</span> <span class="nav-text">osd mon report interval max</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u5E38_u89C1_u7684_u8BBE_u7F6E"><span class="nav-number">1.</span> <span class="nav-text">常见的设置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#osd_heartbeat_interval"><span class="nav-number">1.1.</span> <span class="nav-text">osd heartbeat interval</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#osd_heartbeat_grace"><span class="nav-number">1.2.</span> <span class="nav-text">osd heartbeat grace</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mon_osd_min_down_reports"><span class="nav-number">1.3.</span> <span class="nav-text">mon osd min down reports</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mon_osd_min_down_reporters"><span class="nav-number">1.4.</span> <span class="nav-text">mon osd min down reporters</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#osd_mon_heartbeat_interval"><span class="nav-number">1.5.</span> <span class="nav-text">osd mon heartbeat interval</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mon_osd_report_timeout"><span class="nav-number">1.6.</span> <span class="nav-text">mon osd report timeout</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#osd_mon_report_interval_min"><span class="nav-number">1.7.</span> <span class="nav-text">osd mon report interval min</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#osd_mon_report_interval_max"><span class="nav-number">1.8.</span> <span class="nav-text">osd mon report interval max</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5982_u4F55_u5728_u7EBF_u8BBE_u7F6E"><span class="nav-number">2.</span> <span class="nav-text">如何在线设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u53C2_u8003_u6587_u732E"><span class="nav-number">3.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

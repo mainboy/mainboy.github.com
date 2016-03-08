@@ -347,10 +347,10 @@
         
           
           ceph MON会根据ceph OSD的状态报告来动态调整集群状态。
-osd heartbeat intervalOSD每隔一段时间检查另OSD心跳，默认时间6s
+常见的设置osd heartbeat intervalOSD每隔一段时间检查另OSD心跳，默认时间6s
 osd heartbeat graceOSD检查另OSD心跳，超过这个时间不回复就向MON报告down，默认时间20s
 mon osd min down reports默认OSD要向MON报告3次另OSD down，MON才会认为另OSD down
-mon osd min down reporters默认只需要一个OSD向MON报告另
+mon osd min down reporters默认只需要一个OSD向M
           ...
 
           <div class="post-more-link text-center">
@@ -582,7 +582,8 @@ MBR分区和GPT分区简介我们从上图看到partition table是gpt，可以�
           
           由于毕设在研究docker容器中运行的ceph，现记录下我的运行过程。
 环境说明运行环境是centOS 7上安装的Docker version1.10.2。共计有三个主机，每个主机上配置两个硬盘，其中一个硬盘用于装系统，另一个硬盘作为OSD对象存储。由于MON所用计算资源和存储资源都很少所以直接在主机上运行。这样就共计三个MON和三个OSD。
-修改主机名我的三个主机IP分别是192.168.3.65，192.168.3.66，192.168.3.67。将对应的主机名改为ceph1, ceph2,
+操作之前务必关闭所有主机防火墙，血的教训！！！
+修改主机名我的三个主机IP分别是192.168.3.65，192.168.3.66，192.168.3.6
           ...
 
           <div class="post-more-link text-center">

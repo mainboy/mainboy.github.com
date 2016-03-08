@@ -4,7 +4,7 @@
   <subtitle><![CDATA[less is more]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-03-08T04:50:13.000Z</updated>
+  <updated>2016-03-08T14:33:18.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,20 +19,24 @@
     <link href="http://yoursite.com/year/03/08/ceph%E7%9A%84heartbeat%E8%AE%BE%E7%BD%AE/"/>
     <id>http://yoursite.com/year/03/08/ceph的heartbeat设置/</id>
     <published>2016-03-08T01:13:14.000Z</published>
-    <updated>2016-03-08T04:50:13.000Z</updated>
+    <updated>2016-03-08T14:33:18.000Z</updated>
     <content type="html"><![CDATA[<p>ceph MON会根据ceph OSD的状态报告来动态调整集群状态。</p>
-<h4 id="osd_heartbeat_interval"><a href="#osd_heartbeat_interval" class="headerlink" title="osd heartbeat interval"></a>osd heartbeat interval</h4><p>OSD每隔一段时间检查另OSD心跳，默认时间6s</p>
-<h4 id="osd_heartbeat_grace"><a href="#osd_heartbeat_grace" class="headerlink" title="osd heartbeat grace"></a>osd heartbeat grace</h4><p>OSD检查另OSD心跳，超过这个时间不回复就向MON报告down，默认时间20s<br><img src="/about/ceph/heartbeat/1.png" alt="logo"></p>
+<h3 id="u5E38_u89C1_u7684_u8BBE_u7F6E"><a href="#u5E38_u89C1_u7684_u8BBE_u7F6E" class="headerlink" title="常见的设置"></a>常见的设置</h3><h4 id="osd_heartbeat_interval"><a href="#osd_heartbeat_interval" class="headerlink" title="osd heartbeat interval"></a>osd heartbeat interval</h4><p>OSD每隔一段时间检查另OSD心跳，默认时间6s</p>
+<h4 id="osd_heartbeat_grace"><a href="#osd_heartbeat_grace" class="headerlink" title="osd heartbeat grace"></a>osd heartbeat grace</h4><p>OSD检查另OSD心跳，超过这个时间不回复就向MON报告down，默认时间20s<br><img src="/about/ceph/heartbeat/1.png" width="500" heigth="300" alt="logo" align="center"></p>
 <h4 id="mon_osd_min_down_reports"><a href="#mon_osd_min_down_reports" class="headerlink" title="mon osd min down reports"></a>mon osd min down reports</h4><p>默认OSD要向MON报告3次另OSD down，MON才会认为另OSD down</p>
-<h4 id="mon_osd_min_down_reporters"><a href="#mon_osd_min_down_reporters" class="headerlink" title="mon osd min down reporters"></a>mon osd min down reporters</h4><p>默认只需要一个OSD向MON报告另OSD down的情况<br><img src="/about/ceph/heartbeat/2.png" alt="logo"></p>
-<h4 id="osd_mon_heartbeat_interval"><a href="#osd_mon_heartbeat_interval" class="headerlink" title="osd mon heartbeat interval"></a>osd mon heartbeat interval</h4><p>如果OSD无法和另OSD peer，每隔一段时间就会接受MON新的集群映射。默认时间30s<br><img src="/about/ceph/heartbeat/3.png" alt="logo"></p>
+<h4 id="mon_osd_min_down_reporters"><a href="#mon_osd_min_down_reporters" class="headerlink" title="mon osd min down reporters"></a>mon osd min down reporters</h4><p>默认只需要一个OSD向MON报告另OSD down的情况<br><img src="/about/ceph/heartbeat/2.png" width="500" heigth="300" alt="logo" align="center"></p>
+<h4 id="osd_mon_heartbeat_interval"><a href="#osd_mon_heartbeat_interval" class="headerlink" title="osd mon heartbeat interval"></a>osd mon heartbeat interval</h4><p>如果OSD无法和另OSD同步，每隔一段时间就会接受MON新的集群映射。默认时间30s<br><img src="/about/ceph/heartbeat/3.png" width="500" heigth="300" alt="logo" align="center"></p>
 <h4 id="mon_osd_report_timeout"><a href="#mon_osd_report_timeout" class="headerlink" title="mon osd report timeout"></a>mon osd report timeout</h4><p>如果OSD没有给MON报告，隔这段时间MON会将OSD标记为down。默认时间900s</p>
 <h4 id="osd_mon_report_interval_min"><a href="#osd_mon_report_interval_min" class="headerlink" title="osd mon report interval min"></a>osd mon report interval min</h4><p>OSD向MON连续报告的最小间隔时间。默认时间5s</p>
-<h4 id="osd_mon_report_interval_max"><a href="#osd_mon_report_interval_max" class="headerlink" title="osd mon report interval max"></a>osd mon report interval max</h4><p>OSD向MON发报告的最大时间间隔。默认时间120s<br><img src="/about/ceph/heartbeat/4.png" alt="logo"></p>
+<h4 id="osd_mon_report_interval_max"><a href="#osd_mon_report_interval_max" class="headerlink" title="osd mon report interval max"></a>osd mon report interval max</h4><p>OSD向MON发报告的最大时间间隔。默认时间120s<br><img src="/about/ceph/heartbeat/4.png" width="500" heigth="300" alt="logo" align="center"></p>
+<h3 id="u5982_u4F55_u5728_u7EBF_u8BBE_u7F6E"><a href="#u5982_u4F55_u5728_u7EBF_u8BBE_u7F6E" class="headerlink" title="如何在线设置"></a>如何在线设置</h3><p>查询心跳<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ceph daemon /var/run/ceph/ceph-mon.ceph.asok config show | grep heart</span><br></pre></td></tr></table></figure></p>
+<p>设置相关的参数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ceph daemon /var/run/ceph/ceph-mon.ceph.asok config set osd_heartbeat_grace <span class="number">30</span></span><br></pre></td></tr></table></figure></p>
+<p>如果重启集群在线设置都会丢失，要想永久设置就必须写在配置文件中。</p>
+<h3 id="u53C2_u8003_u6587_u732E"><a href="#u53C2_u8003_u6587_u732E" class="headerlink" title="参考文献"></a>参考文献</h3><p><a href="http://docs.ceph.com/docs/master/rados/configuration/mon-osd-interaction/" target="_blank" rel="external">Heartbeat Settings</a></p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>ceph MON会根据ceph OSD的状态报告来动态调整集群状态。</p>
-<h4 id="osd_heartbeat_interval"><a href="#osd_heartbeat_interval" class="headerlink" title="osd he]]>
+<h3 id="u5E38_u89C1_u7684_u8BBE_u7F6E"><a href="#u5E38_u89C1_u7684_u8BBE_u7F6E" class="headerlink"]]>
     </summary>
     
       <category term="cloud computing" scheme="http://yoursite.com/tags/cloud-computing/"/>
@@ -77,9 +81,10 @@
     <link href="http://yoursite.com/year/03/05/Running-ceph-in-docker-containers/"/>
     <id>http://yoursite.com/year/03/05/Running-ceph-in-docker-containers/</id>
     <published>2016-03-05T12:35:59.000Z</published>
-    <updated>2016-03-05T14:10:35.000Z</updated>
+    <updated>2016-03-08T13:53:03.000Z</updated>
     <content type="html"><![CDATA[<p>由于毕设在研究docker容器中运行的ceph，现记录下我的运行过程。</p>
 <h3 id="u73AF_u5883_u8BF4_u660E"><a href="#u73AF_u5883_u8BF4_u660E" class="headerlink" title="环境说明"></a>环境说明</h3><p>运行环境是centOS 7上安装的Docker version1.10.2。共计有三个主机，每个主机上配置两个硬盘，其中一个硬盘用于装系统，另一个硬盘作为OSD对象存储。由于MON所用计算资源和存储资源都很少所以直接在主机上运行。这样就共计三个MON和三个OSD。</p>
+<p>操作之前务必关闭所有主机防火墙，血的教训！！！</p>
 <h3 id="u4FEE_u6539_u4E3B_u673A_u540D"><a href="#u4FEE_u6539_u4E3B_u673A_u540D" class="headerlink" title="修改主机名"></a>修改主机名</h3><p>我的三个主机IP分别是192.168.3.65，192.168.3.66，192.168.3.67。将对应的主机名改为ceph1, ceph2, ceph3.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hostname</span><br></pre></td></tr></table></figure></p>
 <h3 id="u6539_u53D8_u5BB9_u5668_u548C_u4E3B_u673A_u6620_u5C04_u7684_u76EE_u5F55_u6807_u7B7E"><a href="#u6539_u53D8_u5BB9_u5668_u548C_u4E3B_u673A_u6620_u5C04_u7684_u76EE_u5F55_u6807_u7B7E" class="headerlink" title="改变容器和主机映射的目录标签"></a>改变容器和主机映射的目录标签</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chcon -Rt svirt_sandbox_file_t /etc/ceph</span><br><span class="line">chcon -Rt svirt_sandbox_file_t /var/lib/ceph</span><br></pre></td></tr></table></figure>
 <p>上述过程需要设置SELinux是enable的，且三个主机都需要上述步骤。</p>
