@@ -246,6 +246,11 @@
 
     
     
+      
+      
+
+      
+    
 
     
       
@@ -269,8 +274,8 @@
             
               
                 
-                <a class="post-title-link" href="/year/01/03/图着色问题/" itemprop="url">
-                  图着色问题
+                <a class="post-title-link" href="/year/02/09/大话存储2学习笔记/" itemprop="url">
+                  大话存储2学习笔记
                 </a>
               
             
@@ -283,8 +288,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-03T12:12:08+08:00" content="2016-01-03">
-              2016-01-03
+            <time itemprop="dateCreated" datetime="2016-02-09T07:17:17+08:00" content="2016-02-09">
+              2016-02-09
             </time>
           </span>
 
@@ -294,8 +299,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/year/01/03/图着色问题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/03/图着色问题/" itemprop="commentsCount"></span>
+                <a href="/year/02/09/大话存储2学习笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="year/02/09/大话存储2学习笔记/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -305,7 +310,7 @@
 
           
           
-             <span id="/year/01/03/图着色问题/" class="leancloud_visitors" data-flag-title="图着色问题">
+             <span id="/year/02/09/大话存储2学习笔记/" class="leancloud_visitors" data-flag-title="大话存储2学习笔记">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -327,12 +332,12 @@
       
         
           
-          问题描述:给出一张图，节点有n个，总共有k种颜色，将k种颜色分配给这n个点，使得在图中的每条边所连接的两个点的颜色不同。这是一个NP问题，如果从精确算法去求解，则会很难在多项式时间内确定求解，所以我们从组合优化的角度对其进行求解。下面描述了禁忌搜索算法和多种混合进化算法处理思路。
-启发式搜索1.禁忌搜索第一步:随机产生一个初始解，即将每个点随机分配一种颜色，并计算f, f代表当前解的矛盾数(矛盾是指相邻节点颜色相同)。可以利用所有的矛盾数相加除以2求得。第二步:初始化M矩阵,M是一个二维矩阵(如
+          今天是大年初二，睡得早醒得也早。想想最近除了拜年也不算很忙，打算看看冬瓜头写的《大话存储2》，其实我刚开始也不知道这本书，我组栋梁给我墙裂推荐这本书，并且还将他的书借给我过年回家看，承蒙我组栋梁的厚爱，所以开此博客，分章纪录自己的学习心得。以下所有内容都是自己学习总结，不一定准备表达作者的意思，仅供参考。
+存储系统的前世今生这个章节主要讲了存储设备的发展: 竹筒和纸张–&gt;选数管–&gt;穿孔卡–&gt;穿孔纸带–&gt;磁带–&gt;磁鼓存储器–&gt;硬盘驱动器–&gt;软盘–&gt;光
           ...
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/year/01/03/图着色问题/#more" rel="contents">
+            <a class="btn" href="/year/02/09/大话存储2学习笔记/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -375,8 +380,8 @@
             
               
                 
-                <a class="post-title-link" href="/year/01/03/MicroBlaze-Simple-IO-Test/" itemprop="url">
-                  MicroBlaze Simple IO Test
+                <a class="post-title-link" href="/year/02/06/docker-自己的实践总结/" itemprop="url">
+                  docker 实践总结
                 </a>
               
             
@@ -389,114 +394,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-03T10:03:31+08:00" content="2016-01-03">
-              2016-01-03
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/year/01/03/MicroBlaze-Simple-IO-Test/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/03/MicroBlaze-Simple-IO-Test/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/year/01/03/MicroBlaze-Simple-IO-Test/" class="leancloud_visitors" data-flag-title="MicroBlaze Simple IO Test">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          本实验使用Digilent Anvyl Spartan6 FPGA开发套件，只需要使用EDK中的Xilinx Platform Studio.(XPS) 务必注意后面的备注Could not detect MDM peripheral on hardware.这是我写博文的主要原因,竟然被这么一个愚蠢的问题给卡住了。。。
-第一步：在XPS操作(1)点击Create New Project Using Base System Builder(2)选择安装路径及命名(3)FPGA选择XC6SLX45
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/year/01/03/MicroBlaze-Simple-IO-Test/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/year/01/02/组合数学/" itemprop="url">
-                  组合数学
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-02T16:04:42+08:00" content="2016-01-02">
-              2016-01-02
+            <time itemprop="dateCreated" datetime="2016-02-06T20:45:33+08:00" content="2016-02-06">
+              2016-02-06
             </time>
           </span>
 
@@ -509,8 +408,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">algorithm</span>
+                  <a href="/categories/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
                   </a>
                 </span>
 
@@ -525,8 +424,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/year/01/02/组合数学/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/02/组合数学/" itemprop="commentsCount"></span>
+                <a href="/year/02/06/docker-自己的实践总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="year/02/06/docker-自己的实践总结/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -536,7 +435,7 @@
 
           
           
-             <span id="/year/01/02/组合数学/" class="leancloud_visitors" data-flag-title="组合数学">
+             <span id="/year/02/06/docker-自己的实践总结/" class="leancloud_visitors" data-flag-title="docker 实践总结">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -558,12 +457,13 @@
       
         
           
-          前述组合数学：1) C(n,m)=C(n,n-m)经常拿来预处理提高程序的执行效率。还有很多需要总结的，还没想好，先放着。
-POJ2249题目描述：求组合数C(n,2)。解题思路：如果直接相乘肯定会在中途溢出，所以用贪心的策略，每乘一个数，用尽量多的除数去把它除掉，如果再用64保存结果应该更加保险一点。源代码:1234567891011121314151617181920212223242526#include &lt;stdio.h&gt;int main()&#123;	int n,k;	w
+          这两天终于把《docker 从入门到实践》看完了，原本打算写写总结，但是感觉书中的内容太过死板，还不如从自己使用docker的过程中总结出一些好玩的docker应用方法分享给大家，欢迎有更多的人分享自己使用docker时一些好玩的项目，私信我给友情链接。
+制作和使用Vim插件的镜像如果你用关键词Vim搜索我的博客会发现有篇博客专门介绍如何使用Vim的插件来配置类似于VS的集成开发环境。现在我使用docker制作Vim插件的镜像来实现在多机上快速建立这样的VS集成开发环境。
+ 利用Dockerfi
           ...
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/year/01/02/组合数学/#more" rel="contents">
+            <a class="btn" href="/year/02/06/docker-自己的实践总结/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -606,8 +506,8 @@ POJ2249题目描述：求组合数C(n,2)。解题思路：如果直接相乘肯�
             
               
                 
-                <a class="post-title-link" href="/year/01/02/字符串/" itemprop="url">
-                  字符串
+                <a class="post-title-link" href="/year/01/23/docker背后的技术/" itemprop="url">
+                  docker 背后的技术
                 </a>
               
             
@@ -620,8 +520,8 @@ POJ2249题目描述：求组合数C(n,2)。解题思路：如果直接相乘肯�
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-02T15:57:19+08:00" content="2016-01-02">
-              2016-01-02
+            <time itemprop="dateCreated" datetime="2016-01-23T23:33:41+08:00" content="2016-01-23">
+              2016-01-23
             </time>
           </span>
 
@@ -634,8 +534,8 @@ POJ2249题目描述：求组合数C(n,2)。解题思路：如果直接相乘肯�
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">algorithm</span>
+                  <a href="/categories/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
                   </a>
                 </span>
 
@@ -650,8 +550,8 @@ POJ2249题目描述：求组合数C(n,2)。解题思路：如果直接相乘肯�
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/year/01/02/字符串/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/02/字符串/" itemprop="commentsCount"></span>
+                <a href="/year/01/23/docker背后的技术/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/23/docker背后的技术/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -661,7 +561,7 @@ POJ2249题目描述：求组合数C(n,2)。解题思路：如果直接相乘肯�
 
           
           
-             <span id="/year/01/02/字符串/" class="leancloud_visitors" data-flag-title="字符串">
+             <span id="/year/01/23/docker背后的技术/" class="leancloud_visitors" data-flag-title="docker 背后的技术">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -683,12 +583,12 @@ POJ2249题目描述：求组合数C(n,2)。解题思路：如果直接相乘肯�
       
         
           
-          前述首先介绍一些技巧总结：1) scanf与gets的区别：scanf读取到空格或换行，gets读取到换行。2) 需要保存最后输出字符串的时候可以自定义数组char ch[max]来保存，记得加串尾。3) string.h里面一些常用的函数memcpy，strcpy，strcmp，strchr，strstr，strlen， strtok。ctype.h里面一些常用函数isalnum, isalpha, isdigit, islower/isupper, tolower/toupper。
-现在再谈
+          最近一直都在学习使用docker，当你使用docker越久你就越发的想了解docker背后是如何实现的。其实docker的一些功能之前就已经在Linux内核中实现了，只是有些没有进入内核主线中，但是技术就是这样不会凭空产生，总是靠大量的积累，由量变到质变最后在某个时刻绽放。本文主要是介绍docker背后的内核技术namespace，cgroup，aufs。
+namespaceLinux namespace主要的功能就是提供内核级别的环境隔离，这有点类似于Unix中的chroot系统调用，通过修改
           ...
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/year/01/02/字符串/#more" rel="contents">
+            <a class="btn" href="/year/01/23/docker背后的技术/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -731,8 +631,8 @@ POJ2249题目描述：求组合数C(n,2)。解题思路：如果直接相乘肯�
             
               
                 
-                <a class="post-title-link" href="/year/01/02/排序/" itemprop="url">
-                  排序
+                <a class="post-title-link" href="/year/01/11/docker-入门/" itemprop="url">
+                  docker 入门
                 </a>
               
             
@@ -745,8 +645,8 @@ POJ2249题目描述：求组合数C(n,2)。解题思路：如果直接相乘肯�
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-02T15:38:22+08:00" content="2016-01-02">
-              2016-01-02
+            <time itemprop="dateCreated" datetime="2016-01-11T13:26:05+08:00" content="2016-01-11">
+              2016-01-11
             </time>
           </span>
 
@@ -759,8 +659,8 @@ POJ2249题目描述：求组合数C(n,2)。解题思路：如果直接相乘肯�
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">algorithm</span>
+                  <a href="/categories/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
                   </a>
                 </span>
 
@@ -775,8 +675,8 @@ POJ2249题目描述：求组合数C(n,2)。解题思路：如果直接相乘肯�
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/year/01/02/排序/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/02/排序/" itemprop="commentsCount"></span>
+                <a href="/year/01/11/docker-入门/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/11/docker-入门/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -786,7 +686,7 @@ POJ2249题目描述：求组合数C(n,2)。解题思路：如果直接相乘肯�
 
           
           
-             <span id="/year/01/02/排序/" class="leancloud_visitors" data-flag-title="排序">
+             <span id="/year/01/11/docker-入门/" class="leancloud_visitors" data-flag-title="docker 入门">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -808,13 +708,118 @@ POJ2249题目描述：求组合数C(n,2)。解题思路：如果直接相乘肯�
       
         
           
-          前述首先介绍一下有关C++里面排序的模板, 包含的头文件是1#include&lt;algorithm&gt;
-常用的几种用法:
-sort函数1) 比如int x[N], 有n个元素, 直接使用sort(x,x+n);2) 定义比较模式cmp, 然后使用sort(x,x+n,cmp);比如(按下面的方法使用):1234567891011121314#include &lt;algorithm&gt;struct pix&#123;	int x,y;&#125;p[1000+5];int cmp(
+                  
+简介docker是基于LXC的容器技术，它利用Linux内核中namespace隔离进程环境，cgroup限制进程使用物理设备资源，同时创新性的将只读镜像分层，当需要在容器中运行镜像时，只需要在镜像的最外面添加一层可写层。你可以简单的将docker容器理解为进程以及运行进程所需要的轻量级环境。
+如上图所示，左边是VM，右边是docker的工作层次，可以看出容器是在操作系统层面上实现的虚拟化，直接复用本地主机的操作系统，而传统方式则是在硬件层面实现的管理器。docker的优势在于
           ...
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/year/01/02/排序/#more" rel="contents">
+            <a class="btn" href="/year/01/11/docker-入门/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/year/01/06/gem5/" itemprop="url">
+                  gem5
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-06T20:50:17+08:00" content="2016-01-06">
+              2016-01-06
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/year/01/06/gem5/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/06/gem5/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/year/01/06/gem5/" class="leancloud_visitors" data-flag-title="gem5">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          gem5简介GEM5是一款模块化的离散事件驱动全系统模拟器，它结合了M5和GEMS中最优秀的部分，是一款高度可配置、集成多种ISA和多种CPU模型的体系结构模拟器。M5是由Michigan大学开发的一款开源的多处理机模拟器，受到了业内的广泛关注，很多高水平论文都采用M5作为研究工具。另一方面，Wisconsin推出的GEMS能够对储存层次进行详细而灵活的模拟，包括对多种不同的cache一致性协议和互联模型的支持。目前的GEM5是M5和GEMS的一个紧耦合版本。GEM5已经能够支持多种商用ISA，
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/year/01/06/gem5/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -841,7 +846,7 @@ sort函数1) 比如int x[N], 有n个元素, 直接使用sort(x,x+n);2) 定义比
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -882,7 +887,7 @@ sort函数1) 比如int x[N], 有n个元素, 直接使用sort(x,x+n);2) 定义比
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -896,7 +901,7 @@ sort函数1) 比如int x[N], 有n个元素, 直接使用sort(x,x+n);2) 定义比
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

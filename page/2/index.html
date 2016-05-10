@@ -246,6 +246,11 @@
 
     
     
+      
+      
+
+      
+    
 
     
       
@@ -269,8 +274,8 @@
             
               
                 
-                <a class="post-title-link" href="/year/02/06/docker-自己的实践总结/" itemprop="url">
-                  docker 实践总结
+                <a class="post-title-link" href="/year/03/24/fio安装与脚本测试/" itemprop="url">
+                  fio安装与脚本测试
                 </a>
               
             
@@ -283,8 +288,351 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-02-06T20:45:33+08:00" content="2016-02-06">
-              2016-02-06
+            <time itemprop="dateCreated" datetime="2016-03-24T14:25:23+08:00" content="2016-03-24">
+              2016-03-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/year/03/24/fio安装与脚本测试/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="year/03/24/fio安装与脚本测试/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/year/03/24/fio安装与脚本测试/" class="leancloud_visitors" data-flag-title="fio安装与脚本测试">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          安装fioubuntu 安装apt-get install libaio-dev
+centOS 安装yum install libaio-devel
+12345wget http://brick.kernel.dk/snaps/fio-2.7.tar.gztar zxvf fio-2.7.tar.gzcd fio-2.7./configuremake &amp;&amp; make install
+fio测试基本命令:1fio fio.conf
+fio.conf可以自己配置,如下:1234567
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/year/03/24/fio安装与脚本测试/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/year/03/08/ceph的heartbeat设置/" itemprop="url">
+                  ceph的heartbeat设置
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-08T09:13:14+08:00" content="2016-03-08">
+              2016-03-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/ceph/" itemprop="url" rel="index">
+                    <span itemprop="name">ceph</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/year/03/08/ceph的heartbeat设置/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="year/03/08/ceph的heartbeat设置/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/year/03/08/ceph的heartbeat设置/" class="leancloud_visitors" data-flag-title="ceph的heartbeat设置">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          ceph MON会根据ceph OSD的状态报告来动态调整集群状态。
+常见的设置osd heartbeat intervalOSD每隔一段时间检查另OSD心跳，默认时间6s
+osd heartbeat graceOSD检查另OSD心跳，超过这个时间不回复就向MON报告down，默认时间20s
+mon osd min down reports默认OSD要向MON报告3次另OSD down，MON才会认为另OSD down
+mon osd min down reporters默认只需要一个OSD向M
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/year/03/08/ceph的heartbeat设置/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/year/03/07/硬盘分区/" itemprop="url">
+                  硬盘分区
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-07T20:15:04+08:00" content="2016-03-07">
+              2016-03-07
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/year/03/07/硬盘分区/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="year/03/07/硬盘分区/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/year/03/07/硬盘分区/" class="leancloud_visitors" data-flag-title="硬盘分区">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          磁盘包括硬盘和软盘，都由磁性材料制成。磁盘英文名disk，硬盘英文名hard disk。写这篇博客主要是因为最近在运行ceph的时候突然报错说是无效的GPT头结构，然后就查了下GPT分区和MBR分区，这里记录我学习到的东西，更多详细的内容前辈们都已经提到过不再赘述，引用中大家可以去看。
+MBR分区和GPT分区简介我们从上图看到partition table是gpt，可以设置为msdos的。我之前ceph运行出错的原因就是分区表类型是msdos，然后我改成gpt就解决了问题。我的理解是分区表类型代
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/year/03/07/硬盘分区/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/year/03/05/Running-ceph-in-docker-containers/" itemprop="url">
+                  Running ceph in docker containers
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-05T20:35:59+08:00" content="2016-03-05">
+              2016-03-05
             </time>
           </span>
 
@@ -313,8 +661,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/year/02/06/docker-自己的实践总结/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="year/02/06/docker-自己的实践总结/" itemprop="commentsCount"></span>
+                <a href="/year/03/05/Running-ceph-in-docker-containers/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="year/03/05/Running-ceph-in-docker-containers/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -324,7 +672,7 @@
 
           
           
-             <span id="/year/02/06/docker-自己的实践总结/" class="leancloud_visitors" data-flag-title="docker 实践总结">
+             <span id="/year/03/05/Running-ceph-in-docker-containers/" class="leancloud_visitors" data-flag-title="Running ceph in docker containers">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -346,13 +694,14 @@
       
         
           
-          这两天终于把《docker 从入门到实践》看完了，原本打算写写总结，但是感觉书中的内容太过死板，还不如从自己使用docker的过程中总结出一些好玩的docker应用方法分享给大家，欢迎有更多的人分享自己使用docker时一些好玩的项目，私信我给友情链接。
-制作和使用Vim插件的镜像如果你用关键词Vim搜索我的博客会发现有篇博客专门介绍如何使用Vim的插件来配置类似于VS的集成开发环境。现在我使用docker制作Vim插件的镜像来实现在多机上快速建立这样的VS集成开发环境。
- 利用Dockerfi
+          由于毕设在研究docker容器中运行的ceph，现记录下我的运行过程。
+环境说明运行环境是centOS 7上安装的Docker version1.10.2。共计有三个主机，每个主机上配置两个硬盘，其中一个硬盘用于装系统，另一个硬盘作为OSD对象存储。由于MON所用计算资源和存储资源都很少所以直接在主机上运行。这样就共计三个MON和三个OSD。
+操作之前务必关闭所有主机防火墙，血的教训！！！
+修改主机名我的三个主机IP分别是192.168.3.65，192.168.3.66，192.168.3.6
           ...
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/year/02/06/docker-自己的实践总结/#more" rel="contents">
+            <a class="btn" href="/year/03/05/Running-ceph-in-docker-containers/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -395,8 +744,8 @@
             
               
                 
-                <a class="post-title-link" href="/year/01/23/docker背后的技术/" itemprop="url">
-                  docker 背后的技术
+                <a class="post-title-link" href="/year/02/15/过年总结/" itemprop="url">
+                  过年总结
                 </a>
               
             
@@ -409,38 +758,19 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-23T23:33:41+08:00" content="2016-01-23">
-              2016-01-23
+            <time itemprop="dateCreated" datetime="2016-02-15T16:24:10+08:00" content="2016-02-15">
+              2016-02-15
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index">
-                    <span itemprop="name">docker</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/year/01/23/docker背后的技术/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/23/docker背后的技术/" itemprop="commentsCount"></span>
+                <a href="/year/02/15/过年总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="year/02/15/过年总结/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -450,7 +780,7 @@
 
           
           
-             <span id="/year/01/23/docker背后的技术/" class="leancloud_visitors" data-flag-title="docker 背后的技术">
+             <span id="/year/02/15/过年总结/" class="leancloud_visitors" data-flag-title="过年总结">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -472,351 +802,12 @@
       
         
           
-          最近一直都在学习使用docker，当你使用docker越久你就越发的想了解docker背后是如何实现的。其实docker的一些功能之前就已经在Linux内核中实现了，只是有些没有进入内核主线中，但是技术就是这样不会凭空产生，总是靠大量的积累，由量变到质变最后在某个时刻绽放。本文主要是介绍docker背后的内核技术namespace，cgroup，aufs。
-namespaceLinux namespace主要的功能就是提供内核级别的环境隔离，这有点类似于Unix中的chroot系统调用，通过修改
-          ...
+          其实我只是想贴几张过年喜庆的照片:)这是年初三深夜警察局门口放烟火，嘿嘿!接下来是年初四在KTV给小侄女拍的照片突然想起来一个表情包😊 
+
+          
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/year/01/23/docker背后的技术/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/year/01/11/docker-入门/" itemprop="url">
-                  docker 入门
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-11T13:26:05+08:00" content="2016-01-11">
-              2016-01-11
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index">
-                    <span itemprop="name">docker</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/year/01/11/docker-入门/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/11/docker-入门/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/year/01/11/docker-入门/" class="leancloud_visitors" data-flag-title="docker 入门">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-                  
-简介docker是基于LXC的容器技术，它利用Linux内核中namespace隔离进程环境，cgroup限制进程使用物理设备资源，同时创新性的将只读镜像分层，当需要在容器中运行镜像时，只需要在镜像的最外面添加一层可写层。你可以简单的将docker容器理解为进程以及运行进程所需要的轻量级环境。
-如上图所示，左边是VM，右边是docker的工作层次，可以看出容器是在操作系统层面上实现的虚拟化，直接复用本地主机的操作系统，而传统方式则是在硬件层面实现的管理器。docker的优势在于
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/year/01/11/docker-入门/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/year/01/06/gem5/" itemprop="url">
-                  gem5
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-06T20:50:17+08:00" content="2016-01-06">
-              2016-01-06
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/year/01/06/gem5/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/06/gem5/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/year/01/06/gem5/" class="leancloud_visitors" data-flag-title="gem5">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          gem5简介GEM5是一款模块化的离散事件驱动全系统模拟器，它结合了M5和GEMS中最优秀的部分，是一款高度可配置、集成多种ISA和多种CPU模型的体系结构模拟器。M5是由Michigan大学开发的一款开源的多处理机模拟器，受到了业内的广泛关注，很多高水平论文都采用M5作为研究工具。另一方面，Wisconsin推出的GEMS能够对储存层次进行详细而灵活的模拟，包括对多种不同的cache一致性协议和互联模型的支持。目前的GEM5是M5和GEMS的一个紧耦合版本。GEM5已经能够支持多种商用ISA，
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/year/01/06/gem5/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/year/01/06/Vim/" itemprop="url">
-                  Vim
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-06T16:20:55+08:00" content="2016-01-06">
-              2016-01-06
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/year/01/06/Vim/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="year/01/06/Vim/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/year/01/06/Vim/" class="leancloud_visitors" data-flag-title="Vim">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          在Linux下编写程序时，拥有一套类似于VS的集成开发环境可以大大提高程序的阅读和编写效率。本文介绍如何安装vim, ctags, cscope, Taglist, SuperTab, OmniCppComplete, Winmanager, NERDTree和MiniBufExplorer等组件。最后的界面类似于如下:
-在安装之前将权限提升到root, 以后尽量使用root权限ubuntu下：sudo su然后输入密码
-安装vimapt-get install vim
-安装使用ctagscta
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/year/01/06/Vim/#more" rel="contents">
+            <a class="btn" href="/year/02/15/过年总结/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -843,7 +834,7 @@ namespaceLinux namespace主要的功能就是提供内核级别的环境隔离�
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -884,7 +875,7 @@ namespaceLinux namespace主要的功能就是提供内核级别的环境隔离�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -898,7 +889,7 @@ namespaceLinux namespace主要的功能就是提供内核级别的环境隔离�
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

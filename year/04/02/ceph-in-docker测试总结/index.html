@@ -1,0 +1,996 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ceph,cloud computing," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Kiss" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.0" />
+
+
+
+
+
+
+<meta name="description" content="硬件环境计算与存储三台物理节点, 每台物理节点配备1TB 磁盘(RPM 7500, SATA2.0)和240GB SSD(SATA3.0)。
+磁盘测试
+SSD测试
+网络三张万兆网卡，用iperf3测试物理节点间吞吐量
+用iperf3测试docker之间的吞吐量，几乎没有损失
+测试内容RBD块设备1234567# 若干有用的命令modprobe rbdrbd lsrbd create --size">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ceph in docker测试总结">
+<meta property="og:url" content="http://yoursite.com/year/04/02/ceph-in-docker测试总结/index.html">
+<meta property="og:site_name" content="Kiss">
+<meta property="og:description" content="硬件环境计算与存储三台物理节点, 每台物理节点配备1TB 磁盘(RPM 7500, SATA2.0)和240GB SSD(SATA3.0)。
+磁盘测试
+SSD测试
+网络三张万兆网卡，用iperf3测试物理节点间吞吐量
+用iperf3测试docker之间的吞吐量，几乎没有损失
+测试内容RBD块设备1234567# 若干有用的命令modprobe rbdrbd lsrbd create --size">
+<meta property="og:image" content="http://yoursite.com/about/ceph/test/1.png">
+<meta property="og:image" content="http://yoursite.com/about/ceph/test/2.png">
+<meta property="og:image" content="http://yoursite.com/about/ceph/test/3.png">
+<meta property="og:image" content="http://yoursite.com/about/ceph/test/4.png">
+<meta property="og:image" content="http://yoursite.com/about/ceph/test/5.png">
+<meta property="og:image" content="http://yoursite.com/about/ceph/test/6.png">
+<meta property="og:image" content="http://yoursite.com/about/ceph/test/7.png">
+<meta property="og:image" content="http://yoursite.com/about/ceph/test/8.png">
+<meta property="og:image" content="http://yoursite.com/about/ceph/test/9.png">
+<meta property="og:image" content="http://yoursite.com/about/ceph/test/10.png">
+<meta property="og:image" content="http://yoursite.com/about/ceph/test/11.png">
+<meta property="og:image" content="http://yoursite.com/about/ceph/test/12.png">
+<meta property="og:image" content="http://yoursite.com/about/ceph/test/13.png">
+<meta property="og:updated_time" content="2016-05-10T08:04:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ceph in docker测试总结">
+<meta name="twitter:description" content="硬件环境计算与存储三台物理节点, 每台物理节点配备1TB 磁盘(RPM 7500, SATA2.0)和240GB SSD(SATA3.0)。
+磁盘测试
+SSD测试
+网络三张万兆网卡，用iperf3测试物理节点间吞吐量
+用iperf3测试docker之间的吞吐量，几乎没有损失
+测试内容RBD块设备1234567# 若干有用的命令modprobe rbdrbd lsrbd create --size">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: '[object Object]',
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ceph in docker测试总结 | Kiss </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-72961310-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?311dcbbd7db0f09ff9d24c30a8508151";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Kiss</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">less is more</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'jUN6hxQ46oLCmLXrF2m1','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ceph in docker测试总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-02T17:18:23+08:00" content="2016-04-02">
+              2016-04-02
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/year/04/02/ceph-in-docker测试总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="year/04/02/ceph-in-docker测试总结/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/year/04/02/ceph-in-docker测试总结/" class="leancloud_visitors" data-flag-title="ceph in docker测试总结">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="u786C_u4EF6_u73AF_u5883"><a href="#u786C_u4EF6_u73AF_u5883" class="headerlink" title="硬件环境"></a>硬件环境</h3><h4 id="u8BA1_u7B97_u4E0E_u5B58_u50A8"><a href="#u8BA1_u7B97_u4E0E_u5B58_u50A8" class="headerlink" title="计算与存储"></a>计算与存储</h4><p>三台物理节点, 每台物理节点配备1TB 磁盘(RPM 7500, SATA2.0)和240GB SSD(SATA3.0)。<br><img src="/about/ceph/test/1.png" alt="logo"></p>
+<h5 id="u78C1_u76D8_u6D4B_u8BD5"><a href="#u78C1_u76D8_u6D4B_u8BD5" class="headerlink" title="磁盘测试"></a>磁盘测试</h5><p><img src="/about/ceph/test/2.png" alt="logo"></p>
+<h5 id="SSD_u6D4B_u8BD5"><a href="#SSD_u6D4B_u8BD5" class="headerlink" title="SSD测试"></a>SSD测试</h5><p><img src="/about/ceph/test/3.png" alt="logo"></p>
+<h4 id="u7F51_u7EDC"><a href="#u7F51_u7EDC" class="headerlink" title="网络"></a>网络</h4><p>三张万兆网卡，用iperf3测试物理节点间吞吐量<br><img src="/about/ceph/test/4.png" alt="logo"></p>
+<p>用iperf3测试docker之间的吞吐量，几乎没有损失<br><img src="/about/ceph/test/5.png" alt="logo"></p>
+<h3 id="u6D4B_u8BD5_u5185_u5BB9"><a href="#u6D4B_u8BD5_u5185_u5BB9" class="headerlink" title="测试内容"></a>测试内容</h3><h4 id="RBD_u5757_u8BBE_u5907"><a href="#RBD_u5757_u8BBE_u5907" class="headerlink" title="RBD块设备"></a>RBD块设备</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 若干有用的命令</span></span><br><span class="line">modprobe rbd</span><br><span class="line">rbd ls</span><br><span class="line">rbd create --size <span class="number">10240</span> test</span><br><span class="line">rbd --image test info</span><br><span class="line">rbd showmapped</span><br><span class="line">rbd map rbd/test --id admin</span><br></pre></td></tr></table></figure>
+<h5 id="fio_u6D4B_u8BD5"><a href="#fio_u6D4B_u8BD5" class="headerlink" title="fio测试"></a>fio测试</h5><p>HDD-1<br><img src="/about/ceph/test/6.png" alt="logo"></p>
+<p>HDD-2<br><img src="/about/ceph/test/7.png" alt="logo"></p>
+<p>SSD-1<br><img src="/about/ceph/test/8.png" alt="logo"></p>
+<p>SSD-2<br><img src="/about/ceph/test/9.png" alt="logo"></p>
+<p>从以上四张测试结果可以看出:</p>
+<ol>
+<li>HDD-1与SSD-1的对比可以看出,SSD组建的ceph集群RBD块设备IOPS和吞吐量明显优于HDD组成的集群。</li>
+<li>HDD-1与HDD-2的对比可以看出,HDD-1OSD与HDD-2OSD的RBD块设备IOPS和吞吐量差异不大。 </li>
+<li>SSD-1与SSD-2的对比可以看出,SSD-1OSD与SSD-2OSD的RBD块设备IOPS和吞吐量差异不大。 </li>
+<li>虚拟多OSD节点似乎更擅长处理随机写，而不怎么擅长顺序写。考虑到其他随机因素，其实差异不是很大。</li>
+</ol>
+<h5 id="filebench"><a href="#filebench" class="headerlink" title="filebench"></a>filebench</h5><p>filebench测试RBD的结果<br><img src="/about/ceph/test/10.png" alt="logo"></p>
+<p>ceph集群的实时IOPS<br><img src="/about/ceph/test/11.png" alt="logo"></p>
+<p>从以上测试结果可以看出:</p>
+<ol>
+<li>HDD-1与SSD-1的对比可以看出,SSD组建的ceph集群RBD块设备明显优于HDD组成的集群。</li>
+<li>HDD-1与HDD-2的对比可以看出,HDD-2的实时IOPS波动比HDD-1更明显,但是HDD-1OSD与HDD-2OSD的RBD块设备性能差异不大。 </li>
+<li>SSD-1与SSD-2的对比可以看出,SSD-2的实时IOPS略优于SSD-1,不过,整体而言,SSD-1OSD与SSD-2OSD的RBD块设备性能差异不是很明显。 </li>
+</ol>
+<h4 id="cephfs_u5206_u5E03_u5F0F_u6587_u4EF6_u7CFB_u7EDF"><a href="#cephfs_u5206_u5E03_u5F0F_u6587_u4EF6_u7CFB_u7EDF" class="headerlink" title="cephfs分布式文件系统"></a>cephfs分布式文件系统</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 若干有用的命令</span></span><br><span class="line">mkdir -p /var/lib/ceph/mds/ceph-cephfs</span><br><span class="line">ceph --cluster ceph --name client.admin --keyring /etc/ceph/ceph.client.admin.keyring auth get-<span class="keyword">or</span>-create mds.cephfs osd <span class="string">'allow rwx'</span> mds <span class="string">'allow'</span> mon <span class="string">'allow profile mds'</span> -o /var/lib/ceph/mds/ceph-cephfs/keyring</span><br><span class="line">ceph osd pool create cephfs_data <span class="number">128</span></span><br><span class="line">ceph osd pool create cephfs_metadata <span class="number">128</span></span><br><span class="line">ceph fs new cephfs cephfs_metadata cephfs_data</span><br><span class="line">/usr/bin/ceph-mds --cluster ceph -i cephfs &amp;</span><br><span class="line">ceph fs ls</span><br><span class="line">mkdir /home/yankang/cephfs</span><br><span class="line">ceph-fuse -m <span class="number">192.168</span><span class="number">.6</span><span class="number">.66</span>:<span class="number">6789</span> /home/yankang/cephfs</span><br></pre></td></tr></table></figure>
+<p>filebench测试cephfs的结果<br><img src="/about/ceph/test/12.png" alt="logo"></p>
+<p>ceph集群的实时IOPS<br><img src="/about/ceph/test/13.png" alt="logo"></p>
+<p>从以上测试结果可以看出:</p>
+<ol>
+<li>HDD-1与SSD-1的对比可以看出,SSD组建的ceph集群cephfs分布式文件系统IOPS，吞吐量和IO延迟都明显优于HDD组成的集群。</li>
+<li>HDD-1与HDD-2的对比可以看出,HDD-1OSD与HDD-2OSD组建的ceph集群在cephfs分布式文件系统的性能差异不是很明显。</li>
+<li>SSD-1与SSD-2的对比可以看出,SSD-2的实时IOPS略差于SSD-1的实时IOPS,但是整体而言,SSD-1OSD与SSD-2OSD组建的ceph集群在cephfs分布式文件系统的性能差异不是很明显。</li>
+</ol>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ceph/" rel="tag">#ceph</a>
+          
+            <a href="/tags/cloud-computing/" rel="tag">#cloud computing</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/year/03/29/filebench测试/" rel="next" title="filebench测试">
+                <i class="fa fa-chevron-left"></i> filebench测试
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/year/04/03/武当之行/" rel="prev" title="武当之行">
+                武当之行 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="year/04/02/ceph-in-docker测试总结/"
+     data-title="ceph in docker测试总结"
+     data-content=""
+     data-url="http://yoursite.com/year/04/02/ceph-in-docker测试总结/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="year/04/02/ceph-in-docker测试总结/"
+           data-title="ceph in docker测试总结" data-url="http://yoursite.com/year/04/02/ceph-in-docker测试总结/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/yk.jpeg"
+               alt="yankang" />
+          <p class="site-author-name" itemprop="name">yankang</p>
+          <p class="site-description motion-element" itemprop="description">a geek</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/mainboy" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/wowyk1" target="_blank">
+                  
+                    <i class="fa fa-twitter"></i> Twitter
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2971508677/profile?topnav=1&wvr=6&is_all=1" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> 微博
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.douban.com/people/139871255/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> 豆瓣
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u786C_u4EF6_u73AF_u5883"><span class="nav-number">1.</span> <span class="nav-text">硬件环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u8BA1_u7B97_u4E0E_u5B58_u50A8"><span class="nav-number">1.1.</span> <span class="nav-text">计算与存储</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#u78C1_u76D8_u6D4B_u8BD5"><span class="nav-number">1.1.1.</span> <span class="nav-text">磁盘测试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SSD_u6D4B_u8BD5"><span class="nav-number">1.1.2.</span> <span class="nav-text">SSD测试</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u7F51_u7EDC"><span class="nav-number">1.2.</span> <span class="nav-text">网络</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u6D4B_u8BD5_u5185_u5BB9"><span class="nav-number">2.</span> <span class="nav-text">测试内容</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RBD_u5757_u8BBE_u5907"><span class="nav-number">2.1.</span> <span class="nav-text">RBD块设备</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#fio_u6D4B_u8BD5"><span class="nav-number">2.1.1.</span> <span class="nav-text">fio测试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#filebench"><span class="nav-number">2.1.2.</span> <span class="nav-text">filebench</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cephfs_u5206_u5E03_u5F0F_u6587_u4EF6_u7CFB_u7EDF"><span class="nav-number">2.2.</span> <span class="nav-text">cephfs分布式文件系统</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yankang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"mainboy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("EvkA0cUEgo9I12uqxUV1JoTX-gzGzoHsz", "TNgVJww1fGnDnHqiIaeLsLdE");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+
+</body>
+</html>
